@@ -1,0 +1,714 @@
+
+\documentclass[11pt]{amsart}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+%\usepackage{thmtools}
+\usepackage{hyperref}
+\hypersetup{hypertexnames=false}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+
+% ---- Theorem environments ----
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{claim}[theorem]{Claim}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% ---- Macros ----
+\newcommand{\cond}{\operatorname{cond}}
+\newcommand{\KL}{D_{\operatorname{KL}}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\tr}{\operatorname{Tr}}
+\newcommand{\diag}{\operatorname{diag}}
+
+\newcommand{\Range}{\operatorname{Range}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\id}{\mathrm{id}}
+% \newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}} % removed for submission
+
+% ---- Cleveref names ----
+\crefname{theorem}{theorem}{theorems}
+\Crefname{theorem}{Theorem}{Theorems}
+\crefname{proposition}{proposition}{propositions}
+\Crefname{proposition}{Proposition}{Propositions}
+\crefname{lemma}{lemma}{lemmas}
+\Crefname{lemma}{Lemma}{Lemmas}
+\crefname{corollary}{corollary}{corollaries}
+\Crefname{corollary}{Corollary}{Corollaries}
+\crefname{claim}{claim}{claims}
+\Crefname{claim}{Claim}{Claims}
+\crefname{definition}{definition}{definitions}
+\Crefname{definition}{Definition}{Definitions}
+\crefname{assumption}{assumption}{assumptions}
+\Crefname{assumption}{Assumption}{Assumptions}
+\crefname{example}{example}{examples}
+\Crefname{example}{Example}{Examples}
+\crefname{remark}{remark}{remarks}
+\Crefname{remark}{Remark}{Remarks}
+\crefname{equation}{Eq.}{Eqs.}
+\Crefname{equation}{Equation}{Equations}
+\crefname{figure}{fig.}{figs.}
+\Crefname{figure}{Fig.}{Figs.}
+\crefname{table}{table}{tables}
+\Crefname{table}{Table}{Tables}
+\crefname{section}{Sec.}{Secs.}
+\Crefname{section}{Section}{Sections}
+
+\title[Singular Gaussian Conditioning in Hilbert Space]{Singular Gaussian Conditioning in Hilbert Space: Schur Residuals, Fisher Scaling, and Cameron--Martin Energy}
+
+\author{Anonymous Author(s)}
+\thanks{Manuscript received May 2026. Code and supplemental materials are archived at \url{https://anonymous.4open.science/r/singular-causal-interventions-6DFB}.}
+
+\begin{document}
+
+% ============================================================
+%  ABSTRACT
+% ============================================================
+\begin{abstract}
+We investigate infinite-dimensional Gaussian models under singular hyperplane conditioning. As the regularized conditioning strength $\lambda \to \infty$, the conditional laws exit the equivalent-measure manifold of the reference prior due to the Feldman–H\'{a}jek dichotomy. To resolve this singularity without invoking unbounded operators, we introduce an inverse-free variational Schur projection that reduces the infinite-dimensional problem to its canonical normal form. We prove that this Schur residual guarantees an exact target variance calibration $\Sigma_{\lambda,kk} = \varepsilon_0/(2\lambda^2)$ alongside a projection residual $R_\lambda = O(\lambda^{-6})$. By defining a local blow-up coordinate $b = \lambda(x_K^* - m_{\lambda,K})$, we demonstrate that the rescaled Fisher tensor admits a Schur-precision expansion. The leading term constitutes a flat Mahalanobis Fisher scaling, while the first nontrivial correction—extracted via a Fenchel-dual variational formulation—is precisely the Cameron–Martin Renormalized Fisher Information Metric (RFIM) residue. When applied to an elliptic Gaussian field, this residue specializes to the Sobolev–Dirichlet energy. These results characterize the exact differential geometry of singular boundaries purely through the algebraic invariants of the Hilbert-space Gaussian condition.
+\end{abstract}
+
+\keywords{Singular conditioning; Gaussian measures; Cameron--Martin space; Schur complement; Hilbert dynamics; trace covariance; finite-part regularization; Galerkin approximation; Fisher scaling; Renormalized Fisher Information Metric; Sobolev--Dirichlet energy}
+
+\maketitle
+
+% ============================================================
+%  §1  INTRODUCTION
+% ============================================================
+\section{Introduction}
+\label{sec:intro}
+
+Singular hyperplane conditioning arises when one approximates a hard constraint $X_k = x_k^*$ by a calibrated family of linear dynamics with regularization parameter $\lambda$, followed by the limit $\lambda \to \infty$. In finite-dimensional Gaussian dynamics, the resulting conditional covariance is described by an ordinary Schur complement. In infinite-dimensional Hilbert-space dynamics, this algebraic description breaks down: stationary covariance operators are trace-class and compact, hence their restrictions do not admit bounded global inverses.
+
+However, when the state space is an infinite-dimensional separable Hilbert space---as arises in stochastic evolution equations \cite{daprato2014stochastic} and functional linear processes \cite{bosq2000linear}---the standard algebraic machinery collapses. The passage from a smooth restoring control of strength $\lambda$ to the discrete topological cut $\lambda \to \infty$ constitutes a singular perturbation limit \cite{pavliotis2008multiscale} in which three fundamental obstructions emerge:
+\begin{enumerate}
+  \item \textbf{Unbounded Precision Operators.} The stationary covariance operator is trace-class and compact \cite{daprato2014stochastic}, so its restriction to the free coordinates lacks a bounded global inverse. The Schur complement cannot be defined via operator inversion. Spectral properties of block operator Schur complements have been studied extensively \cite{tretter2008spectral,gerhat2024schur}, and the variational ``shorted operator'' perspective \cite{anderson1975shorted} addresses positive-operator compressions. However, these results address spectral enclosures and operator shorting without establishing a direct connection to statistical projection residuals under singular Gaussian conditioning.
+  \item \textbf{Hyperplane Disintegration Singularity.} Conditioning a Radon Gaussian measure on a codimension-1 hyperplane $X_k = x_k^*$ produces a measure supported on a set of prior probability zero \cite{bogachev1998gaussian}. The joint Kullback--Leibler divergence between the exact conditioned law and any non-degenerate prior is $+\infty$.
+  \item \textbf{Feldman--H\'{a}jek Critical Boundary.} The Feldman--H\'{a}jek dichotomy \cite{feldman1958equivalence,hajek1958property,bogachev1998gaussian} implies that two Gaussian measures on a separable Hilbert space are either mutually absolutely continuous or mutually singular. In the Bayesian inverse-problem literature \cite{stuart2010inverse}, only soft observations with positive-definite noise (which are algebraically equivalent to Tikhonov regularization \cite{franklin1970well}) preserve equivalence; hard conditioning forces singularity. Regularized Kullback--Leibler approximations for infinite-dimensional measures \cite{pinski2015kullback} provide a finite surrogate in the equivalent regime, but the hard coordinate conditioning lies beyond this regime.
+\end{enumerate}
+
+To resolve the geometry of the singularity, we construct a tangent blow-up microscope by defining the scaled local coordinate $b \coloneqq \lambda(x_k^* - m_{\lambda,k})$. Instead of ad hoc singularity subtraction, we investigate the limit through this tangent blow-up coordinate geometry. Pulling the Fisher metric back to the regularized singular conditioning boundary reveals an exact hierarchical expansion. By combining the coordinate pull-back Jacobian $\lambda^{-2}$ with the exact Schur variance calibration $S_{k,\lambda} = \varepsilon_0/(2\lambda^2) - R_\lambda$ and the Woodbury matrix identity, the rescaled joint Fisher metric tensor cleanly bifurcates into distinct analytical strata in the blow-up limit:
+\begin{enumerate}
+\item \textbf{0th-order normal geometry (Displacement Flatness)}: The non-degenerate 0th-order term defines a flat Mahalanobis tangent cone $2\varepsilon_0^{-1}$, structurally preserving the displacement-flatness of Gaussian location families without manufacturing spurious boundary curvature.
+\item \textbf{1st-order horizontal metric limit (Schur-precision correction)}: Strikingly, the 1st-order $O(\lambda^{-4})$ perturbative geometry isolates the Cameron--Martin energy of the horizontal lift of the unobserved bulk fibers, yielding exactly the renormalized Fisher information metric (RFIM) limit $\|a_{Ik}\|_{Q_0^{-1}}^2$.
+\end{enumerate}
+
+The cancellation mechanism has four layers. First, exact variance normalization fixes the target variance at $\Sigma_{\lambda,kk}=\varepsilon_0/(2\lambda^2)$. Second, the block-decoupling constraint gives an exact block-Lyapunov resolvent for the off-diagonal drift coupling covariance. Third, Cameron--Martin admissibility converts this coupling into an inverse-free variational Schur subtraction of order $O(\lambda^{-6})$, producing the Schur pole $S_{k,\lambda}^{-1}=(2/\varepsilon_0)\lambda^2+O(\lambda^{-2})$. Fourth, in the Gaussian case, the Dirac-conditioning singularity is removed by a finite-part regularization, leaving the bounded action $\mathfrak{J}_\lambda=b_k^2/\varepsilon_0+O(\lambda^{-4})$ (exactly zero under decoupled centering). Every technical tool---Cameron--Martin energy, Douglas range inclusion \cite{douglas1966majorization}, Gr\"umm ideal convergence \cite{simon2005trace}, Radon disintegration, and Feldman--H\'{a}jek equivalence---serves this single mechanical chain.
+
+We resolve these singular limits by establishing a unified mathematical hierarchy:
+\begin{enumerate}
+  \item \textbf{Projection Residual Scaling Base Theorem:} For any linear stationary process with finite second moments whose covariance satisfies the Lyapunov equation, we prove a Hilbert-space projection residual scaling (\Cref{thm:inf_cancellation}) using covariance-energy forms. The target $L^2$-projection residual, equivalently the LMMSE residual, satisfies $S_{k,\lambda} = \varepsilon_0/(2\lambda^2) - R_\lambda$, meaning its inverse scales as $S_{k,\lambda}^{-1} = (2/\varepsilon_0)\lambda^2 + O(\lambda^{-2})$.
+  \item \textbf{Gaussian Conditional Extension and Schur-Precision Expansion:} Under the additional assumption of Gaussian Radon laws, we enhance this base result to a conditional analysis. We construct the conditional predictor via the Cameron--Martin space of the bulk covariance, avoiding unbounded inverse operators. Gaussian disintegration yields exact target coordinate zeros under the conditioned evidence. We define the Gaussian renormalized finite-part functional $\mathfrak{J}_\lambda$ using a Dirac mollification scheme, and prove it converges to $b_k^2/\varepsilon_0 + O(\lambda^{-4})$. If the system is decoupled and the evidence is centered, the functional vanishes exactly for all $\lambda > 0$. We then demonstrate that the rescaled joint Fisher metric tensor admits a clean asymptotic expansion where the 0th-order normal geometry is flat and the 1st-order perturbation isolates the Cameron--Martin coupling energy of the off-diagonal drift.
+\end{enumerate}
+
+Our approach differs fundamentally from the Bayesian inverse-problem literature \cite{stuart2010inverse}, in which soft observations with positive-definite noise preserve Gaussian equivalence. We study the measure-theoretic structure of the singular conditioning limit itself---specifically, the collapse of the joint information divergence on the underlying operator algebra as the regularization parameter diverges.
+
+\subsection{Related work and positioning}
+\label{sec:related}
+
+\paragraph{Equivalent-measure manifolds and singular boundaries.}
+The classical extension of information geometry to infinite-dimensional spaces \cite{amari2000methods,pistone1995infinite,newton2012infinite} constructs statistical manifolds on the set of probability measures equivalent (i.e., mutually absolutely continuous) to a given reference measure. This equivalent-measure requirement is both natural and restrictive: it guarantees that the Fisher metric is well-defined and the manifold structure is smooth, but it fails precisely when the model enters a mutually singular regime. Hard hyperplane conditioning ($\lambda \to \infty$) produces such a regime: the conditioned measures converge to a Dirac distribution on the target coordinate and exit the equivalence class of the reference Gaussian law. The tangent blow-up coordinate extracts the rescaled metric limit from the divergent KL boundary, acting as a renormalization at the edge of the equivalent-measure manifold.
+
+\paragraph{The Feldman--H\'{a}jek measure-class wall.}
+The Feldman--H\'{a}jek theorem \cite{feldman1958equivalence,hajek1958property,bogachev1998gaussian} establishes a sharp dichotomy for Gaussian measures on separable Hilbert spaces: two Gaussian laws are either equivalent or mutually singular, with no intermediate case. In Bayesian inverse problems, \cite{stuart2010inverse} shows that positive observational noise keeps the posterior in the equivalent regime; zero-noise hard conditioning exits that regime. The standard workaround is to force additive observation noise into the model, preserving absolute continuity at the cost of never reaching the exact conditioning limit. Our construction takes a different route: the tangent blow-up isolates the non-degenerate geometric limit while preserving the Cameron--Martin energy structure of the coupling, without injecting artificial noise.
+
+\paragraph{Transport geometry and Bures--Wasserstein limits.}
+Infinite-dimensional Gaussian measures that are mutually singular can still be compared via optimal transport distances. The Wasserstein geometry of Gaussian measures \cite{takatsu2011wasserstein} and the Bures--Wasserstein distance between covariance operators \cite{bhatia2019bures} provide global metrics that do not require absolute continuity; for background on optimal transport and gradient flows in metric spaces, see \cite{villani2009optimal}. The geometry developed here is complementary: the tangent blow-up metric governs the boundary normal geometry and horizontal lift of singular evidence values (\Cref{sec:fisher_geometry}), while the Bures--Wasserstein metric governs bulk covariance relaxation. The present paper does not use any Wasserstein gradient-flow identity.
+
+\paragraph{Distinction from singular learning theory.}
+\cite{watanabe2009algebraic} develops a theory of singular statistical models in which the Fisher information matrix degenerates due to parameter redundancy (the parameter-to-law map has an algebraic singularity). The singularity studied here is fundamentally different: the parameterization remains linear and the model Gaussian, but the limiting measures leave the common absolutely continuous class under hard conditioning. Watanabe's tools---resolution of singularities, real log-canonical thresholds, learning coefficients---address algebraic degeneracy of the Fisher matrix on a finite-dimensional parameter space. Our tangent blow-up addresses the measure-theoretic singularity of a KL divergence that diverges because the conditioned measures become mutually singular in infinite dimensions.
+
+\subsection{Organization of the Paper}
+We organize the paper as follows. \Cref{sec:setup} defines the operator model and the variance normalization. \Cref{sec:infdim} establishes the Hilbert-space Schur residual scaling. \Cref{sec:gaussian_zero} details the Gaussian conditional extension and the renormalized finite-part functional. \Cref{sec:fisher_geometry} establishes the rescaled Fisher tensor and the Schur-precision tangent blow-up expansion. \Cref{sec:spde} demonstrates the framework on an infinite-dimensional Gaussian field model, interpreting the RFIM as a Dirichlet connection energy. \Cref{sec:discussion} discusses non-Gaussian limitations. \Cref{sec:conclusion} concludes. Proofs are given in \Cref{app:block_cumulant_analysis,app:gaussian_lift,sec:formal:proofs}; numerical diagnostics and Galerkin verification in \Cref{app:experiments}.
+\section{Operator Model and Exact Variance Normalization}
+\label{sec:setup}
+
+\subsection{Operator Dynamics and Regularized Conditioning}
+\label{sec:setup:dynamics}
+
+We model the continuous-time dynamics as stochastic evolution on a separable Hilbert space $\mathcal{H}$ \cite{daprato2014stochastic}:
+\begin{equation}
+  \label{eq:stochastic_evolution}
+  dX_t = \mathcal{A} X_t \, dt + \mathcal{D}^{1/2} dW_t
+\end{equation}
+where $\mathcal{A}$ is the drift operator and $\mathcal{D}$ is the trace-class diffusion operator. We decompose the Hilbert space as $\mathcal{H} = \mathcal{H}_k \oplus \mathcal{H}_I$, where $\mathcal{H}_k \coloneqq \mathbb{R}\phi_k$ is the one-dimensional target coordinate subspace, and $\mathcal{H}_I \coloneqq \mathcal{H}_k^\perp$ is the free bulk subspace. Let $\Pi_k \coloneqq \phi_k \otimes \phi_k$ and $\Pi_I \coloneqq I - \Pi_k$ be the corresponding orthogonal projections.
+
+To approximate the exact point conditioning $X_k = x_k^*$, we sever all incoming target-coordinate edges and apply a regularization parameter $\lambda > 0$.
+
+\begin{definition}[Calibrated Approximating Dynamics Family]
+  \label{def:soft_do}
+  The regularized conditioning operator of strength $\lambda > 0$ at node $X_k$ acts on the operator dynamics \eqref{eq:stochastic_evolution} by modifying both the drift and the diffusion:
+  \begin{equation}
+    \label{eq:soft_do_sde}
+    \mathcal{A}^{(\lambda)} \coloneqq \mathcal{A}_{\cond} - \lambda \Pi_k, \qquad
+    \mathcal{D}^{(\lambda)} \coloneqq \mathcal{D}_{\cond} + d_\lambda \Pi_k
+  \end{equation}
+  where $\mathcal{A}_{\cond}$ is the block drift operator with all incoming target-coordinate edges severed ($\Pi_k \mathcal{A}_{\cond} = 0$), $\mathcal{D}_{\cond}$ has target-coordinate noise severed, and $d_\lambda > 0$ is the local diffusion variance of the target coordinate at regularization strength $\lambda$. In the SDE, this corresponds to:
+  \begin{equation}
+    \label{eq:soft_do_sde_general}
+    dX_{k,t} = -\lambda (X_{k,t} - x_k^*) dt + \sqrt{d_\lambda}\, dW_{k,t}.
+  \end{equation}
+\end{definition}
+
+\subsection{Exact Variance Normalization}
+\label{sec:setup:calibration}
+
+The block-decoupled structure under the regularized dynamics yields:
+\begin{equation}
+  \mathcal{A}^{(\lambda)}=
+  \begin{pmatrix}-\lambda&0\\a_{Ik}&\mathcal{A}_{II}\end{pmatrix},\qquad
+  \mathcal{D}^{(\lambda)}=
+  \begin{pmatrix}d_\lambda&0\\0&D_{II}\end{pmatrix},
+\end{equation}
+where $a_{Ik} \coloneqq \mathcal{A}_{Ik} \phi_k \in \mathcal{H}_I$ represents the off-diagonal drift coupling.
+Let $\Sigma_\lambda$ denote the stationary covariance operator under regularization strength $\lambda$, solving the Lyapunov equation:
+\begin{equation}
+  \mathcal{A}^{(\lambda)}\Sigma_\lambda + \Sigma_\lambda(\mathcal{A}^{(\lambda)})^* + \mathcal{D}^{(\lambda)} = 0.
+\end{equation}
+The target block $kk$ decouples completely from the free coordinates, yielding the exact scalar equation:
+\begin{equation}
+  -2\lambda\Sigma_{\lambda,kk} + d_\lambda = 0 \quad \Longrightarrow \quad \Sigma_{\lambda,kk} = \frac{d_\lambda}{2\lambda}.
+\end{equation}
+
+\begin{proposition}[Exact Variance Normalization]
+  \label{prop:exact_calibration}
+  To maintain a physical target noise scale $\varepsilon_0 > 0$ independent of the auxiliary parameter $\lambda$ under the singular limit, we define the exact variance normalization condition:
+  \begin{equation}
+    \lambda^2 \Sigma_{\lambda,kk} \equiv \frac{\varepsilon_0}{2} \quad \text{for all } \lambda > 0,
+  \end{equation}
+  which uniquely requires:
+  \begin{equation}
+    d_\lambda = \frac{\varepsilon_0}{\lambda} \quad \text{for every } \lambda > 0.
+  \end{equation}
+  Substitution of this target diffusion scaling yields the calibrated approximating dynamics:
+  \begin{equation}
+    dX_{k,t} = -\lambda (X_{k,t} - x_k^*) dt + \sqrt{\varepsilon_0 / \lambda}\, dW_{k,t}.
+  \end{equation}
+\end{proposition}
+
+All subsequent results are stated for this calibrated family.
+
+\begin{definition}[Schur LMMSE Invariant]
+  \label{def:schur_invariant}
+  Let $S_{k,\lambda} \coloneqq \|X_k - P_{\mathcal{M}_I} X_k\|_{L^2}^2$ represent the linear minimum mean squared error (LMMSE) residual of the target coordinate $X_k$ on the closed linear span $\mathcal{M}_I$ of the free coordinates $X_I$. The \emph{Schur LMMSE invariant} $m_2^{\mathrm{Schur}}$ is defined as:
+  \begin{equation}
+    \label{eq:m2_schur_definition}
+    m_2^{\mathrm{Schur}} \coloneqq \lim_{\lambda\to\infty} \lambda^2 S_{k,\lambda}.
+  \end{equation}
+\end{definition}
+
+\subsection{Operator Setup and Assumptions}
+\label{sec:setup:assumptions}
+
+We state the operator-theoretic assumptions that make the limit passage independent of the Galerkin dimension.
+
+\begin{definition}[Drift Operator with Volterra Perturbation]
+  \label{def:drift_operator}
+  A drift operator on a separable Hilbert space $\mathcal{H}$ is an operator of the form $\mathcal{A} = \mathcal{A}_0 + \mathcal{K}$, where:
+  \begin{enumerate}
+    \item[(i)] $\mathcal{A}_0: \operatorname{dom}(\mathcal{A}_0) \subset \mathcal{H} \to \mathcal{H}$ is a closed, densely defined, dissipative operator that generates a strongly continuous contraction semigroup $(e^{t\mathcal{A}_0})_{t \ge 0}$ on $\mathcal{H}$, satisfying $\|e^{t\mathcal{A}_0}\| \le e^{-\alpha t}$ for some spectral gap $\alpha > 0$.
+    \item[(ii)] $\mathcal{K}: \mathcal{H} \to \mathcal{H}$ is a compact Volterra operator with spectral radius $\rho(\mathcal{K}) = 0$.
+    \item[(iii)] The full operator $\mathcal{A} = \mathcal{A}_0 + \mathcal{K}$ generates a strongly continuous semigroup $(e^{t\mathcal{A}})_{t \ge 0}$ by the bounded perturbation theorem, and this semigroup remains exponentially stable: $\|e^{t\mathcal{A}}\| \le M e^{-\beta t}$ for some $M \ge 1$, $\beta > 0$.
+  \end{enumerate}
+  In finite dimensions ($\mathcal{H} = \mathbb{R}^n$), $\mathcal{A}_0$ reduces to the Hurwitz drift matrix $A$ and $\mathcal{K} = 0$.
+\end{definition}
+
+\begin{definition}[Trace-Class Noise and Covariance]
+  \label{def:trace_class}
+  Let $\mathcal{S}_1(\mathcal{H})$ denote the Banach space of trace-class (nuclear) operators on $\mathcal{H}$ equipped with the trace norm $\|T\|_{\mathcal{S}_1} \coloneqq \tr(|T|) = \sum_{i=1}^\infty \langle \phi_i, (T^*T)^{1/2} \phi_i \rangle < \infty$.
+  \begin{enumerate}
+    \item[(i)] The diffusion operator $\mathcal{D}: \mathcal{H} \to \mathcal{H}$ is positive, self-adjoint, and belongs to $\mathcal{S}_1(\mathcal{H})$.
+    \item[(ii)] Assuming the pair $(\mathcal{A}, \mathcal{D}^{1/2})$ is controllable, the stationary covariance operator $\Sigma: \mathcal{H} \to \mathcal{H}$ is the unique strictly positive, self-adjoint, trace-class solution to the operator Lyapunov equation:
+    \begin{equation}
+      \label{eq:op_lyapunov}
+      \mathcal{A}\Sigma + \Sigma\mathcal{A}^* + \mathcal{D} = 0
+    \end{equation}
+    which is given by the convergent Bochner integral
+    \[
+      \Sigma = \int_0^\infty e^{t\mathcal{A}} \mathcal{D} e^{t\mathcal{A}^*} dt.
+    \]
+  \end{enumerate}
+\end{definition}
+
+\begin{assumption}[Core Analytical Assumptions for Singular Hyperplane Conditioning]
+  This work relies on two core analytical assumptions regarding the target-coordinate cut and the outgoing coupling:
+  \begin{enumerate}
+    \item[(i)] \textbf{Linear Second-Moment Channel:} \label{assum:linear_second_moment} A centered linear stationary process on $\mathcal{H}=\mathcal{H}_k\oplus \mathcal{H}_I$ has finite second moments and covariance solving \Cref{eq:op_lyapunov}. The block-decoupling constraint zeroes all incoming target drift and cross-noise, so that $\mathcal{A}_{kI}=\mathcal{D}_{kI}=\mathcal{D}_{Ik}=0$ and $\mathcal{A}_{kk}=-\lambda$. The target diffusion $\mathcal{D}_{kk}=\varepsilon_0/\lambda$ is the unique scaling determined by the exact variance normalization (Proposition~\ref{prop:exact_calibration}). The free noise is independent of the local target noise. (Gaussianity is not assumed).
+    \item[(ii)] \textbf{Cameron--Martin Stability of Off-Diagonal Drift Coupling:} \label{assum:cm_stability} Let $Q_0\coloneqq\Sigma_{II}^{(0)}$ denote the free-block covariance produced by the free noise under block decoupling, and let $H_{Q_0}\coloneqq\operatorname{Range}(Q_0^{1/2})$ with the energy norm $|u|_{Q_0}\coloneqq\|Q_0^{-1/2}u\|_{\mathcal{H}_I}$. The outgoing vector $a_{Ik}\coloneqq\mathcal{A}_{Ik}\phi_k$ belongs to $H_{Q_0}$, and $e^{t\mathcal{A}_{II}}$ restricts to a strongly continuous exponentially stable semigroup on $H_{Q_0}$:
+    \begin{equation}
+      \|e^{t\mathcal{A}_{II}}\|_{\mathcal{L}(H_{Q_0})} \le M e^{-\omega t},\qquad t\ge0,
+    \end{equation}
+    for constants $M\ge1$ and $\omega>0$ independent of $\lambda$.
+  \end{enumerate}
+  \vspace{1mm}
+  \noindent\textit{Intuitive Explanation:} Part (i) states that the regularized dynamics act as a strong localized drift penalization on the target coordinate $X_k$ while isolating it from incoming influences, representing a physical realization of the block-decoupling constraint. Part (ii) requires that the off-diagonal drift coupling $a_{Ik}$ from the target coordinate has finite energy relative to the background fluctuations of the free coordinates. This ensures that target fluctuations propagating downstream do not overload the variance of the infinite-dimensional system.
+\end{assumption}
+
+\begin{remark}[Finite-Energy Outgoing Covariance Coupling and Finite-Dimensional Calibration]
+  \label{rem:cm_information_flow}
+  The membership $a_{Ik}\in H_{Q_0}$ is an admissibility condition,
+  not a consequence of the free-block Lyapunov equation alone: an arbitrary
+  outgoing vector need not lie in
+  $\operatorname{Range}((\Sigma_{II}^{(0)})^{1/2})$.  It says that the
+  deterministic channel carrying target fluctuations into the free-block has
+  finite covariance energy relative to the free-noise background.
+  
+  To understand this condition intuitively, consider a finite-dimensional setting where the free-block state space is $\mathcal{H}_I = \mathbb{R}^{d-1}$ and the free stationary covariance $Q_0 \coloneqq \Sigma_{II}^{(0)}$ is strictly positive-definite. Since $Q_0 \succ 0$, its square root $Q_0^{1/2}$ is invertible, and its range is the entire space $\mathbb{R}^{d-1}$. In this case, the Cameron--Martin space is the full space $H_{Q_0} = \operatorname{Range}(Q_0^{1/2}) = \mathbb{R}^{d-1}$, and the Cameron--Martin energy norm $|u|_{Q_0} = \|Q_0^{-1/2} u\|_2$ is equivalent to the standard Euclidean norm. Consequently, the admissibility condition $a_{Ik} \in H_{Q_0}$ is trivially satisfied for any outgoing vector $a_{Ik} \in \mathbb{R}^{d-1}$.
+  
+  However, if some direction in the free coordinates is noise-free under block decoupling (meaning $Q_0$ is positive semidefinite but singular), $H_{Q_0}$ becomes a proper subspace of $\mathbb{R}^{d-1}$. In this case, the condition $a_{Ik} \in H_{Q_0}$ requires that the leakage vector $a_{Ik}$ has no component in the null space of $Q_0$. Physically, it prevents the target coordinate from leaking fluctuations into a downstream coordinate that has zero background noise, which would otherwise result in infinite relative covariance energy.
+  
+  In infinite dimensions, $\Sigma_{II}^{(0)}$ is trace-class and compact, so its eigenvalues decay to zero, making $\operatorname{Range}((\Sigma_{II}^{(0)})^{1/2})$ a dense but strictly proper subspace of $\mathcal{H}_I$. The condition $a_{Ik} \in H_{Q_0}$ requires the off-diagonal drift coupling coefficients to decay sufficiently fast relative to the background noise eigenvalues to keep the relative energy finite.
+  
+  Under this assumption, invariance and exponential stability on $H_{Q_0}$ imply:
+  \begin{equation}
+  \begin{aligned}
+    (\lambda I-\mathcal{A}_{II})^{-1}a_{Ik}
+       &\in H_{Q_0},\\
+    |(\lambda I-\mathcal{A}_{II})^{-1}a_{Ik}|_{Q_0}
+       &\le \frac{M}{\lambda+\omega}|a_{Ik}|_{Q_0}.
+  \end{aligned}
+  \end{equation}
+\end{remark}
+
+\begin{remark}[Constant Dependency in LMMSE Expansion]
+  Consequently, the exact leakage cross-covariance
+  $\Sigma_{\lambda,Ik}$ has finite Cameron--Martin energy norm and is
+  $O(\lambda^{-3})$ in that norm.  This is a condition on the deterministic
+  response and covariance energy; it does not assert that infinite-dimensional
+  Gaussian sample paths lie in $H_{Q_0}$ almost surely.
+\end{remark}
+
+% ============================================================
+%  §3  HILBERT-SPACE VARIATIONAL SCHUR RESIDUAL
+% ============================================================
+\section{Hilbert-Space Variational Schur Residual}
+\label{sec:infdim}
+
+\subsection{Variational Schur Subtraction and Energy Bounds}
+\label{sec:infdim:variational}
+
+In finite dimensions, the Schur complement of the bulk covariance block $\Sigma_{II}$ is defined as $S_k \coloneqq \Sigma_{kk} - \Sigma_{kI} \Sigma_{II}^{-1} \Sigma_{Ik}$. Under stable and controllable dynamics, the bulk covariance $\Sigma_{II}$ is positive-definite and invertible, so the subtraction is well-defined. However, in infinite dimensions, the stationary covariance operator is trace-class and compact, meaning its restriction $\Sigma_{\lambda,II}$ lacks a bounded global inverse. To lift the Schur complement to infinite dimensions, we formulate the projection residual directly using covariance-energy forms.
+
+Let $Q_0 \coloneqq \Sigma_{II}^{(0)}$ denote the fixed background bulk covariance under full decoupling ($\lambda = \infty$). We define the core Cameron--Martin space $H_{Q_0} \coloneqq \operatorname{Range}(Q_0^{1/2})$ and the core energy norm:
+\begin{equation}
+  |u|_{Q_0} \coloneqq \|Q_0^{-1/2} u\| \quad \text{for all } u \in H_{Q_0}.
+\end{equation}
+By Assumption~\ref{assum:cm_stability}, the off-diagonal drift coupling vector satisfies $a_{Ik} \in H_{Q_0}$, and the restricted drift generator $\mathcal{A}_{II}$ generates an exponentially stable semigroup on $H_{Q_0}$.
+
+Under this assumption, the exact cross-covariance resolvent formula (derived in \Cref{app:block_cumulant_analysis}) satisfies:
+\begin{equation}
+  \Sigma_{\lambda,Ik} = \frac{\varepsilon_0}{2\lambda^2} (\lambda I - \mathcal{A}_{II})^{-1} a_{Ik}.
+\end{equation}
+This resolvent response yields the Cameron--Martin energy bound on the cross-covariance block:
+\begin{equation}
+  \label{eq:cross_energy_bound}
+  |\Sigma_{\lambda,Ik}|_{Q_0} = O(\lambda^{-3}) \quad \text{as } \lambda \to \infty.
+\end{equation}
+
+To define the infinite-dimensional projection residual, we introduce the variational Schur subtraction $R_\lambda$:
+\begin{equation}
+  \label{eq:variational_schur_subtraction}
+  R_\lambda \coloneqq \sup_{\langle u, \Sigma_{\lambda,II} u \rangle > 0} \frac{|\langle u, \Sigma_{\lambda,Ik} \rangle|^2}{\langle u, \Sigma_{\lambda,II} u \rangle}.
+\end{equation}
+Since the target noise channel and bulk noise channel are independent, the bulk state decomposes into independent background and target-driven components, meaning the bulk covariance dominates the background covariance ($\Sigma_{\lambda,II} = Q_0 + \operatorname{Cov}(Y_I) \succeq Q_0$). Douglas range inclusion then guarantees that the variational subtraction is bounded:
+\begin{equation}
+  0 \le R_\lambda \le |\Sigma_{\lambda,Ik}|_{Q_0}^2 = O(\lambda^{-6}).
+\end{equation}
+
+\subsection{Hilbert-Space Schur Residual Scaling}
+\label{sec:infdim:scaling}
+
+We now establish the main scaling theorem for the $L^2$-projection residual.
+
+\begin{theorem}[Hilbert Schur Residual Invariant]
+  \label{thm:inf_cancellation}
+  Under Assumptions~\ref{assum:linear_second_moment} and \ref{assum:cm_stability}, the $L^2$-projection residual satisfies:
+  \begin{equation}
+    \label{eq:main_schur_sharp}
+    S_{k,\lambda} \coloneqq \|X_k - P_{\mathcal{M}_I} X_k\|_{L^2}^2 = \frac{\varepsilon_0}{2\lambda^2} - R_\lambda,
+  \end{equation}
+  where the remainder satisfies $0 \le R_\lambda = O(\lambda^{-6})$. In particular, the Schur LMMSE invariant is:
+  \begin{equation}
+    \label{eq:m2_schur_value}
+    m_2^{\mathrm{Schur}} = \lim_{\lambda\to\infty} \lambda^2 S_{k,\lambda} = \frac{\varepsilon_0}{2},
+  \end{equation}
+  and the inverse projection residual scaling satisfies:
+  \begin{equation}
+    \label{eq:schur_scaling_inverse}
+    S_{k,\lambda}^{-1} = \frac{2}{\varepsilon_0}\lambda^2 + O(\lambda^{-2}).
+  \end{equation}
+  This result depends only on covariance and orthogonal projection; it holds for any linear stationary model satisfying these assumptions, without Gaussianity.
+\end{theorem}
+\begin{proof}
+  See \Cref{app:block_cumulant_analysis} for the full derivation.
+\end{proof}
+
+\subsection{Convergence of Finite-Dimensional Truncations}
+\label{sec:proofs:convergence}
+
+Let $\Pi_n: \mathcal{H} \to \mathcal{H}_n \coloneqq \operatorname{span}\{\phi_1, \ldots, \phi_n\}$ be the $n$-dimensional Galerkin projection. Write $\mathcal{A}_n^{(\lambda)} \coloneqq \Pi_n \mathcal{A}^{(\lambda)} \Pi_n$, $\mathcal{D}_n^{(\lambda)} \coloneqq \Pi_n \mathcal{D}^{(\lambda)} \Pi_n$, and let $\Sigma_{n,\lambda}$ solve the truncated Lyapunov equation $\mathcal{A}_n^{(\lambda)} \Sigma_{n,\lambda} + \Sigma_{n,\lambda} (\mathcal{A}_n^{(\lambda)})^* + \mathcal{D}_n^{(\lambda)} = 0$.
+
+\begin{proposition}[Galerkin Consistency of the Schur Invariant]
+  \label{prop:galerkin_consistency}
+  Under Assumption~\ref{assum:linear_second_moment}, let $\Pi_n:\mathcal{H}\to\mathcal{H}_n$ be finite-rank orthogonal Galerkin projections preserving the target-bulk block decomposition:
+  \begin{equation}
+    \Pi_n\phi_k=\phi_k,\qquad \Pi_n\mathcal{H}_I\subset\mathcal{H}_I,\qquad \Pi_n\to I\ \text{strongly on }\mathcal{H}.
+  \end{equation}
+  Assume the truncated regularized dynamics satisfy the uniform exponential stability and trace-class conditions stated in Proposition~\ref{prop:dynamic_galerkin} of \Cref{app:block_cumulant_analysis}.  Then the truncated covariance operators converge in trace norm:
+  \begin{equation}
+    \|\Sigma_{n,\lambda}-\Sigma_\lambda\|_{\mathcal{S}_1}\to0\quad\text{as }n\to\infty,
+  \end{equation}
+  and the truncated Schur invariant is exact at every level:
+  \begin{equation}
+    m_2^{\mathrm{Schur},(n)} \coloneqq \lim_{\lambda\to\infty} \lambda^2 S_{k,\lambda}^{(n)} = \frac{\varepsilon_0}{2} \quad \text{for all } n \ge k.
+  \end{equation}
+\end{proposition}
+\begin{proof}
+  See \Cref{app:block_cumulant_analysis} for the dynamic and spectral support.
+\end{proof}
+
+% ============================================================
+%  §4  GAUSSIAN CONDITIONAL EXTENSION AND FINITE-PART FUNCTIONAL
+% ============================================================
+\section{Gaussian Conditional Extension and Finite-Part Functional}
+\label{sec:gaussian_zero}
+
+This section gives the Gaussian extension of the base theorem, using Radon Gaussian laws and disintegration to formulate conditioning under exact evidence and define the renormalized finite-part functional.
+
+\subsection{Radon Gaussian Setup and Disintegration}
+\label{sec:gaussian:setup}
+
+\begin{assumption}[Hilbert Gaussian Conditioning and Affine Mean Channel]
+  \label{assum:gaussian_clamp}
+  In addition to Assumptions~\ref{assum:linear_second_moment} and \ref{assum:cm_stability}, let $\mu_\lambda = \mathcal{N}(m_\lambda, \Sigma_\lambda)$ be a Gaussian Radon law on $\mathcal{H}$ with injective trace-class covariance. Let $\mu_{\mathrm{obs}}$ be the canonical Gaussian disintegration member on the evidence hyperplane $X_k = x_k^*$. Suppose that a fixed deterministic forcing $b \in \mathcal{H}$ gives the stationary mean equation:
+  \begin{equation}
+    \mathcal{A}_{\cond} m_\lambda + b - \lambda \Pi_k (m_\lambda - x_k^* \phi_k) = 0, \quad \Pi_k \mathcal{A}_{\cond} = 0.
+  \end{equation}
+  We define the target deterministic offset constant:
+  \begin{equation}
+    c_\lambda \coloneqq \lambda(m_{\lambda,k} - x_k^*) = b_k,
+  \end{equation}
+  where $m_{\lambda,k} \coloneqq \langle m_\lambda, \phi_k \rangle$ and $b_k \coloneqq \langle b, \phi_k \rangle$.
+\end{assumption}
+
+Under the Gaussian Radon law, the coordinate projection $\pi_k: \mathcal{H} \to \mathbb{R}$ is continuous, so the target variable $X_k$ is a well-defined Borel random variable. The Polish structure of the Hilbert space guarantees the existence of a regular conditional probability distribution. 
+By selecting the weakly continuous version of the conditional law at the single point $t = x_k^*$ (as detailed in \Cref{app:gaussian_lift}), we obtain the unique pointwise disintegration member $\mu_{\mathrm{obs}}$. Under this measure, the target coordinate satisfies the exact target zeros:
+\begin{equation}
+  \label{eq:exact_target_zeros}
+  m_{\text{obs},k} - x_k^* = 0, \quad \Var_{\text{obs}}(X_k) = 0 \quad (\text{exact}).
+\end{equation}
+
+\subsection{Global-Inverse-Free Measurable Predictor}
+\label{sec:gaussian:predictor}
+
+Let $C_\lambda \coloneqq \Sigma_{\lambda,II}$ denote the Gaussian bulk covariance operator on $\mathcal{H}_I$. Because $C_\lambda$ is trace-class and compact, it lacks a bounded global inverse. We define the bulk Cameron--Martin space $H_{C_\lambda} \coloneqq \operatorname{Range}(C_\lambda^{1/2})$ and the corresponding energy norm.
+
+The leakage cross-covariance vector satisfies $\Sigma_{\lambda,Ik} \in H_{C_\lambda}$ with energy norm $\|\Sigma_{\lambda,Ik}\|_{H_{C_\lambda}} = O(\lambda^{-3})$. This range inclusion allows us to define the conditional predictor $\mu_{k|I}(X_I) \coloneqq \E[X_k \mid X_I]$ as a measurable Wiener functional:
+\begin{equation}
+  \mu_{k|I}(X_I) = m_{\lambda,k} + W_{\Sigma_{\lambda,Ik}}(X_I - m_{\lambda,I}),
+\end{equation}
+which is the unique LMMSE predictor in $L^2$. The estimates in \Cref{app:gaussian_lift} imply that, for all sufficiently large $\lambda$, the bulk marginals $\mu_{\text{obs},I}$ and $\mu_{\lambda,I}$ are equivalent and have finite bulk relative entropy:
+\begin{equation}
+  \KL(\mu_{\text{obs},I} \parallel \mu_{\lambda,I}) = O(\lambda^{-4}) \to 0 \quad \text{as } \lambda \to \infty.
+\end{equation}
+
+\subsection{Gaussian Renormalized Finite-Part Functional}
+\label{sec:gaussian:functional}
+
+Although the joint KL divergence diverges under the exact conditioning, we can define a renormalized finite-part action.
+
+\begin{definition}[Gaussian Renormalized Finite-Part Functional]
+  \label{def:unified_action}
+  Whenever $S_{k,\lambda}>0$ and $\mu_{\text{obs},I}$ is equivalent to $\mu_{\lambda,I}$, we define the Gaussian renormalized finite-part functional of the conditioned law:
+  \begin{equation}
+    \label{eq:unified_action}
+    \begin{aligned}
+      \mathfrak{J}_\lambda(\mu_{\mathrm{obs}}; \mu_\lambda) \coloneqq &\KL(\mu_{\mathrm{obs},I} \parallel \mu_{\lambda,I}) \\
+      &+ \frac{1}{2} S_{k,\lambda}^{-1} \E_{\mu_{\mathrm{obs}}}\left[ \left( X_k - \mu_{k|I}(X_I) \right)^2 \right].
+    \end{aligned}
+  \end{equation}
+  This represents the finite part of the joint KL divergence under the conditional normalization scheme, where the Dirac and Gaussian normalization singularities are subtracted.
+\end{definition}
+
+The finite part is not claimed to be a canonical KL divergence between mutually singular measures; it is the finite part associated with the Dirac-mollification and conditional-normalization scheme above.
+
+\subsection{Gaussian Main Theorem}
+\label{sec:gaussian:theorem}
+
+We now establish the main regularization and cancellation theorems for the finite-part functional.
+
+\begin{theorem}[Gaussian Finite-Part Regularization]
+  \label{thm:finite_part_regularization}
+  Under Assumption~\ref{assum:gaussian_clamp}, there exists $\lambda_0>0$ such that, for $\lambda\ge\lambda_0$, the renormalized finite-part functional under the conditioned law $\mu_{\mathrm{obs}}$ is well-defined and satisfies:
+  \begin{equation}
+    \label{eq:unified_regularization}
+    \mathfrak{J}_\lambda(\mu_{\mathrm{obs}}; \mu_\lambda) = \frac{b_k^2}{\varepsilon_0} + O(\lambda^{-4}).
+  \end{equation}
+  In particular, the functional remains bounded at $O(1)$ and converges to:
+  \begin{equation}
+    \lim_{\lambda\to\infty} \mathfrak{J}_\lambda(\mu_{\mathrm{obs}}; \mu_\lambda) = \frac{b_k^2}{\varepsilon_0}.
+  \end{equation}
+\end{theorem}
+\begin{proof}
+  See \Cref{app:gaussian_lift} for the full derivation.
+\end{proof}
+
+\begin{corollary}[Exact Decoupled-Centered Cancellation]
+  \label{cor:exact_pole_zero}
+  Under Assumption~\ref{assum:gaussian_clamp}, if the target coordinate is dynamically decoupled from the bulk ($a_{Ik} = 0$) and the evidence is centered at the stationary mean ($x_k^* = m_{\lambda,k}$), then:
+  \begin{equation}
+    \mathfrak{J}_\lambda(\mu_{\mathrm{obs}}; \mu_\lambda) = 0 \quad \text{for every } \lambda > 0.
+  \end{equation}
+\end{corollary}
+\begin{proof}
+  The decoupling implies $\Sigma_{\lambda,Ik} = 0$, so $\KL(\mu_{\text{obs},I} \parallel \mu_{\lambda,I}) = 0$. The centering makes the conditional residual zero under the conditioning, so both terms in \eqref{eq:unified_action} vanish.
+\end{proof}
+
+% ============================================================
+%  §5  DISCUSSION AND FUTURE WORK
+% ============================================================
+\section{Rescaled Fisher Tensor and Schur-Precision Expansion}
+\label{sec:fisher_geometry}
+
+This section constructs the unified blow-up geometry by combining the coordinate pull-back Jacobian with a Woodbury matrix expansion.
+
+\subsection{The blow-up coordinate and pull-back Jacobian}
+
+\Cref{sec:infdim} establishes the exact target variance normalization $\Sigma_{\lambda,KK} = E_0/(2\lambda^2)$ for a finite-dimensional target block of dimension $m$, while the Schur projection residual satisfies $R_\lambda = O(\lambda^{-6})$. Let $S_{K,\lambda} = E_0/(2\lambda^2) - R_\lambda$ be the target Schur complement matrix.
+
+For two conditional Gaussian distributions with the same covariance matrix, their divergence is precisely given by the Mahalanobis quadratic form of their mean difference. In the original macroscopic physical coordinates $x_K^*$, this joint Fisher metric is simply $S_{K,\lambda}^{-1}$, which diverges as $O(\lambda^2)$.
+
+To resolve this singular collapse, we define the blow-up coordinate system:
+\begin{equation}
+  b = \lambda(x_K^* - m_{\lambda,K}) \in \mathbb{R}^m.
+\end{equation}
+Equivalently, $x_K^* = m_{\lambda,K} + \lambda^{-1}b$. Under the calibrated dynamics, the scaled coordinate $b$ is $O(1)$. 
+
+\begin{definition}[Rescaled joint Fisher metric tensor]
+\label{def:fp_divergence}
+Let $b,b'\in\mathbb{R}^m$ be two blow-up conditioning coordinates. Applying the coordinate pull-back Jacobian, the blow-up divergence at strength $\lambda$ is
+\begin{equation}
+  \mathfrak{D}_\lambda^{\mathrm{FP}}(b,b')
+  \coloneqq
+  \frac12 (b-b')^\top \left[ \lambda^{-2} S_{K,\lambda}^{-1} \right] (b-b').
+\end{equation}
+The rescaled joint Fisher metric tensor on the blow-up coordinate chart is precisely:
+\begin{equation}
+  g_{\lambda}^{\mathrm{joint},b} \coloneqq \lambda^{-2} S_{K,\lambda}^{-1}.
+\end{equation}
+\end{definition}
+
+\subsection{Woodbury--Schur hierarchical expansion}
+
+We utilize the fully precise Schur calibration decomposition:
+\begin{equation}
+  S_{K,\lambda} = A_\lambda - R_\lambda, \qquad A_\lambda = \frac{E_0}{2\lambda^2}.
+\end{equation}
+The matrix $R_\lambda$ is the inverse-free variational Schur subtraction $R_\lambda = \sup_{u\in\mathcal H_I}\{2\langle c_\lambda,u\rangle-\langle u,B_\lambda u\rangle\}$, where $c_\lambda = \Sigma_{\lambda,IK}$ and $B_\lambda = \Sigma_{\lambda,II}$. Under Cameron--Martin admissibility, $R_\lambda = O(\lambda^{-6})$.
+
+Applying the Woodbury matrix identity (or equivalently, the exact Taylor geometric series for inverses), we expand the full covariance inverse operator:
+\begin{equation}
+  S_{K,\lambda}^{-1} = A_\lambda^{-1} + A_\lambda^{-1} R_\lambda A_\lambda^{-1} + \mathcal{O}(R_\lambda^2).
+\end{equation}
+
+\subsection{Unified Blow-Up Metric Theorem}
+
+\begin{theorem}[The Asymptotic Unified Blow-Up Metric]
+\label{thm:unified_blowup_metric}
+Applying the coordinate pull-back Jacobian $\lambda^{-2}$, the full regularized Fisher geometry cleanly bifurcates into distinct analytical strata in the blow-up limit:
+\begin{equation}
+  g_{\lambda}^{\mathrm{joint},b} = \underbrace{2 E_0^{-1}}_{\text{0th-order normal geometry}} \quad + \quad \lambda^{-4} \underbrace{\left[ (2E_0^{-1}) (\lambda^6 R_\lambda) (2E_0^{-1}) \right]}_{\text{1st-order horizontal metric limit}} + \quad \mathcal{O}(\lambda^{-8}).
+\end{equation}
+If the Schur residue has the sharp expansion $R_\lambda=C_R\lambda^{-6}+o(\lambda^{-6})$, then the 1st-order metric coefficient converges to $4 C_R (E_0^{-1})^2$. Furthermore, under the relative Cameron--Martin covariance convergence $B_\lambda = Q_0^{1/2}(I + K_\lambda)Q_0^{1/2}$ with $\|K_\lambda\| \to 0$, the limit is generated by the Cameron--Martin energy of the off-diagonal coupling vector.
+\end{theorem}
+
+\begin{proof}
+Substituting $A_\lambda^{-1} = 2\lambda^2 E_0^{-1}$ into the Woodbury expansion yields:
+\begin{equation}
+  S_{K,\lambda}^{-1} = 2\lambda^2 E_0^{-1} + (2\lambda^2 E_0^{-1}) R_\lambda (2\lambda^2 E_0^{-1}) + \mathcal{O}(R_\lambda^2).
+\end{equation}
+Multiplying by the pull-back Jacobian $\lambda^{-2}$:
+\begin{equation}
+  \lambda^{-2} S_{K,\lambda}^{-1} = 2E_0^{-1} + \lambda^{-2}(4\lambda^4 E_0^{-1} R_\lambda E_0^{-1}) + \mathcal{O}(\lambda^{-2} R_\lambda^2).
+\end{equation}
+Rearranging the powers of $\lambda$ in the second term gives $\lambda^{-4} (2E_0^{-1})(\lambda^6 R_\lambda)(2E_0^{-1})$. Since $R_\lambda = O(\lambda^{-6})$, the remainder is $O(\lambda^{-14})$, which becomes $\mathcal{O}(\lambda^{-8})$ relative to the expansion. The identification of $C_R$ under the relative Cameron--Martin convergence is proved in \Cref{sec:formal:proofs} via a Fenchel-dual variational limit.
+\end{proof}
+
+\subsection{Displacement flatness and the 0th-order tangent cone}
+
+\begin{corollary}[Displacement flatness]
+\label{cor:displacement_flatness}
+The 0th-order normal geometry is the constant metric $g^{(0)} = 2E_0^{-1}$. Consequently, all geometric objects related to its curvature vanish identically in the blow-up coordinates:
+\begin{equation}
+  \Gamma^k_{ij}=0,\qquad
+  R^\ell{}_{ijk}=0,\qquad
+  \operatorname{Scal}=0.
+\end{equation}
+\end{corollary}
+
+The structure separates the boundary behaviors cleanly. The 0th-order term yields the constant $2E_0^{-1}$, eliminating spurious boundary curvature ($\Gamma = 0$). The singular limit preserves the canonical flat Wasserstein displacement property.
+
+\begin{remark}[Displacement flatness and the $W_2$ geodesic hyperplane]
+\label{rem:w2_hyperplane}
+The flatness of a Gaussian location model with fixed covariance is a priori known. The nontrivial conclusion of the unified blow-up metric theorem is that the topological clamp of the singular boundary does not manufacture spurious curvature. Instead, the limit preserves the original model's \emph{displacement flatness}: in the $W_2$ Wasserstein metric, the conditional expectations respond to the conditioning value by translating along a constant $L^2$ displacement vector. The rescaled evidence manifold behaves as a exact geodesic hyperplane in $W_2$ space. This explains why the 0th-order term must be flat. (We emphasize that this is a structural geometric observation; no Wasserstein gradient-flow identity is used in the derivations).
+\end{remark}
+
+\subsection{Ehresmann horizontal lift and the 1st-order perturbation}
+
+The first-order $O(\lambda^{-4})$ perturbation in \Cref{thm:unified_blowup_metric} accurately identifies the geometry of conditional bulk shifting. We can understand this by constructing a fiber bundle over the joint Gaussian model:
+\begin{enumerate}
+\item \textbf{Base Manifold $\mathcal{B}$}: The conditioning state space of the detector $\{x_K^*\}$.
+\item \textbf{Fiber $\mathcal{F}$}: The unobserved bulk state space $\mu_I$.
+\item \textbf{Total Space $\mathcal{E}$}: The joint Gaussian model.
+\end{enumerate}
+
+When the conditioning value $x_K^*$ is moved, the bulk conditional distribution $\mu_{I|K}(x_K^*)$ undergoes a deterministic shift. The bulk conditional mean is:
+\begin{equation}
+  m_{I|K}(x_K^*) = m_I + c_\lambda a_\lambda^{-1}(x_K^* - m_K).
+\end{equation}
+
+\begin{remark}[Fiber-bundle interpretation and the horizontal connection]
+\label{rem:fiber_bundle_connection}
+By considering the conditional expectation as an Ehresmann section into the target fiber, its derivative mapping defines an \emph{Ehresmann connection}:
+\begin{equation}
+  Ds_\lambda = \frac{d}{dx_K^*} m_{I|K} = c_\lambda a_\lambda^{-1}.
+\end{equation}
+This derivative is exactly the \emph{horizontal lift vector}---the lift of the base tangent vector $\partial/\partial x_K^*$ into the total space. The extracted first-order residue evaluates exactly the inner metric trace of this structural bundle response (in the $B_\lambda^{-1}$ norm). 
+
+Thus, the collapse of the bulk Fisher metric $g_\lambda^{\mathrm{bulk}} = O(\lambda^{-2}) \to 0$ has a clear geometric meaning: \textbf{as the conditioning strength $\lambda \to \infty$, the connection tends to become ``purely vertical.''} Movements in the base manifold increasingly fail to induce horizontal drift in the bulk fiber. The RFIM limit $\widetilde{g}_{\mathrm{bulk}}^{\mathrm{FP}} = \lim \lambda^2 g_\lambda^{\mathrm{bulk}}$ quantifies the asymptotic rate of this horizontal leakage, capturing the Cameron--Martin energy of the connection.
+\end{remark}
+
+
+
+
+\section{Elliptic Gaussian Field Example}
+\label{sec:spde}
+
+The numerical diagnostics in the appendix validate the unified blow-up geometry on a finite-dimensional chain. In this section we show that the abstract RFIM invariant of the 1st-order perturbation specializes to a concrete Sobolev--Dirichlet energy integral on a genuinely infinite-dimensional Gaussian field model.
+
+\subsection{Elliptic Gaussian field on $[0,1]$}
+\label{sec:spde:setup}
+
+Let $\mathcal{H} = L^2(0,1)$ and consider the second-order elliptic operator
+\[
+  L = -\partial_{xx} + \kappa^2, \qquad \kappa > 0,
+\]
+with Dirichlet boundary conditions on $[0,1]$. The operator $L$ is self-adjoint, strictly positive, and has the eigenbasis $e_j(x) = \sqrt{2}\sin(j\pi x)$ with eigenvalues
+\[
+  \mu_j = \pi^2 j^2 + \kappa^2, \qquad j = 1, 2, \dots
+\]
+
+Define the covariance operator $Q_0 = L^{-1}$. Its eigenvalues are $q_j = (\pi^2 j^2 + \kappa^2)^{-1}$, and
+\[
+  \tr(Q_0) = \sum_{j=1}^\infty \frac{1}{\pi^2 j^2 + \kappa^2} < \infty,
+\]
+so $Q_0$ is trace-class on $L^2(0,1)$. The centered Gaussian measure $\mu_0 = \mathcal{N}(0, Q_0)$ is the equilibrium law of the Hilbert-space Ornstein--Uhlenbeck process
+\[
+  dX_t = -LX_t\,dt + dW_t,
+\]
+where $W_t$ is a cylindrical Wiener process on $L^2(0,1)$.
+
+\subsection{Cameron--Martin space and energy}
+\label{sec:spde:cm}
+
+The Cameron--Martin space of $\mu_0$ is
+\[
+  \operatorname{Dom}(Q_0^{-1/2}) = \operatorname{Dom}(L^{1/2}) = H_0^1(0,1),
+\]
+the Sobolev space of square-integrable functions with square-integrable weak derivatives vanishing at the boundary. The Cameron--Martin energy for $a \in H_0^1(0,1)$ is
+\begin{equation}
+\label{eq:cm_energy_dirichlet}
+  \|a\|_{Q_0^{-1}}^2
+  = \|L^{1/2} a\|_{L^2}^2
+  = \int_0^1 |a'(x)|^2\,dx + \kappa^2 \int_0^1 |a(x)|^2\,dx.
+\end{equation}
+This is the classical Dirichlet energy with mass term, naturally associated with the elliptic operator~$L$.
+
+\subsection{Spectral sensor conditioning}
+\label{sec:spde:conditioning}
+
+Let $K = \{k\}$ for a fixed mode index $k$, and set $\mathcal{H}_K = \operatorname{span}(e_k)$, $\mathcal{H}_I = \overline{\operatorname{span}}(e_j : j \neq k)$. The ``sensor coordinate'' is the spectral coefficient
+\[
+  X_k = \langle X, e_k \rangle_{L^2},
+\]
+which is a bounded linear functional on $L^2(0,1)$ and hence defines a well-posed target coordinate in the framework of \Cref{sec:fisher_geometry}.
+
+The unperturbed target variance is $\Sigma_{0,kk} = q_k = (\pi^2 k^2 + \kappa^2)^{-1}$, and the evidence noise coefficient is $\varepsilon_0 = 2\mu_k q_k = 2$. Cross-mode coupling, which produces a nontrivial Cameron--Martin leakage vector $a_{Ik}$, arises from bounded off-diagonal perturbations to the drift operator. Specifically, if the full drift is $\mathcal{A} = -L + V$ where $V \in \mathcal{L}(\mathcal{H})$ is a bounded perturbation with $\langle e_j, V e_k \rangle \neq 0$ for at least one $j \neq k$, then the stationary cross-covariance $\Sigma_{0,Ik}$ is nonzero and generates a nontrivial coupling vector $a_{Ik} \in H_0^1(0,1)$.
+
+\subsection{RFIM as Dirichlet connection energy}
+
+Applying \Cref{thm:unified_blowup_metric} under the relative Cameron--Martin covariance convergence, the renormalized 1st-order horizontal metric limit takes the explicit integral form:
+\begin{equation}
+\label{eq:rfim_dirichlet}
+  \boxed{
+  \widetilde{g}_{\mathrm{bulk}}^{\mathrm{FP}}
+  = \|a_{Ik}\|_{Q_0^{-1}}^2
+  = \int_0^1 |a_{Ik}'(x)|^2\,dx + \kappa^2 \int_0^1 |a_{Ik}(x)|^2\,dx.
+  }
+\end{equation}
+This converts the abstract RFIM invariant of the tangent blow-up geometry into a recognizable PDE quantity: the energy of the coupling function $a_{Ik}$ in the Cameron--Martin (Sobolev) norm associated with the equilibrium covariance.
+
+In the language of fiber bundles and Ehresmann connections established in \Cref{rem:fiber_bundle_connection}, \eqref{eq:rfim_dirichlet} elevates the RFIM limit from a simple scalar into an \emph{infinite-dimensional connection energy functional}. The $L^2$-energy of the connection 1-form is precisely the Cameron--Martin/Dirichlet norm. A smooth coupling function $a_{Ik} \in H_0^1$ with small Dirichlet energy produces a weak horizontal lift perturbation, while a rough coupling produces a strong geometric perturbation on the bundle.
+
+
+
+
+\section{Discussion}
+\label{sec:discussion}
+
+We have demonstrated that singular Gaussian conditioning in a separable Hilbert space admits an inverse-free Schur normal form, where the rescaled Fisher tensor decomposes into a canonical leading flat layer and a Cameron--Martin residue. By bypassing the unbounded covariance inverse operator through a variational projection residual, the structural properties of the singular boundary are preserved without the need to introduce artificial noise or ad hoc subtraction of infinite quantities.
+
+Several natural directions for future research remain:
+\begin{enumerate}
+  \item[(i)] \textbf{Non-Gaussian Conditional Finite-Part Functionals:} The projection residual scaling $S_{k,\lambda} = \varepsilon_0/(2\lambda^2) - R_\lambda$ holds for any linear stationary system with finite second moments. Extending the Gaussian finite-part functional analysis to non-Gaussian stationary processes (e.g., driven by L\'{e}vy or Laplace noise) requires a systematic generalization of the Radon disintegration and Feldman--H\'{a}jek theory.
+  \item[(ii)] \textbf{Transport Relaxation Dynamics:} While the tangent blow-up coordinate system provides a static, local description of the singular Fisher geometry on the boundary, analyzing the dynamic relaxation of the bulk covariance after singular conditioning requires the transport geometry of the Bures--Wasserstein metric. We leave the JKO gradient flow \cite{jordan1998variational} on the Wasserstein fibers to subsequent work.
+\end{enumerate}
+
+% ============================================================
+%  §6  CONCLUSION
+% ============================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+We have established a Hilbert-space framework for singular hyperplane conditioning on separable Hilbert spaces. The projection residual scaling holds for the stated class of linear finite-second-moment stationary models, while the Gaussian renormalized finite-part functional $\mathfrak{J}_\lambda$ converges to a finite $O(1)$ constant (and is exactly zero under decoupled centering). The numerical diagnostics and Galerkin verification in \Cref{app:experiments} illustrate truncation behavior, exact variance normalization, and Gaussian finite-part asymptotics.
+
+\section*{Declaration of Generative AI and AI-Assisted Technologies in the Manuscript Preparation Process}
+
+During the preparation of this work, the author(s) used Google DeepMind's Antigravity assistant in order to merge the LaTeX manuscripts, clean up cross-referencing tags, format mathematical notation, and edit the draft for style consistency. After using this tool/service, the author(s) reviewed and edited the content as needed and take(s) full responsibility for the content of the published article.
+
+% ============================================================
+%  REFERENCES
+% ============================================================
+\bibliographystyle{amsplain}
+% For arXiv: include .bbl directly; for local builds, uncomment the next line and comment out \input
+\bibliography{references}
+% \input{paper1.bbl}  % For arXiv: comment out \bibliography and uncomment this
+
+% ============================================================
+%  APPENDIX
+% ============================================================
+\appendix
+
+\input{appendix_merged}
+\end{document}
