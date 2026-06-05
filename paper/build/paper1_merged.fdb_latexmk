@@ -1,0 +1,9 @@
+# Fdb version 4
+["pdflatex"] 0 "/Users/ostensible_paradox/Documents/stem/paper1_cameron/paper/paper1_merged.tex" "build/paper1_merged.pdf" "paper1_merged" 0 -1
+  "/Users/ostensible_paradox/Documents/stem/paper1_cameron/paper/paper1_merged.tex" 0 -1 0 ""
+  "build/paper1_merged.aux" 0 -1 0 "pdflatex"
+  (generated)
+  "build/paper1_merged.aux"
+  "build/paper1_merged.log"
+  "build/paper1_merged.pdf"
+  (rewritten before read)

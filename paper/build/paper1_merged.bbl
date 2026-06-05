@@ -1,0 +1,111 @@
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{10}
+
+\bibitem{amari2000methods}
+Shun-ichi Amari and Hiroshi Nagaoka, \emph{Methods of information geometry},
+  American Mathematical Society, 2000.
+
+\bibitem{anderson1975shorted}
+W.~N. Anderson and G.~E. Trapp, \emph{Shorted operators. {II}}, SIAM Journal on
+  Applied Mathematics \textbf{28} (1975), no.~1, 60--71.
+
+\bibitem{bhatia2019bures}
+Rajendra Bhatia, Tanvi Jain, and Yongdo Lim, \emph{On the
+  {B}ures--{W}asserstein distance between positive definite matrices},
+  Expositiones Mathematicae \textbf{37} (2019), no.~2, 165--191.
+
+\bibitem{bogachev1998gaussian}
+Vladimir~I Bogachev, \emph{Gaussian measures}, American Mathematical Society,
+  1998.
+
+\bibitem{bosq2000linear}
+Denis Bosq, \emph{Linear processes in function spaces}, Springer, 2000.
+
+\bibitem{daprato2014stochastic}
+Giuseppe Da~Prato and Jerzy Zabczyk, \emph{Stochastic equations in infinite
+  dimensions}, 2nd ed., Encyclopedia of Mathematics and its Applications,
+  Cambridge University Press, 2014.
+
+\bibitem{douglas1966majorization}
+R.~G. Douglas, \emph{On majorization, factorization, and range inclusion of
+  operators on {H}ilbert space}, Proceedings of the American Mathematical
+  Society \textbf{17} (1966), no.~2, 413--415.
+
+\bibitem{feldman1958equivalence}
+Jacob Feldman, \emph{Equivalence and perpendicularity of {G}aussian processes},
+  Pacific Journal of Mathematics \textbf{8} (1958), no.~4, 699--708.
+
+\bibitem{franklin1970well}
+Joel~N Franklin, \emph{Well-posed stochastic extensions of ill-posed linear
+  problems}, Journal of Mathematical Analysis and Applications \textbf{31}
+  (1970), no.~3, 682--716.
+
+\bibitem{gerhat2024schur}
+Borbala Gerhat and Christiane Tretter, \emph{Schur complement dominant operator
+  matrices}, Journal of Functional Analysis \textbf{286} (2024), no.~2, 110195.
+
+\bibitem{hajek1958property}
+Jaroslav H{\'a}jek, \emph{On a property of normal distributions of any
+  stochastic process}, Czechoslovak Mathematical Journal \textbf{8} (1958),
+  no.~4, 610--618.
+
+\bibitem{jordan1998variational}
+Richard Jordan, David Kinderlehrer, and Felix Otto, \emph{The variational
+  formulation of the {F}okker--{P}lanck equation}, SIAM Journal on Mathematical
+  Analysis \textbf{29} (1998), no.~1, 1--17.
+
+\bibitem{lagatta2013continuous}
+Thomas LaGatta, \emph{Continuous disintegrations of gaussian processes}, Theory
+  of Probability \& Its Applications \textbf{57} (2013), no.~1, 151--162.
+
+\bibitem{newton2012infinite}
+Nigel~J Newton, \emph{An infinite-dimensional statistical manifold modelled on
+  {H}ilbert space}, Journal of Functional Analysis \textbf{263} (2012), no.~6,
+  1661--1681.
+
+\bibitem{pavliotis2008multiscale}
+Grigorios~A. Pavliotis and Andrew~M. Stuart, \emph{Multiscale methods:
+  Averaging and homogenization}, Springer, 2008.
+
+\bibitem{pinski2015kullback}
+Frank~J. Pinski, Gideon Simpson, Andrew~M. Stuart, and Hendrik Weber,
+  \emph{Kullback--{L}eibler approximation for probability measures on infinite
+  dimensional spaces}, SIAM Journal on Mathematical Analysis \textbf{47}
+  (2015), no.~6, 4091--4122.
+
+\bibitem{pistone1995infinite}
+Giovanni Pistone and Carlo Sempi, \emph{An infinite-dimensional geometric
+  structure on the space of all the probability measures equivalent to a given
+  one}, The Annals of Statistics \textbf{23} (1995), no.~5, 1543--1561.
+
+\bibitem{simon2005trace}
+Barry Simon, \emph{Trace ideals and their applications}, 2nd ed., American
+  Mathematical Society, 2005.
+
+\bibitem{stuart2010inverse}
+Andrew~M. Stuart, \emph{Inverse problems: A {B}ayesian perspective}, Acta
+  Numerica \textbf{19} (2010), 451--559.
+
+\bibitem{takatsu2011wasserstein}
+Asuka Takatsu, \emph{Wasserstein geometry of {G}aussian measures}, Osaka
+  Journal of Mathematics \textbf{48} (2011), no.~4, 1005--1026.
+
+\bibitem{tretter2008spectral}
+Christiane Tretter, \emph{Spectral theory of block operator matrices and
+  applications}, Imperial College Press, 2008.
+
+\bibitem{villani2009optimal}
+C{\'e}dric Villani, \emph{Optimal transport: Old and new}, Grundlehren der
+  mathematischen Wissenschaften, vol. 338, Springer, 2009.
+
+\bibitem{watanabe2009algebraic}
+Sumio Watanabe, \emph{Algebraic geometry and statistical learning theory},
+  Cambridge University Press, 2009.
+
+\end{thebibliography}
