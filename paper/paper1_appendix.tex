@@ -5,7 +5,7 @@ This appendix derives the linear invariants from the block Lyapunov equation and
 
 \subsection{Exact Target Covariance Block}
 
-Write $\mathcal{H}=\mathcal{H}_k\oplus\mathcal{H}_I$ with $\mathcal{H}_k=\mathbb{R}\phi_k$. The incoming-coordinate cut and the calibrated noise scale give the block operators:
+Write $\mathcal{H}=\mathcal{H}_k\oplus\mathcal{H}_I$ with $\mathcal{H}_k=\mathbb{R}\phi_k$. The incoming target-coordinate block decoupling and the calibrated noise scale give the block operators:
 \begin{equation}
  \mathcal{A}^{(\lambda)}=
  \begin{pmatrix}-\lambda&0\\a_{Ik}&\mathcal{A}_{II}\end{pmatrix},\qquad
@@ -247,10 +247,23 @@ Let $\mu_\lambda = \mathcal{N}(m_\lambda, \Sigma_\lambda)$ be a Radon Gaussian m
 \begin{lemma}[Continuous Disintegration and Exact Target Zeros]
 \label{lem:disintegration}
 For each $t \in \mathbb{R}$, there exists a unique weakly continuous family of Gaussian Radon measures $\mu_\lambda^t = \mathcal{N}(m_\lambda^t, \Sigma_\lambda^t)$ supported on the hyperplane $X_k = t$, where:
-\begin{equation}
-  m_\lambda^t \coloneqq \begin{pmatrix} t \\ m_{\lambda,I} + \Sigma_{\lambda,Ik} \Sigma_{\lambda,kk}^{-1}(t - m_{\lambda,k}) \end{pmatrix}, \qquad
-  \Sigma_\lambda^t \coloneqq \begin{pmatrix} 0 & 0 \\ 0 & \Sigma_{\lambda,II} - \Sigma_{\lambda,Ik}\Sigma_{\lambda,kk}^{-1}\Sigma_{\lambda,kI} \end{pmatrix}.
-\end{equation}
+\begin{align}
+  m_\lambda^t
+  &\coloneqq
+  \begin{pmatrix}
+    t \\
+    m_{\lambda,I}
+    + \Sigma_{\lambda,Ik}\Sigma_{\lambda,kk}^{-1}(t-m_{\lambda,k})
+  \end{pmatrix}, \\
+  \Sigma_\lambda^t
+  &\coloneqq
+  \begin{pmatrix}
+    0 & 0 \\
+    0 &
+    \Sigma_{\lambda,II}
+    - \Sigma_{\lambda,Ik}\Sigma_{\lambda,kk}^{-1}\Sigma_{\lambda,kI}
+  \end{pmatrix}.
+\end{align}
 Under the conditioned law $\mu_{\mathrm{obs}} \coloneqq \mu_\lambda^{x_k^*}$, the target coordinate satisfies the exact target zeros:
 \begin{equation}
   \mathbb{E}_{\mathrm{obs}}[X_k] - x_k^* = 0, \quad \operatorname{Var}_{\mathrm{obs}}(X_k) = 0.
@@ -427,96 +440,17 @@ $\lambda>0$.
 
 
 
-\section{Proofs of the Unified Blow-Up Geometry}
-\label{sec:appendix:proofs}
-\label{sec:formal:proofs}
-
-This section provides the formal proofs for the identification of the 1st-order RFIM limit established in \Cref{thm:unified_blowup_metric}, utilizing a Fenchel-dual variational formulation.
-
-\subsection{Imported Schur invariant}
-\label{sec:appendix:schur}
-\label{sec:formal:channel}
-
-All results in this section use the Schur residual scaling established in \Cref{sec:infdim}. We construct the geometric objects that arise naturally from the limit.
-
-\begin{lemma}[Schur Projection Summary]
-\label{lem:imported_schur}
-By \Cref{thm:inf_cancellation} and \Cref{prop:galerkin_consistency}, the regularized-conditioning Schur residual is established in two layers. The \emph{dynamic} layer proves trace-norm convergence of the Galerkin covariance operators and gives the exact finite-$n$ calibration
-\begin{equation}
-  S_{k,\lambda}^{(n)} = \frac{\varepsilon_0}{2\lambda^2} - R_{n,\lambda},
-  \qquad 0\le R_{n,\lambda}\le C\lambda^{-6},
-  \quad\forall\,n\ge k.
-\end{equation}
-The \emph{spectral} layer (\Cref{lem:spectral_schur_support}) represents the subtraction as a monotone series in the eigenbasis of $\Sigma_{\lambda,II}$, yielding $S_{k,\lambda}^{(n)}\searrow S_{k,\lambda}$. Consequently,
-\begin{equation}
-  S_{K,\lambda} = \frac{E_0}{2\lambda^2} - O(\lambda^{-6}),
-\end{equation}
-for the target block covariance matrix $E_0$.
-\end{lemma}
-
-\subsection{Revised Proof via Fenchel-Dual Variational Limit}
-\label{sec:appendix:bulk_rfim_proofs}
-\label{sec:formal:bulk_rfim}
-
-We now prove the identification of the horizontal metric limit $C_R$ in \Cref{thm:unified_blowup_metric} under the relative Cameron--Martin factorization. Assume:
-\begin{enumerate}
-  \item[(i)] (Relative Cameron--Martin covariance convergence.) There exists a bounded self-adjoint operator $K_\lambda$ on $\mathcal{H}_I$ such that
-  \[
-    B_\lambda = Q_0^{1/2}(I + K_\lambda)Q_0^{1/2}, \qquad \|K_\lambda\|_{\mathcal{L}(\mathcal{H}_I)} \to 0,
-  \]
-  with $I + K_\lambda \ge cI$ for some $c > 0$ and all $\lambda \ge \lambda_0$.
-  \item[(ii)] $a_{Ik}\in\operatorname{Dom}(Q_0^{-1/2})$.
-  \item[(iii)] $\|\lambda^3 Q_0^{-1/2} c_\lambda - (\varepsilon_0/2)\,Q_0^{-1/2} a_{Ik}\| \to 0$.
-\end{enumerate}
-
-Evaluating unbounded inverse fraction powers analytically (e.g., $B_\lambda^{-1/2}$) presents immense topological risks in infinite-dimensional spaces. We instead employ the inverse-free Fenchel-variational form naturally native to the Schur remainder:
-\begin{equation}
-  R_\lambda = \sup_{u \in \mathcal{H}_I} \{ 2\langle c_\lambda, u \rangle - \langle u, B_\lambda u \rangle \}.
-\end{equation}
-
-To regularize the variational form under the hypothesis $B_\lambda = Q_0^{1/2}(I + K_\lambda) Q_0^{1/2}$, we substitute $v = Q_0^{1/2} u$. Since $Q_0$ is strictly positive and trace-class, the range $Q_0^{1/2}(\mathcal{H}_I)$ is dense in $\mathcal{H}_I$. Setting $y_\lambda := Q_0^{-1/2} c_\lambda$:
-\begin{align}
-  R_\lambda &= \sup_{u \in \mathcal{H}_I} \left\{ 2\langle Q_0^{1/2} y_\lambda, u \rangle - \langle u, Q_0^{1/2}(I + K_\lambda)Q_0^{1/2} u \rangle \right\} \nonumber \\
-  &= \sup_{v \text{ (dense)}} \left\{ 2\langle y_\lambda, v \rangle - \langle v, (I+K_\lambda) v \rangle \right\}.
-\end{align}
-
-The substitution reduces the unbounded-inverse problem to a standard concave quadratic optimization. Strict convexity gives the maximizer $v^* = (I+K_\lambda)^{-1} y_\lambda$, so:
-\begin{equation}
-  R_\lambda = \langle y_\lambda, (I+K_\lambda)^{-1} y_\lambda \rangle.
-\end{equation}
-
-By assumption~(iii), $\lambda^3 y_\lambda \to (\varepsilon_0/2)\,Q_0^{-1/2} a_{Ik}$. Since $\|K_\lambda\| \to 0$, we have $(I+K_\lambda)^{-1} \to I$ in operator norm, and the inner product converges.
-
-Passing to the limit:
-\begin{equation}
-  \lambda^6 R_\lambda
-  = \lambda^6 \langle y_\lambda, (I + K_\lambda)^{-1} y_\lambda \rangle
-  \to \frac{\varepsilon_0^2}{4} \langle Q_0^{-1/2} a_{Ik}, Q_0^{-1/2} a_{Ik} \rangle
-  = \frac{\varepsilon_0^2}{4} \|a_{Ik}\|_{Q_0^{-1}}^2.
-\end{equation}
-Thus, the asymptotic constant of the Schur residual is exactly
-\begin{equation}
-  C_R = \frac{\varepsilon_0^2}{4} \|a_{Ik}\|_{Q_0^{-1}}^2.
-\end{equation}
-Substituting this into the 1st-order metric coefficient term from \Cref{thm:unified_blowup_metric} yields:
-\begin{equation}
-  4 C_R (E_0^{-1})^2 = 4 \left( \frac{\varepsilon_0^2}{4} \|a_{Ik}\|_{Q_0^{-1}}^2 \right) (E_0^{-1})^2 = \|a_{Ik}\|_{Q_0^{-1}}^2,
-\end{equation}
-where we have specialized to the single-target block $\varepsilon_0 = E_0$. This completely identifies the 1st-order horizontal metric limit. \qed
-
-
-
 \section{Numerical Diagnostics and Galerkin Verification}
 \label{app:experiments}
 
-This appendix presents arbitrary-precision numerical validations of the theoretical geometric structures and Galerkin convergence rates, computed in 256-bit \texttt{BigFloat} to isolate the structural invariants from floating-point collapse.
+This appendix presents arbitrary-precision numerical validations of the variance normalization, Schur residual scaling, finite-part asymptotics, and Galerkin convergence rates, computed in 256-bit \texttt{BigFloat} to isolate the structural invariants from floating-point collapse.
 
 \subsection{Truncation Convergence}
 \label{app:experiments:truncation}
 
 We illustrate the Galerkin convergence of Proposition~\ref{prop:galerkin_consistency} against a finite reference on an admissible model. The Hilbert space is $\ell^2(\mathbb{N})$ with coordinate basis $\{\phi_j\}$. The drift is $\mathcal{A} = \mathcal{A}_0 + \mathcal{K}$, where $\mathcal{A}_0 \phi_j = -(1 + 0.01 j^2)\phi_j$ and $\mathcal{K}\phi_1 = \sum_{j \ge 2} 12\,j^{-3}\phi_j$ (nilpotent, compact Volterra with $\rho(\mathcal{K})=0$). The noise is $\mathcal{D}\phi_j = j^{-3/2}\phi_j$, which is trace-class. The regularized conditioning acts at $k=1$ with $\varepsilon_0 = 1$. Truncated covariances are compared against a finite reference $N_{\text{ref}} = 1500$.
 
-\begin{table}[h]
+\begin{table}[htbp]
   \centering
   \caption{Truncation convergence diagnostics for Experiment~C.1.}
   \label{tab:truncation}
@@ -534,19 +468,23 @@ We illustrate the Galerkin convergence of Proposition~\ref{prop:galerkin_consist
   \end{tabular}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{figures/truncation_convergence_validation.png}
+  \IfFileExists{figures/truncation_convergence_validation.png}{%
+  \includegraphics[width=0.8\textwidth]{figures/truncation_convergence_validation.png}%
+}{%
+  \fbox{\parbox{0.78\textwidth}{Figure omitted in this source package; numerical values are reported in the surrounding table.}}%
+}
   \caption{Experiment~C.1. Trace-norm and residual errors decay in $n$; the extrapolated $m_2^{\mathrm{Schur},(1000)}$ differs from $\varepsilon_0/2$ by $6.87\times10^{-14}$.}
   \label{fig:truncation}
 \end{figure}
 
 
 
-\subsection{Exact Variance Normalization Diagnostic}
+\subsection{Asymptotic Balancing Diagnostic}
 \label{app:experiments:ablation}
 
-We validate the exact variance normalization of Proposition~\ref{prop:exact_calibration} in its decoupled reference channel. With incoming arrows cut and off-diagonal drift coupling set to zero, the target covariance is exactly $\Sigma_{\lambda,22} = d_\lambda / (2\lambda)$. Four candidate target-diffusion families are tested:
+We validate the asymptotic balancing normalization of Proposition~\ref{prop:exact_calibration} in its decoupled reference channel. With incoming target-coordinate blocks and off-diagonal drift coupling set to zero, the target covariance is exactly $\Sigma_{\lambda,22} = d_\lambda / (2\lambda)$. Four candidate target-diffusion families are tested:
 \begin{enumerate}
   \item \textbf{Canonical:} $d_\lambda=\varepsilon_0/\lambda$.
   \item \textbf{Slow:} $d_\lambda=\varepsilon_0$.
@@ -556,7 +494,7 @@ We validate the exact variance normalization of Proposition~\ref{prop:exact_cali
 
 All evaluations are performed in Julia using 256-bit \texttt{BigFloat} arithmetic. A probe at $\lambda=2^{100}$ resolves the nonzero finite-scale defect of the perturbed family.
 
-\begin{table}[h]
+\begin{table}[htbp]
   \centering
   \caption{Exact-calibration ablation. Only the canonical family satisfies the exact finite-$\lambda$ covariance condition.}
   \label{tab:ablation}
@@ -572,9 +510,13 @@ All evaluations are performed in Julia using 256-bit \texttt{BigFloat} arithmeti
   \end{tabular}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.9\textwidth]{figures/ablation_combined.png}
+  \IfFileExists{figures/ablation_combined.png}{%
+  \includegraphics[width=0.9\textwidth]{figures/ablation_combined.png}%
+}{%
+  \fbox{\parbox{0.88\textwidth}{Figure omitted in this source package; numerical values are reported in the surrounding table.}}%
+}
   \caption{Experiment~C.2. The perturbed family has the correct limiting ratio but fails the exact finite-$\lambda$ covariance condition. Exact zero defects are displayed at $10^{-20}$.}
   \label{fig:ablation}
 \end{figure}
@@ -601,9 +543,13 @@ We evaluate three Gaussian cases:
 \end{enumerate}
 All evaluations are performed in Julia using 256-bit \texttt{BigFloat} arithmetic, showing that the Schur residual $\lambda^2 S_{2,\lambda}$ converges to $1/2$ in all cases, while $\mathfrak{J}_\lambda$ exhibits the exact zero, $O(\lambda^{-4})$ decay, and convergence to 1 behavior respectively.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.9\textwidth]{figures/three_node_gaussian_chain.png}
+  \IfFileExists{figures/three_node_gaussian_chain.png}{%
+  \includegraphics[width=0.9\textwidth]{figures/three_node_gaussian_chain.png}%
+}{%
+  \fbox{\parbox{0.88\textwidth}{Figure omitted in this source package; numerical values are reported in the surrounding text.}}%
+}
   \caption{Experiment~C.3. The panels show $\lambda^2S_{2,\lambda}\to0.5$ and the three finite-part regimes: exact zero, $O(\lambda^{-4})$ decay, and convergence to $1$. Exact zeros are displayed at $10^{-20}$.}
   \label{fig:three_node}
 \end{figure}
@@ -615,7 +561,7 @@ All evaluations are performed in Julia using 256-bit \texttt{BigFloat} arithmeti
 
 At $n=256$, we recompute representative C.1 Schur residuals using IEEE 754 \texttt{Float64} and 256-bit Julia \texttt{BigFloat} arithmetic with the same covariance equation and Schur solve.
 
-\begin{table}[h]
+\begin{table}[htbp]
   \centering
   \caption{Precision audit at $n=256$; $S_{256}$ uses 256-bit \texttt{BigFloat}.}
   \label{tab:precision_audit}
@@ -655,69 +601,3 @@ When the Schur complement is assembled as $S_{k,\lambda}=\Sigma_{\lambda,kk}-R_\
 
 In short, the block-triangular structure converts what would be a catastrophically ill-conditioned Schur computation into a well-conditioned scalar computation plus negligible corrections. The observed \texttt{Float64}--\texttt{BigFloat} agreement at $O(10^{-17})$ is the numerical signature of this structural decoupling.
 \end{remark}
-
-\subsection{The dichotomy of dual geometries}
-\label{sec:numerical:dichotomy}
-
-To illustrate the simultaneous collapse and survival of the unified geometry under singular conditioning, we track the target scaling metrics on a 3-node serial OU chain under target coordinate conditioning on $X_2$ ($\varepsilon_0 = 1$). 
-The 0th-order normal metric is extracted via the pull-back Jacobian:
-\begin{equation}
-  g_{\lambda,\text{normal}} := \lambda^{-2}S_{K,\lambda}^{-1}.
-\end{equation}
-In a log-log evaluation over $\lambda \in [2^1, 2^{20}]$, the normal metric $g_{\lambda,\text{normal}}$ instantly stabilizes to the horizontal plateau $2/\varepsilon_0$. Conversely, the unrenormalized horizontal lift response $g_\lambda^{\text{bulk}} = A_\lambda^{-2}R_\lambda$ collapses strictly at a slope of $-2$ ($O(\lambda^{-2}) \to 0$). Upon RFIM rescaling ($\lambda^2$), the 1st-order metric locks onto a distinct constant offset perfectly matching the theoretical Cameron--Martin limit $\|a_{Ik}\|_{Q_0^{-1}}^2$.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.75\textwidth]{figures/dichotomy_geometries.png}
-  \caption{Dichotomy of dual geometries for the 3-node serial Gaussian chain under target coordinate conditioning on $X_2$ ($\varepsilon_0 = 1$, $a_{32} = 5$). The 0th-order normal metric $g_{\lambda,\text{normal}}$ (red) instantly stabilizes at the horizontal plateau $2/\varepsilon_0 = 2$, showing the survival of the boundary geometry. The unrenormalized horizontal lift response $g_\lambda^{\text{bulk}}$ (blue) collapses strictly at a slope of $-2$ as $O(\lambda^{-2})$. Rescaling the bulk response by $\lambda^2$ yields the 1st-order metric (orange), which locks onto the non-zero Cameron--Martin limit $\|a_{Ik}\|_{Q_0^{-1}}^2 = 2 a_{32}^2 = 50$.}
-  \label{fig:dichotomy_geometries}
-\end{figure}
-
-The log-log scaling plot in Figure~\ref{fig:dichotomy_geometries} demonstrates that while the horizontal connection collapses, the boundary normal geometry survives intact, and the renormalized 1st-order perturbation retains the coupling invariant.
-
-
-
-\subsection{Orthogonal independence of normal geometry and horizontal lift}
-\label{sec:numerical:orthogonal}
-
-To verify that the 0th-order boundary normal metric and the 1st-order horizontal lift quantify logically independent responses, we preserve the exact target scaling ($\varepsilon_0 = 1$) while toggling the outgoing cross-coupling $a_{32}$. 
-As demonstrated in Table~\ref{tab:orthogonal_independence}, modifying the off-diagonal leakage strictly varies the 1st-order residual while leaving the normal geometry universally preserved.
-
-\begin{table}[htbp]
-  \centering
-  \caption{Verification of orthogonal decoupling of normal geometry and horizontal lift}
-  \label{tab:orthogonal_independence}
-  \begin{tabular}{lccc}
-    \toprule
-    Environment & Coupling $a_{32}$ & 0th-order Metric & 1st-order Metric (RFIM) \\
-    \midrule
-    \textbf{Decoupled} & $0$ & $2.00000000$ & $0.00000000$ \\
-    \textbf{Coupled}   & $5$ & $2.00000000$ & $49.99990463$ \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-Table~\ref{tab:orthogonal_independence} numerically proves the conceptual core: the 0th-order normal metric is uniquely calibrated by the unperturbed evidence noise scale, while the 1st-order horizontal lift is exclusively governed by the off-diagonal Cameron--Martin connection energy.
-
-
-
-\subsection{Convergence to the Mahalanobis normal well}
-\label{sec:numerical:mahalanobis}
-
-Because the background regularized-conditioning measure constitutes a Gaussian location family with covariance invariant to the evidence offset $b$, the blow-up Fisher metric matrix $G_{\lambda,K} := \lambda^{-2}S_{K,\lambda}^{-1}$ remains rigidly constant with respect to $b$ at every finite $\lambda$, yielding a purely flat geometry ($\Gamma = R \equiv 0$).
-We verify the constant convergence rate of the matrix geometry in a target block of $|K|=2$. As $\lambda \to \infty$, the finite-$\lambda$ flat quadratic cost contours converge unconditionally to the limiting Mahalanobis well governed by the Schur second-order coefficient matrix $E_0$:
-\begin{equation}
-  \mathfrak{D}_\lambda^{\text{FP}}(b,0) = \frac{1}{2}b^\top G_{\lambda,K} b \longrightarrow \mathfrak{D}^{\text{FP}}(b,0) = b^\top E_0^{-1} b.
-\end{equation}
-Evaluation confirms that the distance between the intermediate geometries decays in Frobenius norm as $\|G_{\lambda,K} - 2E_0^{-1}\|_F = O(\lambda^{-4})$.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.95\textwidth]{figures/mahalanobis_well_convergence.png}
-  \caption{Convergence of the finite-$\lambda$ quadratic cost contours to the limiting Mahalanobis normal well for target block $|K|=2$ with off-diagonal coupling. \textbf{Left (Panel A):} Contours of the finite-$\lambda$ cost $\frac{1}{2}b^\top G_{\lambda,K} b$ at $\lambda = 4$ (solid blue lines) overlaid with the contours of the limiting Mahalanobis cost $b^\top E_0^{-1} b$ (dashed black lines), demonstrating close alignment even at a low regularizer strength. \textbf{Right (Panel B):} Log-log plot of the Frobenius norm error $\|G_{\lambda,K} - 2E_0^{-1}\|_F$ (solid red line with markers) versus the regularizer strength $\lambda \in [2^2, 2^{16}]$, running in parallel with the theoretical $O(\lambda^{-4})$ slope reference (dashed black line).}
-  \label{fig:mahalanobis_well_convergence}
-\end{figure}
-
-The contour comparison in Figure~\ref{fig:mahalanobis_well_convergence} (Panel A) demonstrates that the quadratic geometry of the blow-up divergence rapidly converges to the limiting Mahalanobis well. The error decay in Figure~\ref{fig:mahalanobis_well_convergence} (Panel B) confirms that the distance between the intermediate and limiting geometries in Frobenius norm decays strictly at the Schur geometric rate of $O(\lambda^{-4})$. Thus, the singularity does not generate curvature; it selects a finite flat metric. This flatness is not a vacuous triviality, but a structural consequence of the location family under regularized conditioning, with the hard-limit topological clamp rigorously preserving the displacement flatness.
-
-
