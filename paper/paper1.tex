@@ -610,73 +610,113 @@ This example shows that the abstract theorem applies to an infinite-dimensional 
 \section{Discussion}
 \label{sec:discussion}
 
-We have shown that singular Gaussian coordinate conditioning in a separable Hilbert space admits an inverse-free Schur normal form.  The main obstruction is the absence of a bounded inverse for compact covariance blocks.  The variational Cameron--Martin projection is the target-coordinate shorted-operator subtraction evaluated in the covariance-norm scale, and it yields the residual estimate needed for the hard-conditioning limit.  The scalar nature of the target coordinate is essential to the present proof.  Three extensions mark the boundary between the theorem proved here and a genuinely finite-rank conditioning theory.
+We have shown that singular Gaussian coordinate conditioning in a separable Hilbert space admits an inverse-free Schur normal form.  The main obstruction is the absence of a bounded inverse for compact covariance blocks.  The variational Cameron--Martin projection is the target-coordinate shorted-operator subtraction evaluated in the covariance-energy scale, and it yields the residual estimate needed for the hard-conditioning limit.  The scalar nature of the target coordinate is essential to the present proof.  Three extensions mark the boundary between the theorem proved here and a genuinely finite-rank conditioning theory. We formalize these extensions as exact theorems below.
 
 \subsection{Matrix algebraic extension}
 \label{sec:discussion:matrix-extension}
 
-For an $m$-dimensional observed subspace $E=\operatorname{span}\{\phi_1,\ldots,\phi_m\}$, the scalar target block $\Sigma_{\lambda,kk}$ is replaced by the covariance matrix $\Sigma_{\lambda,EE}\in\mathbb{R}^{m\times m}$.  The scalar identity
-\[
-  -2\lambda\Sigma_{\lambda,kk}+d_\lambda=0
-\]
-then becomes a finite-dimensional Lyapunov sub-problem
-\begin{equation}
-  \label{eq:discussion_matrix_lyapunov}
-  A_{\lambda,E}\Sigma_{\lambda,EE}
-  +\Sigma_{\lambda,EE}A_{\lambda,E}^{*}
-  +D_{\lambda,E}=0,
-\end{equation}
-where $A_{\lambda,E}$ is the regularized drift restricted to the observed channels and $D_{\lambda,E}\ge0$ is the corresponding local diffusion matrix.  In the isotropic case $A_{\lambda,E}=-\lambda I_E$ and $D_{\lambda,E}=(\varepsilon_0/\lambda)I_E$, this reduces to
-\[
-  \Sigma_{\lambda,EE}=\frac{\varepsilon_0}{2\lambda^2}I_E,
-\]
-which is the direct matrix analogue of the scalar normalization in \Cref{prop:exact_calibration}.
+For an $m$-dimensional observed subspace $E=\operatorname{span}\{\phi_1,\ldots,\phi_m\}$, the scalar target block $\Sigma_{\lambda,kk}$ is replaced by the covariance matrix $\Sigma_{\lambda,EE}\in\mathbb{R}^{m\times m}$. The scalar calibration becomes a matrix Lyapunov balancing problem.
 
-The anisotropic case is not a notational variant.  If the channels have rates $\lambda_1,\ldots,\lambda_m$, or if $A_{\lambda,E}$ has non-normal off-diagonal structure, then \eqref{eq:discussion_matrix_lyapunov} couples the target variances and cross-covariances.  A finite nonzero Gaussian finite-part limit no longer requires a single scalar relation $d_\lambda=\varepsilon_0/\lambda$; it requires the matrix signal covariance of the deterministic displacement to balance $\Sigma_{\lambda,EE}$ as a positive definite quadratic form.  Thus the scalar calibration becomes a matrix Lyapunov balancing problem, with possible channel-dependent diffusion rates and orientation-dependent limiting residuals.
+\begin{theorem}[Matrix Lyapunov Calibration]
+  \label{thm:matrix_lyapunov}
+  Let $E$ be an $m$-dimensional target subspace. Suppose the regularized drift and diffusion on $E$ are given by $A_{\lambda,E} = -\lambda \Lambda_E$ and $D_{\lambda,E} = \frac{1}{\lambda} \Delta_E$, where $\Lambda_E, \Delta_E \in \mathbb{R}^{m \times m}$ are strictly positive definite matrices. Let $\Sigma_{\lambda,EE}$ be the unique positive definite solution to the matrix Lyapunov equation:
+  \begin{equation}
+    \label{eq:discussion_matrix_lyapunov}
+    A_{\lambda,E}\Sigma_{\lambda,EE}
+    +\Sigma_{\lambda,EE}A_{\lambda,E}^{*}
+    +D_{\lambda,E}=0.
+  \end{equation}
+  Then $\Sigma_{\lambda,EE}$ scales exactly as $\lambda^{-2}$. Specifically, the normalized matrix $\widetilde{\Sigma}_{EE} \coloneqq \lambda^2 \Sigma_{\lambda,EE}$ is independent of $\lambda$ and is the unique positive definite solution to the scale-free Lyapunov equation:
+  \begin{equation}
+    \label{eq:scale_free_lyapunov}
+    \Lambda_E \widetilde{\Sigma}_{EE} + \widetilde{\Sigma}_{EE} \Lambda_E^* = \Delta_E.
+  \end{equation}
+\end{theorem}
+\begin{proof}
+  Substituting $A_{\lambda,E} = -\lambda \Lambda_E$ and $D_{\lambda,E} = \frac{1}{\lambda} \Delta_E$ into \eqref{eq:discussion_matrix_lyapunov} yields:
+  \[
+    -\lambda \Lambda_E \Sigma_{\lambda,EE} - \lambda \Sigma_{\lambda,EE} \Lambda_E^* + \frac{1}{\lambda} \Delta_E = 0.
+  \]
+  Multiplying the entire equation by $\lambda$ gives:
+  \[
+    \Lambda_E (\lambda^2 \Sigma_{\lambda,EE}) + (\lambda^2 \Sigma_{\lambda,EE}) \Lambda_E^* = \Delta_E.
+  \]
+  Defining $\widetilde{\Sigma}_{EE} \coloneqq \lambda^2 \Sigma_{\lambda,EE}$, we recover \eqref{eq:scale_free_lyapunov}. Since $\Lambda_E$ is positive definite, its spectrum lies in the open right half-plane, making $-\Lambda_E$ Hurwitz. Because $\Delta_E$ is positive definite, standard continuous Lyapunov theory guarantees that \eqref{eq:scale_free_lyapunov} admits a unique positive definite solution $\widetilde{\Sigma}_{EE}$. Therefore, the exact scaling $\Sigma_{\lambda,EE} = \lambda^{-2} \widetilde{\Sigma}_{EE}$ holds for all $\lambda > 0$, properly generalizing the scalar calibration condition $\Sigma_{\lambda,kk} = \varepsilon_0 / (2\lambda^2)$.
+\end{proof}
 
 \subsection{Operator-valued residuals}
 \label{sec:discussion:operator-valued-residuals}
 
-In the scalar theorem, the Schur subtraction is the number
-\[
-  R_\lambda
-  =\sup_{\langle u,\Sigma_{\lambda,II}u\rangle>0}
-  \frac{|\langle u,\Sigma_{\lambda,Ik}\rangle|^2}
-       {\langle u,\Sigma_{\lambda,II}u\rangle},
-\]
-and the target-coordinate shorted form is
-\[
-  \langle \phi_k,\mathcal S_{\mathbb C\phi_k}(\Sigma_\lambda)\phi_k\rangle
-  =\Sigma_{\lambda,kk}-R_\lambda.
-\]
-For an $m$-dimensional target space $E$, the residual must instead be a positive-semidefinite matrix or, intrinsically, a positive operator on $E$.  Formally the finite-dimensional expression is
-\begin{equation}
-  \label{eq:discussion_matrix_residual}
-  R_{\lambda,E}
-  =\Sigma_{\lambda,EI}\Sigma_{\lambda,II}^{\dagger}\Sigma_{\lambda,IE},
-\end{equation}
-where the dagger is only mnemonic in the infinite-dimensional setting.  Since $\Sigma_{\lambda,II}$ is compact and has no bounded global inverse, \eqref{eq:discussion_matrix_residual} must be replaced by the shorted-operator construction on the subspace $E$.  Equivalently, $R_{\lambda,E}$ is the positive-semidefinite operator determined by the quadratic forms
-\begin{equation}
-  \label{eq:discussion_operator_residual_form}
-  \langle v,R_{\lambda,E}v\rangle_E
-  =
-  \sup_{\langle u,\Sigma_{\lambda,II}u\rangle>0}
-  \frac{|\langle u,\Sigma_{\lambda,IE}v\rangle|^2}
-       {\langle u,\Sigma_{\lambda,II}u\rangle},
-  \qquad v\in E.
-\end{equation}
-The scalar Eq.~\eqref{eq:variational_schur_subtraction} is the case $E=\mathbb C\phi_k$.  A full finite-rank extension must prove convergence of the operator-valued residual $R_{\lambda,E}$ in a matrix norm or in the Loewner order, not merely convergence of a single quadratic form.  This is precisely where shorted-operator theory supplies the correct replacement for the inverse Schur complement \cite{krein1947selfadjoint,anderson1975shorted,owhadi2015conditioning}.
+For an $m$-dimensional target space $E$, the Schur residual must be a positive-semidefinite operator on $E$. Because the free-block covariance $\Sigma_{\lambda,II}$ is compact and lacks a bounded global inverse, the formal finite-dimensional matrix expression $R_{\lambda,E} = \Sigma_{\lambda,EI}\Sigma_{\lambda,II}^{-1}\Sigma_{\lambda,IE}$ must be rigorously replaced by the shorted-operator construction evaluated in the Cameron--Martin energy norm.
+
+\begin{theorem}[Operator-Valued Schur Residual]
+  \label{thm:operator_residual}
+  Let $\mathcal{H} = E \oplus \mathcal{H}_I$, with $E$ finite-dimensional. Let $\Sigma_\lambda$ be the non-negative trace-class covariance operator on $\mathcal{H}$ with blocks $\Sigma_{\lambda,EE}$, $\Sigma_{\lambda,EI}$, $\Sigma_{\lambda,IE}$, and $\Sigma_{\lambda,II}$. Define the shorted-operator residual $R_{\lambda,E}$ on $E$ by its quadratic forms:
+  \begin{equation}
+    \label{eq:discussion_operator_residual_form}
+    \langle v,R_{\lambda,E}v\rangle_E
+    =
+    \sup_{\langle u,\Sigma_{\lambda,II}u\rangle>0}
+    \frac{|\langle u,\Sigma_{\lambda,IE}v\rangle|^2}
+         {\langle u,\Sigma_{\lambda,II}u\rangle},
+    \qquad v\in E.
+  \end{equation}
+  Assume the structural range inclusion $\operatorname{Range}(\Sigma_{\lambda,IE}) \subset \operatorname{Range}(\Sigma_{\lambda,II}^{1/2}) \eqqcolon H_{C_\lambda}$. Then $R_{\lambda,E}$ is a well-defined bounded positive-semidefinite operator on $E$, uniquely characterized by:
+  \begin{equation}
+    R_{\lambda,E} = (\Sigma_{\lambda,II}^{-1/2}\Sigma_{\lambda,IE})^* (\Sigma_{\lambda,II}^{-1/2}\Sigma_{\lambda,IE}).
+  \end{equation}
+  Furthermore, if the cross-covariance satisfies the energy bound $\|\Sigma_{\lambda,IE} v\|_{H_{C_\lambda}} \le M \lambda^{-3} \|v\|_E$ for all $v \in E$ and some constant $M > 0$, then the operator norm of the residual satisfies $\|R_{\lambda,E}\|_{\mathcal{L}(E)} = O(\lambda^{-6})$.
+\end{theorem}
+\begin{proof}
+  By the assumed range inclusion, for any $v \in E$, the vector $y_v \coloneqq \Sigma_{\lambda,IE} v$ lies in $H_{C_\lambda} = \operatorname{Range}(\Sigma_{\lambda,II}^{1/2})$. Thus, there exists a unique element $w_v \in \overline{\operatorname{Range}(\Sigma_{\lambda,II}^{1/2})}$ such that $\Sigma_{\lambda,II}^{1/2} w_v = y_v$. We denote $w_v \coloneqq \Sigma_{\lambda,II}^{-1/2} \Sigma_{\lambda,IE} v$.
+  
+  For any $u \in \mathcal{H}_I$ with $\langle u, \Sigma_{\lambda,II} u \rangle > 0$, the ratio in \eqref{eq:discussion_operator_residual_form} can be rewritten as:
+  \[
+    \frac{|\langle u, \Sigma_{\lambda,II}^{1/2} w_v \rangle|^2}{\|\Sigma_{\lambda,II}^{1/2} u\|^2} = \frac{|\langle \Sigma_{\lambda,II}^{1/2} u, w_v \rangle|^2}{\|\Sigma_{\lambda,II}^{1/2} u\|^2}.
+  \]
+  By the Cauchy--Schwarz inequality, this ratio is bounded above by $\|w_v\|^2$. The supremum is achieved by taking a sequence of vectors $\Sigma_{\lambda,II}^{1/2} u$ converging to $w_v$, yielding:
+  \[
+    \langle v, R_{\lambda,E} v \rangle_E = \|w_v\|^2 = \|\Sigma_{\lambda,II}^{-1/2} \Sigma_{\lambda,IE} v\|^2 = \langle v, (\Sigma_{\lambda,II}^{-1/2}\Sigma_{\lambda,IE})^* (\Sigma_{\lambda,II}^{-1/2}\Sigma_{\lambda,IE}) v \rangle_E.
+  \]
+  Since this holds for all $v \in E$, it uniquely defines $R_{\lambda,E}$ as a positive-semidefinite matrix on $E$. Finally, the assumption $\|\Sigma_{\lambda,IE} v\|_{H_{C_\lambda}} \le M \lambda^{-3} \|v\|_E$ means exactly that $\|w_v\| \le M \lambda^{-3} \|v\|_E$. Therefore, $\langle v, R_{\lambda,E} v \rangle_E \le M^2 \lambda^{-6} \|v\|_E^2$, which implies the operator norm bound $\|R_{\lambda,E}\|_{\mathcal{L}(E)} \le M^2 \lambda^{-6} = O(\lambda^{-6})$.
+\end{proof}
 
 \subsection{General observation operators and misalignment}
 \label{sec:discussion:misalignment}
 
-The proof in this paper uses a block decomposition aligned with a single observed coordinate.  Many observation models are not aligned with the eigenfunctions of the prior covariance.  A finite-rank observation operator $L:\mathcal H\to\mathbb R^m$ selects the subspace generated by the representers of the observation functionals, while the prior covariance diagonalizes in its own spectral basis.  Unless these two structures commute, the target--free split is not an eigenbasis split, and the covariance blocks acquire additional off-diagonal terms.
+The scalar proof in this paper uses a block decomposition aligned with a single observed coordinate. However, typical finite-rank observation operators $L:\mathcal H\to\mathbb R^m$ select a subspace $E$ that does not commute with the free prior covariance, meaning the target-free split is not an eigenbasis split. This geometric misalignment generates cross-coupling that requires a precise resolvent analysis.
 
-The natural formulation is to replace the coordinate projection $\Pi_k$ by a finite-rank observation projection $P_E$, where $E$ is the closed span of the covariance representers associated with $L$.  The regularized drift and diffusion should then be written relative to
-\[
-  \mathcal H=E\oplus E^\perp,
-\]
-rather than relative to a prior eigenbasis.  Misalignment affects both sides of the analysis.  On the algebraic side, the target Lyapunov block becomes an $m\times m$ equation with nontrivial cross-channel covariance.  On the analytic side, the outgoing coupling from $E$ into $E^\perp$ must satisfy a Cameron--Martin admissibility condition relative to the free covariance on $E^\perp$.  The present theorem treats the aligned rank-one case in which these conditions collapse to a scalar normalization and a single covariance-norm supremum.  The general misaligned finite-rank case should be viewed as a shorted-operator and matrix-Lyapunov extension of the same mechanism, not as a separate finite-dimensional Schur-complement calculation.
+\begin{theorem}[Misaligned Covariance Coupling]
+  \label{thm:misaligned_coupling}
+  Let $P_E$ be an orthogonal projection onto an $m$-dimensional observed subspace $E$, and let $\mathcal{H}_I = E^\perp$. Let the regularized dynamics be decomposed such that the target block matches \Cref{thm:matrix_lyapunov} with $A_{\lambda,E} = -\lambda \Lambda_E$, the cross-noise is zero ($D_{\lambda,IE} = 0$), and the off-diagonal drift coupling is denoted by $A_{\lambda,IE}$. 
+  If $A_{\lambda,IE}$ maps $E$ into the Cameron--Martin space $H_{Q_0}$ of the free background covariance $Q_0$ on $\mathcal{H}_I$, and the restricted drift $A_{II}$ generates an exponentially stable semigroup on $H_{Q_0}$, then the cross-covariance satisfies the exact identity:
+  \begin{equation}
+    \label{eq:misaligned_resolvent_identity}
+    \Sigma_{\lambda,IE} = \int_0^\infty e^{t A_{II}} A_{\lambda,IE} \Sigma_{\lambda,EE} e^{t A_{\lambda,E}^*} dt.
+  \end{equation}
+  Furthermore, the misaligned cross-covariance energy scales as $\|\Sigma_{\lambda,IE} v\|_{H_{Q_0}} = O(\lambda^{-3})$ for any $v \in E$.
+\end{theorem}
+\begin{proof}
+  The off-diagonal block of the global Lyapunov equation $\mathcal{A}^{(\lambda)} \Sigma_\lambda + \Sigma_\lambda (\mathcal{A}^{(\lambda)})^* + \mathcal{D}^{(\lambda)} = 0$ yields the Sylvester equation:
+  \[
+    A_{II} \Sigma_{\lambda,IE} + \Sigma_{\lambda,IE} A_{\lambda,E}^* + A_{\lambda,IE} \Sigma_{\lambda,EE} = 0.
+  \]
+  Since $A_{II}$ generates an exponentially stable semigroup $e^{t A_{II}}$ and $A_{\lambda,E} = -\lambda \Lambda_E$ is Hurwitz, the unique solution is given by the integral representation \eqref{eq:misaligned_resolvent_identity}.
+  
+  To bound the Cameron--Martin norm, fix $v \in E$. We have $e^{t A_{\lambda,E}^*} v = e^{-\lambda t \Lambda_E^*} v$. By \Cref{thm:matrix_lyapunov}, $\Sigma_{\lambda,EE} = O(\lambda^{-2})$. Since $A_{\lambda,IE}$ maps into $H_{Q_0}$ and $E$ is finite-dimensional, there exists a constant $C$ such that $\|A_{\lambda,IE} w\|_{H_{Q_0}} \le C \|w\|_E$ for all $w \in E$. Using the uniform exponential stability of $e^{t A_{II}}$ on $H_{Q_0}$, namely $\|e^{t A_{II}}\|_{\mathcal{L}(H_{Q_0})} \le M e^{-\omega t}$ for some $M \ge 1, \omega > 0$, we estimate:
+  \begin{align*}
+    \|\Sigma_{\lambda,IE} v\|_{H_{Q_0}} 
+    &\le \int_0^\infty \|e^{t A_{II}}\|_{\mathcal{L}(H_{Q_0})} \|A_{\lambda,IE} \Sigma_{\lambda,EE} e^{-\lambda t \Lambda_E^*} v\|_{H_{Q_0}} dt \\
+    &\le \int_0^\infty M e^{-\omega t} C \|\Sigma_{\lambda,EE}\|_{\mathcal{L}(E)} \|e^{-\lambda t \Lambda_E^*}\|_{\mathcal{L}(E)} \|v\|_E dt.
+  \end{align*}
+  Let $\gamma > 0$ be the smallest eigenvalue of the positive definite matrix $\Lambda_E^*$, so $\|e^{-\lambda t \Lambda_E^*}\|_{\mathcal{L}(E)} \le K e^{-\lambda \gamma t}$. Then:
+  \begin{align*}
+    \|\Sigma_{\lambda,IE} v\|_{H_{Q_0}} 
+    &\le M C K \|\Sigma_{\lambda,EE}\|_{\mathcal{L}(E)} \|v\|_E \int_0^\infty e^{-(\omega + \lambda \gamma) t} dt \\
+    &= M C K \|\Sigma_{\lambda,EE}\|_{\mathcal{L}(E)} \|v\|_E \frac{1}{\omega + \lambda \gamma}.
+  \end{align*}
+  Since $\|\Sigma_{\lambda,EE}\|_{\mathcal{L}(E)} = O(\lambda^{-2})$ and $(\omega + \lambda \gamma)^{-1} = O(\lambda^{-1})$, we conclude that $\|\Sigma_{\lambda,IE} v\|_{H_{Q_0}} = O(\lambda^{-3})$. Combined with \Cref{thm:operator_residual}, this verifies that the shorted-operator residual maintains the $O(\lambda^{-6})$ scaling even in the presence of observation misalignment.
+\end{proof}
 
 The result is therefore deliberately limited to covariance and Gaussian-conditioning questions in the rank-one aligned setting.  It does not assert a general non-Gaussian conditioning theory.  For non-Gaussian stationary processes, the projection residual $S_{k,\lambda}=\varepsilon_0/(2\lambda^2)-R_\lambda$ still has a second-moment interpretation, but Radon disintegration, finite-part functionals, and measure-class behavior require separate hypotheses \cite{bogachev2007measure,kallenberg2021foundations}.  Dynamical relaxation after conditioning, or transport distances between post-conditioning laws, belongs to a different problem.  The present contribution is the operator-theoretic construction of the singular Gaussian conditioning residual itself.
 
