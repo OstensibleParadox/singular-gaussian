@@ -73,17 +73,17 @@ which implies the reciprocal scaling:
 \subsection{Galerkin Variational Truncation Convergence}
 
 Here we prove Proposition~\ref{prop:galerkin_consistency}.  The proof has two
-layers: a dynamic Bochner-integral argument that gives trace-norm convergence
+layers: a Bochner-integral argument that gives trace-norm convergence
 of the truncated covariance operators, followed by variational shorting over
 nested Galerkin test spaces.
 
-\begin{proposition}[Exact Dynamic Galerkin Convergence Support]
-\label{prop:dynamic_galerkin}
+\begin{proposition}[Exact Galerkin Convergence Support]
+\label{prop:exact_galerkin}
 Let $\Pi_n:\mathcal{H}\to\mathcal{H}_n$ be finite-rank orthogonal Galerkin projections such that
 \begin{equation}
   \Pi_n\phi_k=\phi_k,\qquad \Pi_n\mathcal{H}_I\subset\mathcal{H}_I,\qquad \Pi_n\to I
 \end{equation}
-strongly on $\mathcal{H}$.  For each $\lambda>0$, define the truncated regularized dynamics by
+strongly on $\mathcal{H}$.  For each $\lambda>0$, define the truncated regularized operators by
 \begin{equation}
   \mathcal{A}_n^{(\lambda)}\coloneqq\Pi_n\mathcal{A}^{(\lambda)}|_{\mathcal{H}_n},
   \qquad
@@ -438,7 +438,7 @@ and hence the stated limit.
 
 \subsection{Exact Decoupled-Centered Consequence}
 
-If the target coordinate is dynamically decoupled ($a_{Ik}=0$), then
+If the target coordinate is decoupled ($a_{Ik}=0$), then
 $\Sigma_{\lambda,Ik}=0$, $S_{k,\lambda}=\Sigma_{\lambda,kk}>0$, and the
 bulk marginals coincide for every $\lambda>0$. If the evidence is also
 centered ($x_k^*=m_{\lambda,k}$), both terms in

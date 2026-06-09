@@ -175,13 +175,13 @@
         failed free-block inverse by the Anderson--Trapp variational shorting
         formula on the Cameron--Martin range, and prove the $O(\lambda^{-6})$
         shorted-residual estimate.
-        \item \textbf{Variational Galerkin monotonicity.} We prove that
-        finite-dimensional truncations converge by monotone expansion of the
-        variational supremum.  Loewner monotonicity is a consequence of nested
+        \item \textbf{Galerkin monotonicity.} We prove that
+        finite-rank Galerkin truncations converge monotonically by expanding the
+        variational supremum. Loewner monotonicity is a consequence of nested
         subspaces, not matrix inversion.
-        \item \textbf{Fredholm trace-anomaly cancellation.} For Gaussian
+        \item \textbf{Trace-anomaly cancellation.} For Gaussian
         Radon laws, disintegration supplies the exact-evidence measure, while
-        Weinstein--Aronszajn/Fredholm determinant identities cancel the trace
+        Weinstein--Aronszajn and Fredholm determinant identities cancel the trace
         anomalies and reduce the finite part to the invariant quadratic form.
     \end{enumerate}
 
@@ -226,10 +226,10 @@
     \section{Operator Model and Canonical Normalization}
     \label{sec:setup}
 
-    \subsection{Operator Dynamics and Regularized Conditioning}
-    \label{sec:setup:dynamics}
+    \subsection{Operator Evolution and Regularized Conditioning}
+    \label{sec:setup:evolution}
 
-    We model the continuous-time dynamics as stochastic evolution on a separable Hilbert space $\mathcal{H}$ \cite{daprato2014stochastic}:
+    We model the continuous-time process as stochastic evolution on a separable Hilbert space $\mathcal{H}$ \cite{daprato2014stochastic}:
     \begin{equation}
         \label{eq:stochastic_evolution}
         dX_t = \mathcal{A} X_t \, dt + \mathcal{D}^{1/2} dW_t
@@ -238,9 +238,9 @@
 
     To approximate the exact point conditioning $X_k = x_k^*$, we set the incoming target-coordinate blocks to zero and apply a regularization parameter $\lambda > 0$.
 
-    \begin{definition}[Calibrated Approximating Dynamics Family]
+    \begin{definition}[Calibrated Approximating Operator Family]
         \label{def:soft_do}
-        The regularized conditioning operator of strength $\lambda > 0$ at coordinate $X_k$ acts on the operator dynamics \eqref{eq:stochastic_evolution} by modifying both the drift and the diffusion:
+        The regularized conditioning operator of strength $\lambda > 0$ at coordinate $X_k$ acts on the operator evolution \eqref{eq:stochastic_evolution} by modifying both the drift and the diffusion:
         \begin{equation}
             \label{eq:soft_do_sde}
             \mathcal{A}^{(\lambda)} \coloneqq \mathcal{A}_{\cond} - \lambda \Pi_k, \qquad
@@ -256,7 +256,7 @@
     \subsection{Canonical Normalization}
     \label{sec:setup:calibration}
 
-    The block-decoupled structure under the regularized dynamics yields:
+    The block-decoupled structure under the regularized operator family yields:
     \begin{equation}
         \label{eq:block_decoupled_drift_diffusion}
         \mathcal{A}^{(\lambda)}=
@@ -317,9 +317,9 @@
             \frac{\Delta_\lambda^2}{2\Sigma_{\lambda,kk}}
             = \frac{b_k^2}{\varepsilon_0},
         \end{equation}
-        and the calibrated approximating dynamics become
+        and the calibrated approximating operators become
         \begin{equation}
-            \label{eq:canonical_approximating_dynamics}
+            \label{eq:canonical_approximating_operators}
             dX_{k,t} = -\lambda (X_{k,t} - x_k^*) dt + \sqrt{\varepsilon_0 / \lambda}\, dW_{k,t}.
         \end{equation}
     \end{proposition}
@@ -379,7 +379,7 @@
             for constants $M\ge1$ and $\omega>0$ independent of $\lambda$.
         \end{enumerate}
         \vspace{1mm}
-        \noindent\textit{Intuitive Explanation:} Part (i) states that the regularized dynamics act as a strong localized drift penalization on the target coordinate $X_k$ while isolating it from incoming influences, giving an operator implementation of the block-decoupling constraint. Part (ii) requires that the off-diagonal drift coupling $a_{Ik}$ from the target coordinate has finite energy relative to the background fluctuations of the free coordinates. This ensures that target fluctuations propagating downstream do not overload the variance of the infinite-dimensional system.
+        \noindent\textit{Intuitive Explanation:} Part (i) states that the regularized operator family act as a strong localized drift penalization on the target coordinate $X_k$ while isolating it from incoming influences, giving an operator implementation of the block-decoupling constraint. Part (ii) requires that the off-diagonal drift coupling $a_{Ik}$ from the target coordinate has finite energy relative to the background fluctuations of the free coordinates. This ensures that target fluctuations propagating downstream do not overload the variance of the infinite-dimensional system.
     \end{assumption}
 
     \begin{remark}[Finite-Energy Outgoing Covariance Coupling and Finite-Dimensional Calibration]
@@ -425,7 +425,7 @@
     \subsection{Variational Shorting and Energy Bounds}
     \label{sec:infdim:variational}
 
-    In finite dimensions, the Schur complement of the bulk covariance block $\Sigma_{II}$ is defined as $S_k \coloneqq \Sigma_{kk} - \Sigma_{kI} \Sigma_{II}^{-1} \Sigma_{Ik}$. Under stable and controllable dynamics, the bulk covariance $\Sigma_{II}$ is positive-definite and invertible, so the subtraction is well-defined. However, in infinite dimensions, the stationary covariance operator is trace-class and compact, meaning its restriction $\Sigma_{\lambda,II}$ lacks a bounded global inverse. The appropriate operator-theoretic replacement is the shorted operator: for a non-negative block operator, the Schur complement is recovered as the quadratic form of the short to the target subspace, with the inverse term replaced by a variational supremum \cite{krein1947selfadjoint,anderson1975shorted}. To lift the Schur complement to infinite dimensions in the present singular-conditioning problem, we formulate the projection residual directly using covariance-energy forms.
+    In finite dimensions, the Schur complement of the bulk covariance block $\Sigma_{II}$ is defined as $S_k \coloneqq \Sigma_{kk} - \Sigma_{kI} \Sigma_{II}^{-1} \Sigma_{Ik}$. Under stable and strictly positive diffusion, the bulk covariance $\Sigma_{II}$ is positive-definite and invertible, so the subtraction is well-defined. However, in infinite dimensions, the stationary covariance operator is trace-class and compact, meaning its restriction $\Sigma_{\lambda,II}$ lacks a bounded global inverse. The appropriate operator-theoretic replacement is the shorted operator: for a non-negative block operator, the Schur complement is recovered as the quadratic form of the short to the target subspace, with the inverse term replaced by a variational supremum \cite{krein1947selfadjoint,anderson1975shorted}. To lift the Schur complement to infinite dimensions in the present singular-conditioning problem, we formulate the projection residual directly using covariance-energy forms.
 
     Let $Q_0 \coloneqq \Sigma_{II}^{(0)}$ denote the fixed background bulk covariance under full decoupling ($\lambda = \infty$). We define the core Cameron--Martin space $H_{Q_0} \coloneqq \operatorname{Range}(Q_0^{1/2})$ and the core energy norm:
     \begin{equation}
@@ -500,7 +500,7 @@
         \begin{equation}
             \Pi_n\phi_k=\phi_k,\qquad \Pi_n\mathcal{H}_I\subset\mathcal{H}_I,\qquad \Pi_n\to I\ \text{strongly on }\mathcal{H}.
         \end{equation}
-        Assume the truncated regularized dynamics satisfy the uniform exponential stability and trace-class conditions stated in Proposition~\ref{prop:dynamic_galerkin} of \Cref{app:block_cumulant_analysis}.  Then the truncated covariance operators converge in trace norm:
+        Assume the truncated regularized operator family satisfies the uniform exponential stability and trace-class conditions stated in Proposition~\ref{prop:exact_galerkin} of \Cref{app:block_cumulant_analysis}.  Then the truncated covariance operators converge in trace norm:
         \begin{equation}
             \|\Sigma_{n,\lambda}-\Sigma_\lambda\|_{\mathcal{S}_1}\to0\quad\text{as }n\to\infty,
         \end{equation}
@@ -510,7 +510,7 @@
         \end{equation}
     \end{proposition}
     \begin{proof}
-        See \Cref{app:block_cumulant_analysis} for the dynamic and spectral support.
+        See \Cref{app:block_cumulant_analysis} for the operator and spectral support.
     \end{proof}
 
     % ============================================================
@@ -669,7 +669,7 @@
 
     \begin{corollary}[Exact Decoupled-Centered Cancellation]
         \label{cor:exact_pole_zero}
-        Under Assumption~\ref{assum:gaussian_clamp}, if the target coordinate is dynamically decoupled from the bulk ($a_{Ik} = 0$) and the evidence is centered at the stationary mean ($x_k^* = m_{\lambda,k}$), then:
+        Under Assumption~\ref{assum:gaussian_clamp}, if the target coordinate is decoupled from the bulk ($a_{Ik} = 0$) and the evidence is centered at the stationary mean ($x_k^* = m_{\lambda,k}$), then:
         \begin{equation}
             \mathfrak{J}_\lambda(\mu_{\mathrm{obs}}; \mu_\lambda) = 0 \quad \text{for every } \lambda > 0.
         \end{equation}
@@ -785,13 +785,13 @@ For an $m$-dimensional observed subspace $E=\operatorname{span}\{\phi_1,\ldots,\
   Defining $\widetilde{\Sigma}_{EE} \coloneqq \lambda^2 \Sigma_{\lambda,EE}$, we recover \eqref{eq:scale_free_lyapunov}. Since $\Lambda_E$ is positive definite, its spectrum lies in the open right half-plane, making $-\Lambda_E$ Hurwitz. Because $\Delta_E$ is positive definite, standard continuous Lyapunov theory guarantees that \eqref{eq:scale_free_lyapunov} admits a unique positive definite solution $\widetilde{\Sigma}_{EE}$. Therefore, the exact scaling $\Sigma_{\lambda,EE} = \lambda^{-2} \widetilde{\Sigma}_{EE}$ holds for all $\lambda > 0$, properly generalizing the scalar calibration condition $\Sigma_{\lambda,kk} = \varepsilon_0 / (2\lambda^2)$.
 \end{proof}
 
-\subsection{Inverse-Free Operator Residuals and Variational Loewner Monotonicity}
+\subsection{Inverse-Free Residuals and Loewner Monotonicity}
 \label{sec:discussion:operator-valued-residuals}
 
 For an $m$-dimensional target space $E$, the Schur residual is a
-positive-semidefinite operator on $E$.  Since the free-block covariance
-$C_\lambda\coloneqq\Sigma_{\lambda,II}$ is compact and trace class on the
-infinite-dimensional free space, it has no bounded global inverse.  Thus
+positive-semidefinite operator on $E$. Since the free-block covariance
+$C_\lambda \coloneqq \Sigma_{\lambda,II}$ acts as a compact, trace-class operator
+on the infinite-dimensional space, it admits no bounded global inverse. Thus
 the formal expression
 \[
   \Sigma_{\lambda,EI}C_\lambda^{-1}\Sigma_{\lambda,IE}
@@ -878,8 +878,8 @@ Hence the supremum in
 \[
   \|y_v\|_{H_{C_\lambda}}^2 .
 \]
-Therefore $v\mapsto \langle v,R_{\lambda,E}v\rangle_E$ is a finite
-non-negative quadratic form on the finite-dimensional space $E$, so it is
+Therefore $v\mapsto \langle v,R_{\lambda,E}v\rangle_E$ defines a finite
+non-negative quadratic form on the finite-dimensional space $E$, and is thus
 represented by a unique positive-semidefinite operator $R_{\lambda,E}$.
 The same argument applies to each restricted supremum and defines
 $R_{\lambda,E}^{(n)}$.
@@ -986,7 +986,7 @@ The scalar proof in this paper uses a block decomposition aligned with a single 
 
 \begin{theorem}[Misaligned Covariance Coupling]
   \label{thm:misaligned_coupling}
-  Let $P_E$ be an orthogonal projection onto an $m$-dimensional observed subspace $E$, and let $\mathcal{H}_I = E^\perp$. Let the regularized dynamics be decomposed such that the target block matches \Cref{thm:matrix_lyapunov} with $A_{\lambda,E} = -\lambda \Lambda_E$, the cross-noise is zero ($D_{\lambda,IE} = 0$), and the off-diagonal drift coupling is denoted by $A_{\lambda,IE}$.
+  Let $P_E$ be an orthogonal projection onto an $m$-dimensional observed subspace $E$, and let $\mathcal{H}_I = E^\perp$. Let the regularized operator family be decomposed such that the target block matches \Cref{thm:matrix_lyapunov} with $A_{\lambda,E} = -\lambda \Lambda_E$, the cross-noise is zero ($D_{\lambda,IE} = 0$), and the off-diagonal drift coupling is denoted by $A_{\lambda,IE}$.
   Assume that, for some $\lambda_0>0$,
   \[
     \sup_{\lambda\ge\lambda_0}
@@ -1087,13 +1087,19 @@ To establish the multidimensional limit, we define the dimensionless coupling ma
 \end{theorem}
 \begin{proof}
   Let $C_\lambda \coloneqq \Sigma_{\lambda,II}$. Under $\mu_\lambda^t$, the free coordinates follow $\mathcal{N}(\mu_{I|E}(t), \Sigma_{I|E})$. By the Feldman--H\'{a}jek formula for trace-class perturbations, evaluating the KL divergence relies on the operator $K \coloneqq C_\lambda^{-1/2} \Sigma_{\lambda,IE} \Sigma_{\lambda,EE}^{-1/2}$. By the Weinstein--Aronszajn identity, the non-zero spectrum of the infinite-dimensional operator $KK^*$ matches that of the $m \times m$ matrix $K^*K = \rho_{\lambda,E}$. This reduces the infinite-dimensional Fredholm determinant and trace exactly to the matrix manifold:
-  \[
-    \KL(\mu_{\lambda,I}^t \parallel \mu_{\lambda,I}) = \frac{1}{2} \left[ (t - m_{\lambda,E})^T \Sigma_{\lambda,EE}^{-1} R_{\lambda,E} \Sigma_{\lambda,EE}^{-1} (t - m_{\lambda,E}) - \log\det(I - \rho_{\lambda,E}) - \tr(\rho_{\lambda,E}) \right].
-  \]
+  \begin{equation*}
+    \begin{aligned}
+      \KL(\mu_{\lambda,I}^t \parallel \mu_{\lambda,I}) = \frac{1}{2} \bigg[ &(t - m_{\lambda,E})^T \Sigma_{\lambda,EE}^{-1} R_{\lambda,E} \Sigma_{\lambda,EE}^{-1} (t - m_{\lambda,E}) \\
+      &- \log\det(I - \rho_{\lambda,E}) - \tr(\rho_{\lambda,E}) \bigg].
+    \end{aligned}
+  \end{equation*}
   For the residual expectation term, let $Z \coloneqq t - \mu_{E|I}(X_I)$. Using block matrix identities, the conditional mean is $\E_{\mu_\lambda^t}[Z] = S_{\lambda,E} \Sigma_{\lambda,EE}^{-1} (t - m_{\lambda,E})$ and the conditional variance is $\Var_{\mu_\lambda^t}(Z) = R_{\lambda,E} \Sigma_{\lambda,EE}^{-1} S_{\lambda,E}$. Expanding the quadratic form $\frac{1}{2}\E[Z^T S_{\lambda,E}^{-1} Z]$ gives:
-  \[
-    \frac{1}{2} \left[ (t - m_{\lambda,E})^T \Sigma_{\lambda,EE}^{-1} (t - m_{\lambda,E}) - (t - m_{\lambda,E})^T \Sigma_{\lambda,EE}^{-1} R_{\lambda,E} \Sigma_{\lambda,EE}^{-1} (t - m_{\lambda,E}) + \tr(\rho_{\lambda,E}) \right].
-  \]
+  \begin{equation*}
+    \begin{aligned}
+      \frac{1}{2} \bigg[ &(t - m_{\lambda,E})^T \Sigma_{\lambda,EE}^{-1} (t - m_{\lambda,E}) \\
+      &- (t - m_{\lambda,E})^T \Sigma_{\lambda,EE}^{-1} R_{\lambda,E} \Sigma_{\lambda,EE}^{-1} (t - m_{\lambda,E}) + \tr(\rho_{\lambda,E}) \bigg].
+    \end{aligned}
+  \end{equation*}
   Summing the KL divergence and the quadratic residual form exactly cancels both the $\pm \frac{1}{2}\tr(\rho_{\lambda,E})$ trace anomalies and the cross-covariance residual matrices, isolating \eqref{eq:multidim_exact_cancellation}.
 \end{proof}
 
@@ -1167,7 +1173,7 @@ To establish the multidimensional limit, we define the dimensionless coupling ma
   Because the limiting normalized coupling strictly vanishes as $\tr(\rho_{\lambda,E}) = O(\lambda^{-4})$, the spectrum of every intermediate operator $S_{\lambda,E}^{(n)}$ is uniformly bounded from below by $1 - O(\lambda^{-4}) > 0$. The sequence of conditional covariance operators is therefore uniformly positive definite. This guarantees that the Gaussian conditioning remains well-posed along the entire approximation path, demonstrating that shorted operators provide the necessary and sufficient algebraic mechanism to define the Fredholm finite part at singular evidence, without requiring strict Loewner monotonicity. The exact $O(\lambda^{-4})$ scaling of the strict coupling trace is verified numerically to arbitrary precision in \Cref{app:experiments}.
 \end{remark}
 
-\subsection{Non-Gaussian and dynamical extensions}
+\subsection{Non-Gaussian and time-dependent extensions}
 \label{sec:discussion:non-gaussian}
 
 The result is deliberately limited to finite-rank covariance block algebra and
@@ -1176,7 +1182,7 @@ conditioning theory.  For non-Gaussian stationary processes, the projection
 residual $S_{\lambda,E}=\Sigma_{\lambda,EE}-R_{\lambda,E}$ still has a
 second-moment interpretation, but Radon disintegration, finite-part
 functionals, and measure-class behavior require separate hypotheses
-\cite{bogachev2007measure,kallenberg2021foundations}.  Dynamical relaxation
+\cite{bogachev2007measure,kallenberg2021foundations}.  Time-dependent relaxation
 after conditioning, or transport distances between post-conditioning laws,
 belongs to a different problem.  The contribution here is the
 operator-theoretic removal of the compact-block Schur obstruction.
