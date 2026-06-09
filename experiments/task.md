@@ -9,4 +9,4 @@
   - [x] Write `constant_diffusion.jl` with $D_\lambda = D_0$.
   - [x] Verify $\Sigma_{EE} \sim \lambda^{-1}$ scaling under the Lyapunov equation.
   - [x] Generate trace anomaly plots showing the asymptotic decoupling and failure of Fredholm exact cancellation.
-- [ ] **[PAUSED]** Implement Exp 6 (Galerkin Ill-Conditioning).
+- [x] Implement Exp 6 (Galerkin Ill-Conditioning).

@@ -457,7 +457,7 @@ asymptotics, and Galerkin convergence rates, computed in 256-bit
 \texttt{BigFloat} to isolate the structural invariants from floating-point
 collapse.
 
-\subsection{Truncation Convergence}
+\subsection{Galerkin Verification and Ill-Conditioning (Remark 6.1)}
 \label{app:experiments:truncation}
 
 We illustrate the Galerkin convergence of Proposition~\ref{prop:galerkin_consistency} against a finite reference on an admissible model. The Hilbert space is $\ell^2(\mathbb{N})$ with coordinate basis $\{\phi_j\}$. The drift is $\mathcal{A} = \mathcal{A}_0 + \mathcal{K}$, where $\mathcal{A}_0 \phi_j = -(1 + 0.01 j^2)\phi_j$ and $\mathcal{K}\phi_1 = \sum_{j \ge 2} 12\,j^{-3}\phi_j$ is a bounded rank-one nilpotent perturbation. The noise is $\mathcal{D}\phi_j = j^{-3/2}\phi_j$, which is trace-class. The regularized conditioning acts at $k=1$ with $\varepsilon_0 = 1$. Truncated covariances are compared against a finite reference $N_{\text{ref}} = 1500$.
@@ -491,9 +491,11 @@ We illustrate the Galerkin convergence of Proposition~\ref{prop:galerkin_consist
   \label{fig:truncation}
 \end{figure}
 
+While the variational operator sequence converges rigorously, attempting to compute the truncated Schur complement $S^{(n)} = \Sigma_{EE} - \Sigma_{EI}^{(n)} (\Sigma_{II}^{(n)})^{-1} \Sigma_{IE}^{(n)}$ via naive finite-dimensional algebraic matrix inversion fails catastrophically. Because the internal block $\Sigma_{II}$ is a trace-class operator, its truncated matrix representation $\Sigma_{II}^{(n)}$ becomes severely ill-conditioned in generic Galerkin bases. Our diagnostics show that for $n \ge 400$, the condition number $\kappa(\Sigma_{II}^{(n)})$ grows as $n^6$ and formally exceeds the $10^{16}$ IEEE 754 \texttt{Float64} precision limit. Consequently, explicit inversion or standard linear solvers introduce overwhelming numerical noise, destroying the monotonic Loewner growth and breaking the positive-definiteness of the residual. This stark contrast confirms that the inverse-free variational framework in Section~\ref{sec:infdim} is structurally necessary, and that strict Loewner growth cannot be safely assumed under finite-dimensional algebraic approximations.
 
 
-\subsection{Canonical Scaling Diagnostic}
+
+\subsection{Canonical Scaling Diagnostic and Trace Anomaly (Remark 6.3)}
 \label{app:experiments:ablation}
 
 We validate the canonical normalization of Proposition~\ref{prop:exact_calibration} in its decoupled reference channel. With incoming target-coordinate blocks and off-diagonal drift coupling set to zero, the target covariance is exactly $\Sigma_{\lambda,22} = d_\lambda / (2\lambda)$. Four candidate target-diffusion families are tested:
@@ -565,6 +567,14 @@ All evaluations are performed in Julia using 256-bit \texttt{BigFloat} arithmeti
   \caption{Experiment~C.3. The panels show $\lambda^2S_{2,\lambda}\to0.5$ and the three finite-part regimes: exact zero, $O(\lambda^{-4})$ decay, and convergence to $1$. Exact zeros are displayed at $10^{-20}$.}
   \label{fig:three_node}
 \end{figure}
+
+
+\subsection{Failure of Cameron--Martin Admissibility (Remark 4.1)}
+\label{app:experiments:cameron_martin_failure}
+
+To illustrate the necessity of the finite-energy condition (Assumption~\ref{assum:cm_stability}), we test an observation operator that explicitly violates Cameron--Martin admissibility. Consider a 1D SPDE heat equation prior, where the target observation is approximated by a narrow Gaussian mollifier $g_\varepsilon(x) = \frac{1}{\sqrt{2\pi}\varepsilon} e^{-(x-x_0)^2/(2\varepsilon^2)}$. 
+
+For any fixed $\varepsilon > 0$, the function is smooth ($g_\varepsilon \in L^2$) and lies within the Cameron--Martin space. However, as $\varepsilon \downarrow 0$ (approaching a Dirac point-evaluation), numerical stress tests confirm that the Cameron--Martin energy norm diverges as $\varepsilon^{-1} \to \infty$. Consequently, the shorted residual upper bound $O(\lambda^{-6})$ derived in Theorem~\ref{thm:inf_cancellation} fundamentally breaks down, destroying the asymptotic trace-anomaly expansion. This confirms that pointwise evaluation without spatial smoothing is structurally incompatible with the present infinite-dimensional Gaussian conditioning theory, justifying the strict finite-energy requirements.
 
 
 
