@@ -1,125 +1,122 @@
-\begin{thebibliography}{99}
+\begin{thebibliography}{10}
 
 \bibitem{anderson1975shorted}
-W. N. Anderson and G. E. Trapp.
-\newblock Shorted operators. II.
-\newblock \emph{SIAM Journal on Applied Mathematics}, 28(1):60--71, 1975.
+W.~N. Anderson and G.~E. Trapp.
+\newblock Shorted operators. ii.
+\newblock {\em SIAM Journal on Applied Mathematics}, 28(1):60--71, 1975.
 
 \bibitem{bogachev1998gaussian}
-V. I. Bogachev.
-\newblock \emph{Gaussian Measures}.
+V.~I. Bogachev.
+\newblock {\em Gaussian Measures}.
 \newblock American Mathematical Society, 1998.
 
 \bibitem{bogachev2007measure}
-V. I. Bogachev.
-\newblock \emph{Measure Theory}.
+V.~I. Bogachev.
+\newblock {\em Measure Theory}.
 \newblock Springer, 2007.
 
 \bibitem{carerelie2024optimal}
-G. Carere and H. C. Lie.
-\newblock Optimal low-rank approximations of posteriors for linear Gaussian inverse problems on Hilbert spaces.
-\newblock arXiv:2411.01112, 2024.
+G.~Carere and H.~C. Lie.
+\newblock Optimal low-rank approximations of posteriors for linear gaussian
+  inverse problems on hilbert spaces.
+\newblock {\em arXiv preprint arXiv:2411.01112}, 2024.
 
 \bibitem{carerelie2025posterior}
-G. Carere and H. C. Lie.
-\newblock Optimal low-rank approximations for linear Gaussian inverse problems on Hilbert spaces, Part I: posterior covariance approximation.
-\newblock arXiv:2503.24020, 2025.
+G.~Carere and H.~C. Lie.
+\newblock Optimal low-rank approximations for linear gaussian inverse problems
+  on hilbert spaces, part i: posterior covariance approximation.
+\newblock {\em arXiv preprint arXiv:2503.24020}, 2025.
 
 \bibitem{chen2024gaussian}
-Y. Chen, B. Hosseini, H. Owhadi, and A. M. Stuart.
-\newblock Gaussian measures conditioned on nonlinear observations: consistency, MAP estimators, and simulation.
-\newblock arXiv:2405.13149, 2024.
+Y.~Chen, B.~Hosseini, H.~Owhadi, and A.~M. Stuart.
+\newblock Gaussian measures conditioned on nonlinear observations: consistency,
+  map estimators, and simulation.
+\newblock {\em arXiv preprint arXiv:2405.13149}, 2024.
 
 \bibitem{contino2018schur}
-M. Contino, A. Maestripieri, and S. Marcantognini.
-\newblock Schur complements of selfadjoint Krein space operators.
-\newblock arXiv:1809.01695, 2018.
+M.~Contino, A.~Maestripieri, and S.~Marcantognini.
+\newblock Schur complements of selfadjoint krein space operators.
+\newblock {\em arXiv preprint arXiv:1809.01695}, 2018.
 
 \bibitem{daprato2014stochastic}
-G. Da Prato and J. Zabczyk.
-\newblock \emph{Stochastic Equations in Infinite Dimensions}.
-\newblock 2nd ed., Cambridge University Press, 2014.
+G.~Da~Prato and J.~Zabczyk.
+\newblock {\em Stochastic Equations in Infinite Dimensions}.
+\newblock Cambridge University Press, 2nd edition, 2014.
 
 \bibitem{douglas1966majorization}
-R. G. Douglas.
-\newblock On majorization, factorization, and range inclusion of operators on Hilbert space.
-\newblock \emph{Proceedings of the American Mathematical Society}, 17(2):413--415, 1966.
+R.~G. Douglas.
+\newblock On majorization, factorization, and range inclusion of operators on
+  hilbert space.
+\newblock {\em Proceedings of the American Mathematical Society},
+  17(2):413--415, 1966.
 
 \bibitem{feldman1958equivalence}
-J. Feldman.
-\newblock Equivalence and perpendicularity of Gaussian processes.
-\newblock \emph{Pacific Journal of Mathematics}, 8(4):699--708, 1958.
+J.~Feldman.
+\newblock Equivalence and perpendicularity of gaussian processes.
+\newblock {\em Pacific Journal of Mathematics}, 8(4):699--708, 1958.
 
 \bibitem{friedrich2017generalized}
-J. Friedrich, M. G\"unther, and L. Klotz.
-\newblock A generalized Schur complement for non-negative operators on linear space.
-\newblock arXiv:1708.01545, 2017.
+J.~Friedrich, M.~G{\"u}nther, and L.~Klotz.
+\newblock A generalized schur complement for non-negative operators on linear
+  space.
+\newblock {\em arXiv preprint arXiv:1708.01545}, 2017.
 
 \bibitem{hajek1958property}
-J. H\'{a}jek.
+J.~H{\'a}jek.
 \newblock On a property of normal distributions of any stochastic process.
-\newblock \emph{Czechoslovak Mathematical Journal}, 8(4):610--618, 1958.
+\newblock {\em Czechoslovak Mathematical Journal}, 8(4):610--618, 1958.
 
 \bibitem{hassi2023complementation}
-S. Hassi and H. de Snoo.
-\newblock Complementation and Lebesgue type decompositions of linear operators and relations.
-\newblock arXiv:2308.09408, 2023.
-
-\bibitem{horn2012matrix}
-R. A. Horn and C. R. Johnson.
-\newblock \emph{Matrix Analysis}.
-\newblock 2nd ed., Cambridge University Press, 2012.
+S.~Hassi and H.~de~Snoo.
+\newblock Complementation and lebesgue type decompositions of linear operators
+  and relations.
+\newblock {\em arXiv preprint arXiv:2308.09408}, 2023.
 
 \bibitem{kallenberg2021foundations}
-O. Kallenberg.
-\newblock \emph{Foundations of Modern Probability}.
-\newblock 3rd ed., Springer, 2021.
-
+O.~Kallenberg.
+\newblock {\em Foundations of Modern Probability}.
+\newblock Springer, 3rd edition, 2021.
 
 \bibitem{krein1947selfadjoint}
-M. G. Krein.
-\newblock The theory of self-adjoint extensions of semi-bounded Hermitian transformations and its applications. I.
-\newblock \emph{Matematicheskii Sbornik}, 20(62):431--495, 1947.
+M.~G. Krein.
+\newblock The theory of self-adjoint extensions of semi-bounded hermitian
+  transformations and its applications. i.
+\newblock {\em Matematicheskii Sbornik}, 20(62):431--495, 1947.
 
 \bibitem{lagatta2013continuous}
-T. LaGatta.
-\newblock Continuous disintegrations of Gaussian processes.
-\newblock arXiv:1003.0975, 2010.
+T.~LaGatta.
+\newblock Continuous disintegrations of gaussian processes.
+\newblock {\em arXiv preprint arXiv:1003.0975}, 2010.
 
 \bibitem{lord2014introduction}
-G. J. Lord, C. E. Powell, and T. Shardlow.
-\newblock \emph{An Introduction to Computational Stochastic PDEs}.
+G.~J. Lord, C.~E. Powell, and T.~Shardlow.
+\newblock {\em An Introduction to Computational Stochastic PDEs}.
 \newblock Cambridge University Press, 2014.
 
-
 \bibitem{owhadi2015conditioning}
-H. Owhadi and C. Scovel.
-\newblock Conditioning Gaussian measure on Hilbert space.
-\newblock arXiv:1506.04208, 2015.
-
-\bibitem{rasmussen2006gaussian}
-C. E. Rasmussen and C. K. I. Williams.
-\newblock \emph{Gaussian Processes for Machine Learning}.
-\newblock MIT Press, 2006.
+H.~Owhadi and C.~Scovel.
+\newblock Conditioning gaussian measure on hilbert space.
+\newblock {\em arXiv preprint arXiv:1506.04208}, 2015.
 
 \bibitem{simon2005trace}
-B. Simon.
-\newblock \emph{Trace Ideals and Their Applications}.
-\newblock 2nd ed., American Mathematical Society, 2005.
+B.~Simon.
+\newblock {\em Trace Ideals and Their Applications}.
+\newblock American Mathematical Society, 2nd edition, 2005.
 
 \bibitem{steinwart2024conditioning}
-I. Steinwart.
-\newblock Conditioning of Banach space valued Gaussian random variables: an approximation approach based on martingales.
-\newblock arXiv:2404.03453, 2024.
+I.~Steinwart.
+\newblock Conditioning of banach space valued gaussian random variables: an
+  approximation approach based on martingales.
+\newblock {\em arXiv preprint arXiv:2404.03453}, 2024.
 
 \bibitem{stuart2010inverse}
-A. M. Stuart.
-\newblock Inverse problems: a Bayesian perspective.
-\newblock \emph{Acta Numerica}, 19:451--559, 2010.
+A.~M. Stuart.
+\newblock Inverse problems: a bayesian perspective.
+\newblock {\em Acta Numerica}, 19:451--559, 2010.
 
 \bibitem{tretter2008spectral}
-C. Tretter.
-\newblock \emph{Spectral Theory of Block Operator Matrices and Applications}.
+C.~Tretter.
+\newblock {\em Spectral Theory of Block Operator Matrices and Applications}.
 \newblock Imperial College Press, 2008.
 
 \end{thebibliography}
