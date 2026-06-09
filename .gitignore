@@ -1,0 +1,48 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Existing cache configs
+.cache/
+.mplconfig/
+
+# Core LaTeX auxiliary files
+*.aux
+*.log
+*.toc
+*.lof
+*.lot
+*.out
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.pdfsync
+
+# Bibliography files (BibTeX/Biber)
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+
+# Index files (MakeIndex/xindy)
+*.idx
+*.ilg
+*.ind
+*.ist
+
+# Glossary files
+*.glo
+*.glg
+*.gls
+
+# LaTeX build tools and engines
+*.fdb_latexmk
+*.fls
+*.vrb
+*.nav
+*.snm
