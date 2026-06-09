@@ -1,12 +1,14 @@
 # Fdb version 4
-["bibtex build/paper1_blind"] 1780704002.39955 "build/paper1_blind.aux" "build/paper1_blind.bbl" "build/paper1_blind" 1780704002.53708 2
-  "build/paper1_blind.aux" 1780704002.32418 27756 c8afefe4f24b2457b1bdc4fd5b12b052 "pdflatex"
+["bibtex build/paper1_blind"] 1781009396.68671 "build/paper1_blind.aux" "build/paper1_blind.bbl" "build/paper1_blind" 1781009397.92709 0
+  "./paper1_ref.bib" 1781000605.12176 4717 a7e4ea2c24c6b276c8cbd44f7d9d65b1 ""
+  "/usr/local/texlive/2026/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
+  "build/paper1_blind.aux" 1781009397.71783 31161 0a2cd9a2e23505e10ebde2846b9f3389 "pdflatex"
   (generated)
   "build/paper1_blind.bbl"
   "build/paper1_blind.blg"
   (rewritten before read)
-["pdflatex"] 1780704001.27551 "/Users/ostensible_paradox/Documents/stem/gaussian-hilbert/paper/paper1_blind.tex" "build/paper1_blind.pdf" "paper1_blind" 1780704002.53715 0
-  "/Users/ostensible_paradox/Documents/stem/gaussian-hilbert/paper/paper1_blind.tex" 1780704001.14671 61467 51815f79d464e7465e55612462a2a6bb ""
+["pdflatex"] 1781009396.77497 "/Users/ostensible_paradox/Documents/math/gaussian-hilbert/paper/paper1_blind.tex" "build/paper1_blind.pdf" "paper1_blind" 1781009397.92724 0
+  "/Users/ostensible_paradox/Documents/math/gaussian-hilbert/paper/paper1_blind.tex" 1781009394.05432 74196 28710c5c482d65be2fecf18841127ec2 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -53,9 +55,11 @@
   "/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb" 1248133631 32587 1788b0c1c5b39540c96f5e42ccd6dae8 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb" 1248133631 32626 4f5c1b83753b1dd3a97d1b399a005b4b ""
+  "/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb" 1248133631 32442 c975af247b6702f7ca0c299af3616b80 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1248133631 37944 359e864bd06cde3b1cf57bb20757fb06 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb" 1248133631 36310 f5ddc6715cc60deb16d9db5ded6a9391 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb" 1248133631 31099 c85edf1dd5b9e826d67c9c7293b6786c ""
+  "/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb" 1248133631 30212 b6aafa449db0097a6b9b890f66741063 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/euler/eufm10.pfb" 1336858727 21098 d4aee7c0aac232caac5688b586b9363c ""
   "/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb" 1248133631 31764 459c573c03a4949a528c2cc7f557e217 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb" 1248133631 34694 ad62b13721ee8eda1dcc8993c8bd7041 ""
@@ -118,14 +122,14 @@
   "/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1775926411 5573038 b99aad5e4898a9034e953632f940512b ""
   "/usr/local/texlive/2026/texmf-var/web2c/pdftex/pdflatex.fmt" 1775926335 3636773 cb7ca911f1162835915f325d23d4f0c0 ""
   "/usr/local/texlive/2026/texmf.cnf" 1774209515 577 648cd9f92f9c0eac486f4c71c85cfbbe ""
-  "build/paper1_blind.aux" 1780704002.32418 27756 c8afefe4f24b2457b1bdc4fd5b12b052 "pdflatex"
-  "build/paper1_blind.bbl" 1780704002.53185 0 d41d8cd98f00b204e9800998ecf8427e "bibtex build/paper1_blind"
-  "build/paper1_blind.out" 1780704002.32539 11702 46ad3cd7301c239cc1bb759794b9d577 "pdflatex"
+  "build/paper1_blind.aux" 1781009397.71783 31161 0a2cd9a2e23505e10ebde2846b9f3389 "pdflatex"
+  "build/paper1_blind.bbl" 1781009396.77109 4173 55dd198db58340bccd21f0e2385584dd "bibtex build/paper1_blind"
+  "build/paper1_blind.out" 1781009397.71914 13888 f0f5a43d08065681f018502fff10f0e6 "pdflatex"
   "figures/ablation_combined.png" 1780540474.28884 177154 192ea099348c18765630af69cb91eba9 ""
   "figures/three_node_gaussian_chain.png" 1780540474.28988 160706 5eafea4c8a98d5b30c0511fe7e9b2e94 ""
   "figures/truncation_convergence_validation.png" 1780540474.29051 259973 d894ac7eb4ff79ac0631c29a3b2fff63 ""
-  "paper1_appendix.tex" 1780691066.98486 33423 be61f9ea8c7692da7adabe83bb52c848 ""
-  "paper1_blind.tex" 1780704001.14671 61467 51815f79d464e7465e55612462a2a6bb ""
+  "paper1_appendix.tex" 1781009131.76426 35986 1e551af1d9648461774a63c3022c78c7 ""
+  "paper1_blind.tex" 1781009394.05432 74196 28710c5c482d65be2fecf18841127ec2 ""
   (generated)
   "build/paper1_blind.aux"
   "build/paper1_blind.log"
