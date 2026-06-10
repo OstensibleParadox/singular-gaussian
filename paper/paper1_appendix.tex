@@ -612,10 +612,23 @@ which includes the exact projection-cancellation factor derived from the
 Woodbury subspace inversion.  The absence of transient growth confirms that
 the OU regime, combined with the conjugate regularization map
 \eqref{eq:conjugate_map}, places every $\lambda\ge10$ in the asymptotic
-regime.  The computation at $N=10000$ completes in under one second on a
+regime. 
+
+\begin{figure}[htbp]
+  \centering
+  \IfFileExists{figures/gff_vs_ou_condition.png}{%
+  \includegraphics[width=0.9\textwidth]{figures/gff_vs_ou_condition.png}%
+}{%
+  \fbox{\parbox{0.88\textwidth}{Figure omitted in this source package; numerical values are reported in the surrounding text.}}%
+}
+  \caption{Trace anomaly conditioning comparison. The GFF regime ($\mathcal{A}_0=-L$) exhibits an unbounded transient condition number spike before $\lambda$ dominates the maximum eigenvalue of the finite-dimensional truncation. In stark contrast, the OU regime ($\mathcal{A}_0=-L^{-1}$) resolved via conjugate sparse regularization ($\tilde{\lambda}=\lambda^{-1}$) reaches the asymptotic limit instantly without transient divergence.}
+  \label{fig:gff_vs_ou}
+\end{figure}
+
+The computation at $N=10000$ completes in under one second on a
 standard laptop, demonstrating that the variational shorting framework is
 not only theoretically unavoidable
-(\Cref{thm:triple_impossibility}) but also numerically optimal.
+(\Cref{thm:triple_impossibility}) but also numerically optimal, as visually confirmed by the stark contrast in \Cref{fig:gff_vs_ou}.
 
 
 
