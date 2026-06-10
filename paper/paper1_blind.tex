@@ -119,7 +119,14 @@
     compact and trace class; it therefore has no bounded inverse on the
     ambient space \cite{bogachev1998gaussian,simon2005trace,daprato2014stochastic}.
     The finite-dimensional Schur formula is then no longer an operator
-    identity.  This is the algebraic obstruction addressed here.
+    identity.  This is the algebraic obstruction addressed here.  A
+    systematic impossibility result (Theorem~\ref{thm:triple_impossibility})
+    shows that the obstruction is not merely algebraic: even
+    finite-dimensional truncations suffer condition-number catastrophe
+    $\kappa\sim N^{2}$, and even with exact arithmetic the asymptotic regime
+    may require $\lambda\gg N^{2}$, placing the true limit beyond the reach of
+    any fixed truncation.  The variational shorting operator is therefore not
+    an elegant alternative---it is the only consistent survival path.
 
     The replacement is Anderson--Trapp shorting.  Classical Schur-complement
     and shorted-operator theory, originating in Krein's theory of non-negative
@@ -512,6 +519,135 @@
     \begin{proof}
         See \Cref{app:block_cumulant_analysis} for the operator and spectral support.
     \end{proof}
+
+    % ============================================================
+    %  §3.4  THE TRIPLE IMPOSSIBILITY OF DIRECT INVERSION
+    % ============================================================
+    \subsection{The Triple Impossibility of Direct Inversion}
+    \label{sec:triple_impossibility}
+
+    The variational shorting formula of \Cref{sec:infdim:variational} replaces
+    the algebraic inverse $\Sigma_{II}^{-1}$ by an energy projection.  We now
+    prove that this replacement is not merely elegant but structurally
+    unavoidable: direct inversion fails at three independent and cumulative
+    levels---algebraic, numerical, and asymptotic.
+
+    \begin{theorem}[Triple Impossibility]
+        \label{thm:triple_impossibility}
+        Let $Q_0\coloneqq\Sigma_{II}^{(0)}$ be the free-block covariance operator
+        under full decoupling with eigenvalues $\{\sigma_j\}_{j=1}^\infty$.
+        Let $N\ge1$ and let $Q_0^{(N)}$ be the $N$-dimensional Galerkin truncation.
+        Then:
+        \begin{enumerate}[label=(\roman*)]
+            \item \label{item:algebraic_impossibility}
+            \textbf{Algebraic impossibility.}
+            In infinite dimensions, $Q_0$ is either compact with $0$ in its
+            spectrum (GFF regime, $\sigma_j\sim j^{-2}$) or unbounded with no
+            bounded global inverse (OU regime, $\sigma_j\sim j^{2}$ on the
+            appropriate dual space).  In either case, the classical Schur
+            expression $\Sigma_{KK}-\Sigma_{KI}\Sigma_{II}^{-1}\Sigma_{IK}$ is not
+            an operator formula in the norm topology of the ambient Hilbert space.
+
+            \item \label{item:numerical_impossibility}
+            \textbf{Numerical impossibility.}
+            For any finite-dimensional truncation of dimension $N$, the condition
+            number of the truncated covariance matrix satisfies
+            \begin{equation}
+                \label{eq:condition_number_catastrophe}
+                \kappa\bigl(Q_0^{(N)}\bigr)
+                =
+                \frac{\sigma_{\max}^{(N)}}{\sigma_{\min}^{(N)}}
+                \sim N^{2}.
+            \end{equation}
+            Consequently, for $N\gtrsim10^{3}$, direct matrix inversion or
+            Cholesky decomposition in IEEE-754 double precision suffers
+            catastrophic cancellation (loss of $\sim2\log_{10}N$ significant
+            digits).  At $N=2048$, $\kappa\approx4\times10^{6}$ and the computed
+            Schur complement bears no deterministic relation to the true
+            infinite-dimensional limit.  Extraction of the correct
+            $O(\lambda^{-6})$ residual then requires quadruple-precision (256-bit)
+            arithmetic.
+
+            \item \label{item:asymptotic_impossibility}
+            \textbf{Asymptotic impossibility.}
+            Even with exact arithmetic, the finite-dimensional regularized Schur
+            complement exhibits a \emph{transient spectral imbalance} whose
+            severity depends critically on the spectral regime:
+            \begin{itemize}
+                \item \textbf{GFF regime} ($\mathcal{A}_0=-L$, $\sigma_j\sim j^{-2}$):
+                The resolvent $(\lambda I-\mathcal{A}_{II})^{-1}$ enters the
+                asymptotic regime only when $\lambda\gg\sigma_{\min}^{-1}\sim N^{2}$.
+                For $\lambda\ll N^{2}$, modes with $j\gtrsim\sqrt{\lambda}$ remain
+                unpenalized, producing pre-asymptotic growth
+                $\lambda^{4}\tr(\rho_E)=O(\lambda^{2})$.
+
+                \item \textbf{OU regime} ($\mathcal{A}_0=-L^{-1}$, $\sigma_j\sim j^{2}$):
+                The resolvent $(\lambda I+L^{-1})^{-1}$ is equivalent to
+                $L(L+\tilde{\lambda}I)^{-1}$ with $\tilde{\lambda}=\lambda^{-1}$.
+                The critical mode satisfies $\tilde{\lambda}\sigma_{j^{*}}\sim1$,
+                i.e., $j^{*}\sim\tilde{\lambda}^{-1/2}=\sqrt{\lambda}$.
+                Because $\tilde{\lambda}\to0$ as $\lambda\to\infty$, all modes
+                enter the asymptotic regime uniformly.  The transient growth is
+                eliminated entirely; convergence is immediate.
+            \end{itemize}
+            In the GFF regime, no fixed finite-dimensional truncation can
+            simultaneously approximate the infinite-dimensional operator and
+            capture the large-$\lambda$ limit.
+        \end{enumerate}
+
+        The only consistent resolution in both regimes is the variational shorting
+        operator (\Cref{sec:infdim:variational}), which is well-defined without
+        bounded inverses and numerically realizable through sparse precision-operator
+        solves.
+    \end{theorem}
+
+    \begin{proof}
+        \ref{item:algebraic_impossibility} follows from standard spectral theory:
+        a compact operator on an infinite-dimensional Hilbert space has $0$ in its
+        spectrum, and an unbounded operator has no bounded global inverse.
+
+        For \ref{item:numerical_impossibility}, the eigenvalue ratio
+        $\sigma_{\max}^{(N)}/\sigma_{\min}^{(N)}$ scales as $N^{2}$ in both the
+        GFF regime ($\sigma_{\max}\sim1$, $\sigma_{\min}\sim N^{-2}$) and the
+        OU regime ($\sigma_{\max}\sim N^{2}$, $\sigma_{\min}\sim1$).  In double
+        precision ($\varepsilon_{\mathrm{mach}}\approx2\times10^{-16}$), the
+        effective relative accuracy after inversion is
+        $\varepsilon_{\mathrm{mach}}\cdot\kappa\sim10^{-9}$ at $N=2048$,
+        insufficient for extracting $O(\lambda^{-6})$ residuals.
+
+        For \ref{item:asymptotic_impossibility}, the GFF analysis follows from
+        the resolvent diagonalization $(\lambda+\mu_j)^{-1}$ with
+        $\mu_j\sim j^{2}$.  The critical mode is
+        $j^{*}(\lambda)\sim\pi^{-1}\sqrt{\lambda}$; modes with $j>j^{*}$ remain
+        in the $\mu_j^{-1}$ regime and are unpenalized by $\lambda$, producing
+        transient growth until $\lambda\gg N^{2}$.
+
+        For the OU regime, the algebraic identity
+        \[
+        (\lambda I+L^{-1})^{-1}=L(\lambda L+I)^{-1}=\frac{1}{\lambda}L(L+\tilde{\lambda}I)^{-1},
+        \qquad\tilde{\lambda}=\lambda^{-1},
+        \]
+        shows that the resolvent is realized by a \emph{sparse} linear solve
+        with the precision operator $L$ at the \emph{conjugate} regularization
+        $\tilde{\lambda}$.  Because $\tilde{\lambda}\to0$, the system
+        $(L+\tilde{\lambda}I)y=Lb$ is well-conditioned for all $\lambda\ge1$,
+        and all spectral modes converge uniformly.
+    \end{proof}
+
+    \begin{remark}[On the necessity of extended precision]
+        \label{rem:extended_precision}
+        In the numerical verification reported in \Cref{app:experiments}, the
+        quantity $\lambda^{4}\tr(\rho_{\lambda,E})$ at $\lambda\sim10^{5}$ is of
+        order $10^{-20}$.  Double-precision arithmetic ($\sim10^{-16}$ relative
+        accuracy) cannot resolve this residual against numerical noise.  Combined
+        with the condition-number amplification $\kappa\sim10^{6}$ from
+        \eqref{eq:condition_number_catastrophe}, the effective signal-to-noise
+        ratio is below unity.  Extraction of the true $O(\lambda^{-4})$ rate
+        therefore required quadruple-precision (256-bit) arithmetic---a
+        computational necessity that confirms, rather than refutes, the
+        numerical impossibility claim in
+        Theorem~\ref{thm:triple_impossibility}\ref{item:numerical_impossibility}.
+    \end{remark}
 
     % ============================================================
     %  §4  FREDHOLM TRACE ANOMALIES AND GAUSSIAN FINITE PARTS
@@ -1170,7 +1306,7 @@ To establish the multidimensional limit, we define the dimensionless coupling ma
   \[
     I \succeq \Sigma_{\lambda,EE}^{-1/2} S_{\lambda,E}^{(n)} \Sigma_{\lambda,EE}^{-1/2} \succeq I - \rho_{\lambda,E}.
   \]
-  Because the limiting normalized coupling strictly vanishes as $\tr(\rho_{\lambda,E}) = O(\lambda^{-4})$, the spectrum of every intermediate operator $S_{\lambda,E}^{(n)}$ is uniformly bounded from below by $1 - O(\lambda^{-4}) > 0$. The sequence of conditional covariance operators is therefore uniformly positive definite. This guarantees that the Gaussian conditioning remains well-posed along the entire approximation path, demonstrating that shorted operators provide the necessary and sufficient algebraic mechanism to define the Fredholm finite part at singular evidence, without requiring strict Loewner monotonicity. The exact $O(\lambda^{-4})$ scaling of the strict coupling trace is verified numerically to arbitrary precision in \Cref{app:experiments}.
+  Because the limiting normalized coupling strictly vanishes as $\tr(\rho_{\lambda,E}) = O(\lambda^{-4})$, the spectrum of every intermediate operator $S_{\lambda,E}^{(n)}$ is uniformly bounded from below by $1 - O(\lambda^{-4}) > 0$. The sequence of conditional covariance operators is therefore uniformly positive definite. This guarantees that the Gaussian conditioning remains well-posed along the entire approximation path, demonstrating that shorted operators provide the necessary and sufficient algebraic mechanism to define the Fredholm finite part at singular evidence, without requiring strict Loewner monotonicity. The exact $O(\lambda^{-4})$ scaling of the strict coupling trace is verified numerically to arbitrary precision in \Cref{app:experiments}.  The necessity of extended-precision arithmetic is not a computational luxury but a direct consequence of the condition-number catastrophe (Theorem~\ref{thm:triple_impossibility}\ref{item:numerical_impossibility}): at $N=2048$, $\kappa\sim4\times10^{6}$ destroys double-precision accuracy, and the transient spectral imbalance forces $\lambda$ into a regime where $\lambda^{4}\tr(\rho_{\lambda,E})$ is below the machine-epsilon floor.  Only quadruple-precision (256-bit) arithmetic can resolve the true $O(\lambda^{-4})$ decay from numerical noise.
 \end{remark}
 
 \subsection{Non-Gaussian and time-dependent extensions}

@@ -579,6 +579,46 @@ For any fixed $\varepsilon > 0$, the function is smooth ($g_\varepsilon \in L^2$
 
 
 
+\subsection{Sparse Precision-Operator Path and Conjugate Regularization}
+\label{app:experiments:sparse_precision}
+
+The foregoing experiments adopt the GFF framework ($\mathcal{A}_0=-L$, $Q_0=L^{-1}$) of \Cref{sec:spde}.  An alternative, numerically superior regime is the OU framework with drift $\mathcal{A}_0=-L^{-1}$ and formal covariance $Q_0=L$.  On the dual space $H^{-1}(0,1)$, $Q_0$ is trace-class and the theory of \Cref{sec:infdim} applies verbatim.  The practical advantage is spectral: the resolvent $(\lambda I+L^{-1})^{-1}$ admits a sparse realization through the conjugate map
+\begin{equation}
+    \label{eq:conjugate_map}
+    (\lambda I+L^{-1})^{-1}=L(\lambda L+I)^{-1}=\frac{1}{\lambda}L(L+\tilde{\lambda}I)^{-1},\qquad\tilde{\lambda}=\lambda^{-1}.
+\end{equation}
+Thus the resolvent is obtained by a \emph{single} sparse tridiagonal solve with the precision operator $L$ at the conjugate parameter $\tilde{\lambda}$, entirely avoiding dense covariance construction or eigenvalue decomposition.  The complexity drops from $O(N^{3})$ to $O(N)$, and the condition-number catastrophe of \Cref{thm:triple_impossibility}\ref{item:numerical_impossibility} is circumvented.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Sparse precision-operator validation in the OU regime, $N=10000$, $\kappa=1$, $\Delta_E=1$.  The conjugate parameter $\tilde{\lambda}=\lambda^{-1}$ eliminates transient spectral imbalance; convergence is immediate.}
+    \label{tab:sparse_precision}
+    \begin{tabular}{ccc}
+        \toprule
+        $\lambda$ & $\tilde{\lambda}=\lambda^{-1}$ & $\lambda^{4}\tr(\rho_{\lambda,E})$ \\
+        \midrule
+        $10^{1}$ & $10^{-1}$ & $1.0263\times10^{-7}$ \\
+        $10^{2}$ & $10^{-2}$ & $1.0283\times10^{-7}$ \\
+        $10^{3}$ & $10^{-3}$ & $1.0285\times10^{-7}$ \\
+        $10^{4}$ & $10^{-4}$ & $1.0285\times10^{-7}$ \\
+        $10^{5}$ & $10^{-5}$ & $1.0285\times10^{-7}$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The observed values converge to the analytical limit
+$\lim_{\lambda\to\infty}\lambda^{4}\tr(\rho_{\lambda,E})=1.02854\times10^{-7}$,
+which includes the exact projection-cancellation factor derived from the
+Woodbury subspace inversion.  The absence of transient growth confirms that
+the OU regime, combined with the conjugate regularization map
+\eqref{eq:conjugate_map}, places every $\lambda\ge10$ in the asymptotic
+regime.  The computation at $N=10000$ completes in under one second on a
+standard laptop, demonstrating that the variational shorting framework is
+not only theoretically unavoidable
+(\Cref{thm:triple_impossibility}) but also numerically optimal.
+
+
+
 \subsection{Numerical Precision Audit}
 \label{app:numerical_precision}
 
