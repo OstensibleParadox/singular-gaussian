@@ -73,7 +73,7 @@
 \crefname{section}{Sec.}{Secs.}
 \Crefname{section}{Section}{Sections}
 
-\title[Schur Complementation as Shorting]{Schur Complementation as Shorting: Singular Gaussian Conditioning and Fredholm Finite Parts}
+\title{Singular Gaussian Conditioning via the Inverse-Free Schur Complement}
 
 \author{Anonymous Author(s)}
 
@@ -118,7 +118,7 @@
     expression of Anderson--Trapp shorting.  For covariance operators on a
     separable Hilbert space, the free block $D$ is typically compact and trace
     class; it therefore has no bounded inverse on the ambient space
-    \cite{bogachev1998gaussian,simon2005trace,daprato2014stochastic}.  Singular
+    \cite{bogachev1998gaussian,simon2005trace,daprato2014stochastic,jorgensentian2024hilbert}.  Singular
     conditioning therefore does not repair the Schur formula.  It exposes that
     Schur complementation was the finite-dimensional shadow of shorting all
     along.
@@ -134,6 +134,9 @@
     Anderson and Trapp, gives the underlying variational formula for positive
     block operators
     \cite{krein1947selfadjoint,anderson1975shorted,douglas1966majorization}.
+    Recent Schur-complement work on non-negative operators and complementable
+    block operators gives a current operator-theoretic context for the same
+    mechanism \cite{contino2021matrix,naikjohnson2024complementable}.
     In the covariance setting, its admissibility condition is exactly a
     Cameron--Martin range condition: cross-covariance vectors must have finite
     covariance energy rather than lie in the domain of a non-existent bounded
@@ -147,7 +150,7 @@
     measure-class boundary: exact evidence is supported on a hyperplane of
     prior measure zero, while positive-noise Gaussian inverse-problem formulas may remain in
     the equivalent-measure regime
-    \cite{feldman1958equivalence,hajek1958property,bogachev1998gaussian,stuart2010inverse,carerelie2024optimal,carerelie2025posterior}.
+    \cite{feldman1958equivalence,hajek1958property,bogachev1998gaussian,stuart2010inverse,carerelie2024covariance,carerelie2025mean}.
     The shorted covariance separates the finite residual from the diverging
     normalization terms.  Fredholm determinant identities and
     determinant-and-trace cancellation then extract a canonical finite part.
@@ -198,7 +201,7 @@
     The paper is closest to four bodies of work.  First, it uses Schur
     complements, shorted operators, Douglas range inclusion, and modern
     complementability theory for block operators
-    \cite{krein1947selfadjoint,anderson1975shorted,douglas1966majorization,tretter2008spectral,contino2018schur,friedrich2017generalized,hassi2023complementation}.
+    \cite{krein1947selfadjoint,anderson1975shorted,douglas1966majorization,tretter2008spectral,contino2018schur,friedrich2017generalized,contino2021matrix,naikjohnson2024complementable}.
     Second, it uses the measure-class structure of Gaussian measures,
     especially the Cameron--Martin theorem and Feldman--H\'{a}jek dichotomy
     \cite{feldman1958equivalence,hajek1958property,bogachev1998gaussian}.
@@ -206,11 +209,11 @@
     Gaussian conditioning, including shorted covariance descriptions, positive
     noise inverse-problem formulas, low-rank covariance approximations, and nonlinear
     observation maps
-    \cite{owhadi2015conditioning,stuart2010inverse,chen2024gaussian,steinwart2024conditioning,carerelie2024optimal,carerelie2025posterior}.
+    \cite{owhadi2015conditioning,stuart2010inverse,steinwart2024conditioning,chen2024gaussian,carerelie2024covariance,carerelie2025mean,quang2022kl}.
     Fourth, the examples come from stochastic evolution equations and elliptic
     Gaussian fields, where dissipative sectorial generators produce compact
     trace-class stationary covariances naturally approximated by Galerkin
-    truncation \cite{daprato2014stochastic,lord2014introduction,simon2005trace}.
+    truncation \cite{daprato2014stochastic,lord2014introduction,simon2005trace,henderson2022sobolev,jorgensentian2024hilbert}.
 
     \subsection{Organization of the paper}
     \label{sec:organization}
@@ -352,6 +355,7 @@
     We use one core assumption package for the shorting limit:
 
     \begin{assumption}[Core Analytical Assumptions for Singular Hyperplane Conditioning]
+        \label{assum:core_analytical}
         \begin{enumerate}[label=(\roman*)]
             \item[(i)] \textbf{Trace-Class Lyapunov framework:} \label{assum:linear_second_moment}
             For each $\lambda>0$, the stationary covariance $\Sigma_\lambda$ is the unique strictly positive solution to the trace-class Lyapunov equation
@@ -436,7 +440,13 @@
     variational supremum.  We therefore formulate the singular-conditioning
     residual directly in covariance-energy forms.
 
-    Let $Q_0 \coloneqq \Sigma_{II}^{(0)}$ denote the fixed background bulk covariance under full decoupling ($\lambda = \infty$). We define the core Cameron--Martin space $H_{Q_0} \coloneqq \operatorname{Range}(Q_0^{1/2})$ and the core energy norm:
+    Let
+    \[
+    Q_0
+    =
+    \int_0^\infty e^{r\mathcal A_{II}}D_{II}e^{r\mathcal A_{II}^*}\,dr
+    \]
+    denote the ambient stable-bulk background covariance from Assumption~\ref{assum:core_analytical}. We define the core Cameron--Martin space $H_{Q_0} \coloneqq \operatorname{Range}(Q_0^{1/2})$ and the core energy norm:
     \begin{equation}
         |u|_{Q_0} \coloneqq \|Q_0^{-1/2} u\| \quad \text{for all } u \in H_{Q_0}.
     \end{equation}
@@ -463,7 +473,7 @@
         \big\langle \phi_k,\mathcal{S}_{\mathbb{C}\phi_k}(\Sigma_\lambda)\phi_k\big\rangle
         =\Sigma_{\lambda,kk}-R_\lambda.
     \end{equation}
-    The restriction to vectors with $\langle u,\Sigma_{\lambda,II}u\rangle>0$ simply removes null directions of the denominator; for a non-negative block operator, such directions do not change the supremum. Thus $R_\lambda$ is the energy removed by shorting to the target coordinate \cite{anderson1975shorted,owhadi2015conditioning}.
+    The restriction to vectors with $\langle u,\Sigma_{\lambda,II}u\rangle>0$ simply removes null directions of the denominator; for a non-negative block operator, such directions do not change the supremum. Thus $R_\lambda$ is the energy removed by shorting to the target coordinate \cite{anderson1975shorted,owhadi2015conditioning,contino2021matrix,naikjohnson2024complementable}.
 
     Since the target noise channel and bulk noise channel are independent, the bulk state decomposes into independent background and target-driven components, meaning the bulk covariance dominates the background covariance ($\Sigma_{\lambda,II} = Q_0 + \operatorname{Cov}(Y_I) \succeq Q_0$). Douglas range inclusion then guarantees that the variational subtraction is bounded:
     \begin{equation}
@@ -477,7 +487,7 @@
 
     \begin{theorem}[Hilbert Shorted Schur Invariant]
         \label{thm:inf_cancellation}
-        Under Assumptions~\ref{assum:linear_second_moment} and \ref{assum:cm_stability}, the $L^2$-projection residual satisfies:
+        Under Assumption~\ref{assum:core_analytical}, the $L^2$-projection residual satisfies:
         \begin{equation}
             \label{eq:main_schur_sharp}
             S_{k,\lambda} \coloneqq \|X_k - P_{\mathcal{M}_I} X_k\|_{L^2}^2 = \frac{\varepsilon_0}{2\lambda^2} - R_\lambda,
@@ -501,25 +511,34 @@
     \subsection{Convergence of Finite-Dimensional Truncations}
     \label{sec:proofs:convergence}
 
-    Let $\Pi_n: \mathcal{H} \to \mathcal{H}_n \coloneqq \operatorname{span}\{\phi_1, \ldots, \phi_n\}$ be the $n$-dimensional Galerkin projection. Write $\mathcal{A}_n^{(\lambda)} \coloneqq \Pi_n \mathcal{A}^{(\lambda)} \Pi_n$, $\mathcal{D}_n^{(\lambda)} \coloneqq \Pi_n \mathcal{D}^{(\lambda)} \Pi_n$, and let $\Sigma_{n,\lambda}$ solve the truncated Lyapunov equation $\mathcal{A}_n^{(\lambda)} \Sigma_{n,\lambda} + \Sigma_{n,\lambda} (\mathcal{A}_n^{(\lambda)})^* + \mathcal{D}_n^{(\lambda)} = 0$.
+    Let $\Pi_n: \mathcal{H} \to \mathcal{H}_n$ be finite-rank Galerkin projections preserving the target-bulk decomposition.  The convergence theorem below is stated for the admissible spectral truncations used in the covariance-energy argument: on the bulk space, $\Pi_n^I$ truncates in an eigenbasis of $Q_0$, $Q_0^{(n)}=\Pi_n^I Q_0\Pi_n^I|_{\Pi_n^I\mathcal{H}_I}$, and $a_{Ik}^{(n)}=\Pi_n^I a_{Ik}$.  This choice is not cosmetic; it is what preserves the Cameron--Martin energy uniformly:
+    \begin{equation}
+        \sup_n |a_{Ik}^{(n)}|_{Q_0^{(n)}}\le |a_{Ik}|_{Q_0}<\infty.
+    \end{equation}
+
+    Write $\mathcal{A}_n^{(\lambda)} \coloneqq \Pi_n \mathcal{A}^{(\lambda)}|_{\mathcal{H}_n}$, $\mathcal{D}_n^{(\lambda)} \coloneqq \Pi_n \mathcal{D}^{(\lambda)} \Pi_n$, and let $\Sigma_{n,\lambda}$ solve the truncated Lyapunov equation $\mathcal{A}_n^{(\lambda)} \Sigma_{n,\lambda} + \Sigma_{n,\lambda} (\mathcal{A}_n^{(\lambda)})^* + \mathcal{D}_n^{(\lambda)} = 0$.
 
     \begin{proposition}[Galerkin Consistency of the Shorted Schur Invariant]
         \label{prop:galerkin_consistency}
-        Under Assumption~\ref{assum:linear_second_moment}, let $\Pi_n:\mathcal{H}\to\mathcal{H}_n$ be finite-rank orthogonal Galerkin projections preserving the target-bulk block decomposition:
+        Under Assumption~\ref{assum:core_analytical}, let $\Pi_n:\mathcal{H}\to\mathcal{H}_n$ be finite-rank orthogonal Galerkin projections preserving the target-bulk block decomposition:
         \begin{equation}
             \Pi_n\phi_k=\phi_k,\qquad \Pi_n\mathcal{H}_I\subset\mathcal{H}_I,\qquad \Pi_n\to I\ \text{strongly on }\mathcal{H}.
         \end{equation}
-        Assume the truncated regularized operator family satisfies the uniform exponential stability and trace-class conditions stated in \Cref{lem:galerkin_trace_norm}.  Then the truncated covariance operators converge in trace norm:
+        Assume the truncated regularized operator family satisfies the uniform exponential stability and trace-class conditions stated in Lemma~\ref{lem:galerkin_trace_norm}, and assume either the uniform finite-energy condition
+        \begin{equation}
+            \sup_n |a_{Ik}^{(n)}|_{Q_0^{(n)}}<\infty,
+        \end{equation}
+        or, more concretely, the spectral truncation choice $a_{Ik}^{(n)}=\Pi_n^I a_{Ik}$ and $Q_0^{(n)}=\Pi_n^I Q_0\Pi_n^I$ in a common $Q_0$ eigenbasis.  Then the truncated covariance operators converge in trace norm:
         \begin{equation}
             \|\Sigma_{n,\lambda}-\Sigma_\lambda\|_{\mathcal{S}_1}\to0\quad\text{as }n\to\infty,
         \end{equation}
-        and the truncated Schur invariant is exact at every level:
+        and the truncated Schur invariant is exact at every admissible level:
         \begin{equation}
-            m_2^{\mathrm{Schur},(n)} \coloneqq \lim_{\lambda\to\infty} \lambda^2 S_{k,\lambda}^{(n)} = \frac{\varepsilon_0}{2} \quad \text{for all } n \ge k.
+            m_2^{\mathrm{Schur},(n)} \coloneqq \lim_{\lambda\to\infty} \lambda^2 S_{k,\lambda}^{(n)} = \frac{\varepsilon_0}{2} \quad \text{for all admissible } n.
         \end{equation}
     \end{proposition}
     \begin{proof}
-        See \Cref{lem:galerkin_trace_norm,lem:galerkin_variational_shorting} for the operator and variational shorting support.
+        See Lemmas~\ref{lem:galerkin_trace_norm}, \ref{lem:galerkin_finite_energy_monotonicity}, and \ref{lem:galerkin_variational_shorting} for the trace-norm convergence, the spectral finite-energy monotonicity, and the variational shorting support.
     \end{proof}
 
     % ============================================================
@@ -530,71 +549,91 @@
 
     The variational shorting formula of \Cref{sec:infdim:variational} is the
     primitive operator object whose finite-dimensional invertible expression is
-    the Schur formula.  We now prove that returning to this primitive object is
-    structurally unavoidable in the singular Hilbert-space setting: direct
-    inversion fails at three independent and cumulative levels---algebraic,
-    numerical, and asymptotic.
+    the Schur formula.  The following result is deliberately stated in the GFF
+    spectral regime used by the elliptic example \cite{sheffield2007gaussian,henderson2022sobolev}, rather than as a general
+    compact-operator theorem.
 
-\begin{theorem}[Triple Impossibility]
+\begin{theorem}[Triple Impossibility in the GFF Spectral Regime]
         \label{thm:triple_impossibility}
         Let $Q_0\coloneqq\Sigma_{II}^{(0)}$ be the free-block covariance operator
-        under full decoupling with eigenvalues $\{\sigma_j\}_{j=1}^\infty$.
-        Let $N\ge1$ and let $Q_0^{(N)}$ be the $N$-dimensional Galerkin truncation.
-        Then:
+        under full decoupling.  Assume the GFF spectral regime: in an orthonormal
+        bulk eigenbasis,
+        \begin{equation}
+            Q_0 e_j=\sigma_j e_j,
+            \qquad
+            \sigma_j\asymp j^{-2},
+        \end{equation}
+        and the corresponding precision or drift eigenvalues satisfy
+        \begin{equation}
+            \mu_j\asymp j^2.
+        \end{equation}
+        Let $Q_0^{(N)}$ be the $N$-mode Galerkin truncation in this basis.  Then:
         \begin{enumerate}[label=(\roman*)]
             \item \label{item:algebraic_impossibility}
             \textbf{Algebraic impossibility.}
-            In infinite dimensions, $Q_0$ is either compact with $0$ in its
-            spectrum (GFF regime, $\sigma_j\sim j^{-2}$), so the classical Schur
-            expression $\Sigma_{KK}-\Sigma_{KI}\Sigma_{II}^{-1}\Sigma_{IK}$ is not
-            an operator formula in the norm topology of the ambient Hilbert space.
+            In infinite dimensions, $Q_0$ is compact and injective with
+            $0$ in its spectrum.  Hence $Q_0^{-1}$ is unbounded on the ambient
+            Hilbert space, and the classical Schur expression
+            $\Sigma_{KK}-\Sigma_{KI}\Sigma_{II}^{-1}\Sigma_{IK}$ is not an
+            ambient bounded-operator formula.
 
             \item \label{item:numerical_impossibility}
             \textbf{Numerical impossibility.}
-            For any finite-dimensional truncation of dimension $N$, the condition
-            number of the truncated covariance matrix satisfies
+            The Galerkin covariance matrices have condition numbers
             \begin{equation}
                 \label{eq:spectral_ill_conditioning}
                 \kappa\bigl(Q_0^{(N)}\bigr)
                 =
-                \frac{\sigma_{\max}^{(N)}}{\sigma_{\min}^{(N)}}
-                \sim N^{2}.
+                \frac{\max_{1\le j\le N}\sigma_j}{\min_{1\le j\le N}\sigma_j}
+                \asymp N^{2}.
             \end{equation}
-            In direct finite-dimensional inversion this creates the same numerical
-            instability as direct inversion of ill-conditioned linear systems.
+            Direct inversion therefore amplifies errors at the same spectral rate
+            as the inverse GFF precision scale.
 
             \item \label{item:asymptotic_impossibility}
             \textbf{Asymptotic impossibility.}
-            Even with exact arithmetic, the GFF-mode resolvent
-            $(\lambda+\mu_j)^{-1}$, $\mu_j\sim j^{2}$, leaves high modes
-            unpenalized when $\lambda\ll N^{2}$, so no fixed finite-dimensional
-            truncation can uniformly capture the large-$\lambda$ limit.  In the
-            relevant range $\lambda\gg N^{2}$, the transient growth is suppressed.
+            The diagonal resolvent factor $(\lambda+\mu_j)^{-1}$ has a critical
+            mode
+            \begin{equation}
+                \label{eq:gff_critical_mode}
+                j^*(\lambda)\asymp \sqrt{\lambda}.
+            \end{equation}
+            Modes $j\ll j^*(\lambda)$ are in the clamp-dominated regime
+            $(\lambda+\mu_j)^{-1}\asymp\lambda^{-1}$, while modes
+            $j\gg j^*(\lambda)$ remain in the precision-dominated regime
+            $(\lambda+\mu_j)^{-1}\asymp\mu_j^{-1}\asymp j^{-2}$.  Hence a fixed
+            truncation dimension $N$ cannot uniformly represent the large-$\lambda$
+            transition unless it resolves the moving scale $j^*(\lambda)$.
         \end{enumerate}
 
-        The consistent resolution in both regimes is the variational shorting
-        operator (\Cref{sec:infdim:variational}), the operator object whose
-        invertible-block coordinate expression is the Schur formula.  It is
-        well-defined without bounded inverses and numerically realizable through
-        sparse precision-operator solves.
+        The consistent resolution is the variational shorting operator
+        (\Cref{sec:infdim:variational}), the operator object whose invertible-block
+        coordinate expression is the Schur formula.  It is well-defined without
+        bounded ambient inverses and its Galerkin approximation is a nested
+        Rayleigh--Ritz restriction of the same variational quantity.
     \end{theorem}
 
     \begin{proof}
-        \ref{item:algebraic_impossibility} follows from standard spectral theory:
-        a compact operator on an infinite-dimensional Hilbert space has $0$ in its
-        spectrum, and an unbounded operator has no bounded global inverse.
+        For \ref{item:algebraic_impossibility}, compactness of $Q_0$ follows from
+        $\sigma_j\to0$.  Since the Hilbert space is infinite-dimensional and
+        $Q_0$ is injective with eigenvalues tending to zero, $0$ belongs to the
+        spectrum but is not an eigenvalue.  Thus the inverse exists only as an
+        unbounded operator on its range or as a Cameron--Martin form, not as a
+        bounded operator on the ambient Hilbert space.
 
-        For \ref{item:numerical_impossibility}, the eigenvalue ratio
-        $\sigma_{\max}^{(N)}/\sigma_{\min}^{(N)}$ scales as $N^{2}$ in the
-        GFF regime ($\sigma_{\max}\sim1$, $\sigma_{\min}\sim N^{-2}$).  This
-        makes direct inversion an unstable route to $O(\lambda^{-6})$ residuals.
+        For \ref{item:numerical_impossibility}, the assumptions
+        $\sigma_j\asymp j^{-2}$ give constants $c,C>0$ such that
+        $cj^{-2}\le\sigma_j\le Cj^{-2}$.  Hence
+        $\max_{1\le j\le N}\sigma_j\asymp \sigma_1\asymp1$ and
+        $\min_{1\le j\le N}\sigma_j\asymp\sigma_N\asymp N^{-2}$, proving
+        \eqref{eq:spectral_ill_conditioning}.
 
-        For \ref{item:asymptotic_impossibility}, the GFF analysis follows from
-        the resolvent diagonalization $(\lambda+\mu_j)^{-1}$ with
-        $\mu_j\sim j^{2}$.  The critical mode is
-        $j^{*}(\lambda)\sim\pi^{-1}\sqrt{\lambda}$; modes with $j>j^{*}$ remain
-        in the $\mu_j^{-1}$ regime and are unpenalized by $\lambda$, producing
-        transient growth until $\lambda\gg N^{2}$.
+        For \ref{item:asymptotic_impossibility}, the transition occurs where
+        $\lambda$ and $\mu_j$ have comparable size.  Since $\mu_j\asymp j^2$,
+        the relation $\mu_j\asymp\lambda$ is equivalent to
+        $j\asymp\sqrt{\lambda}$, which proves \eqref{eq:gff_critical_mode}.  The
+        two displayed resolvent regimes follow by comparing $\lambda$ and
+        $\mu_j$ on either side of this scale.
     \end{proof}
 
     % ============================================================
@@ -615,7 +654,7 @@
 
     \begin{assumption}[Gaussian Application and Affine Mean Channel]
         \label{assum:gaussian_clamp}
-        In addition to Assumptions~\ref{assum:linear_second_moment} and \ref{assum:cm_stability}, let $\mu_\lambda = \mathcal{N}(m_\lambda, \Sigma_\lambda)$ be a Gaussian Radon law on $\mathcal{H}$ with injective trace-class covariance. Let $\mu_{\mathrm{obs}}$ be the canonical Gaussian disintegration member on the evidence hyperplane $X_k = x_k^*$. Suppose that a fixed deterministic forcing $b \in \mathcal{H}$ gives the stationary mean equation:
+        In addition to Assumption~\ref{assum:core_analytical}, let $\mu_\lambda = \mathcal{N}(m_\lambda, \Sigma_\lambda)$ be a Gaussian Radon law on $\mathcal{H}$ with injective trace-class covariance. Let $\mu_{\mathrm{obs}}$ be the canonical Gaussian disintegration member on the evidence hyperplane $X_k = x_k^*$. Suppose that a fixed deterministic forcing $b \in \mathcal{H}$ gives the stationary mean equation:
         \begin{equation}
             \mathcal{A}_{\cond} m_\lambda + b - \lambda \Pi_k (m_\lambda - x_k^* \phi_k) = 0, \quad \Pi_k \mathcal{A}_{\cond} = 0.
         \end{equation}
@@ -690,7 +729,7 @@
     \]
     The full proof is in Appendix~\Cref{app:gaussian_fredholm}, and it also shows
     weak-independence from the mollifier: replacing the Gaussian mollifier in
-    \Cref{prop:mollification_limit} by any centered approximate identity with
+    Proposition~\ref{prop:mollification_limit} by any centered approximate identity with
     finite second moment changes the finite part only by a kernel-dependent term
     independent of $t$.
 
@@ -732,7 +771,7 @@
     \section{Elliptic Gaussian Field Example}
     \label{sec:spde}
 
-    A standard elliptic Gaussian field example shows that the abstract Hilbert-space assumptions are natural for covariance operators arising from stochastic evolution equations and elliptic Gaussian priors \cite{daprato2014stochastic,lord2014introduction,stuart2010inverse}.
+    A standard elliptic Gaussian field example shows that the abstract Hilbert-space assumptions are natural for covariance operators arising from stochastic evolution equations and elliptic Gaussian priors \cite{daprato2014stochastic,lord2014introduction,stuart2010inverse,henderson2022sobolev}.
 
     \subsection{Elliptic Gaussian field on \texorpdfstring{$[0,1]$}{[0,1]}}
 
@@ -748,7 +787,7 @@
     \[
     q_j=(\pi^2j^2+\kappa^2)^{-1}.
     \]
-    Thus $Q_0$ is a typical infinite-dimensional covariance operator: it is compact and trace class, has no bounded inverse on the ambient space, and carries its inverse only as a Cameron--Martin energy form \cite{bogachev1998gaussian,simon2005trace}.
+    Thus $Q_0$ is a typical infinite-dimensional covariance operator: it is compact and trace class, has no bounded inverse on the ambient space, and carries its inverse only as a Cameron--Martin energy form \cite{bogachev1998gaussian,simon2005trace,henderson2022sobolev}.
 
     \subsection{Cameron--Martin range and covariance energy}
 
@@ -762,7 +801,7 @@
     =\langle h,Lh\rangle_{L^2}
     =\int_0^1 \bigl(|h'(x)|^2+\kappa^2|h(x)|^2\bigr)\,dx.
     \]
-    This identifies the variational Schur projection in a Sobolev-energy form, as in the standard covariance-energy representation of Gaussian Hilbert priors \cite{bogachev1998gaussian,stuart2010inverse}. The covariance inverse does not act as a bounded operator on $L^2(0,1)$; it acts only through the energy form on its Cameron--Martin domain.
+    This identifies the variational Schur projection in a Sobolev-energy form, as in the standard covariance-energy representation of Gaussian Hilbert priors \cite{bogachev1998gaussian,stuart2010inverse,henderson2022sobolev}. The covariance inverse does not act as a bounded operator on $L^2(0,1)$; it acts only through the energy form on its Cameron--Martin domain.
 
     \subsection{Spectral sensor conditioning}
 
