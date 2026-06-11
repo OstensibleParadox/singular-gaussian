@@ -10,11 +10,6 @@ V.~I. Bogachev.
 \newblock {\em Gaussian Measures}.
 \newblock American Mathematical Society, 1998.
 
-\bibitem{bogachev2007measure}
-V.~I. Bogachev.
-\newblock {\em Measure Theory}.
-\newblock Springer, 2007.
-
 \bibitem{carerelie2024optimal}
 G.~Carere and H.~C. Lie.
 \newblock Optimal low-rank approximations of posteriors for linear gaussian
@@ -71,11 +66,6 @@ S.~Hassi and H.~de~Snoo.
 \newblock Complementation and lebesgue type decompositions of linear operators
   and relations.
 \newblock {\em arXiv preprint arXiv:2308.09408}, 2023.
-
-\bibitem{kallenberg2021foundations}
-O.~Kallenberg.
-\newblock {\em Foundations of Modern Probability}.
-\newblock Springer, 3rd edition, 2021.
 
 \bibitem{krein1947selfadjoint}
 M.~G. Krein.

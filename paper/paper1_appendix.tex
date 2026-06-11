@@ -90,10 +90,10 @@ energy bound.
 \section{Anderson--Trapp Shorting and the Rank-One Residual}
 \label{app:shorting_residual}
 
-The Schur complement formula used in finite dimensions is only the
-bounded-inverse coordinate shadow of Anderson--Trapp shorting.  The Hilbert
-space argument therefore starts from shorting and recovers the Schur expression
-only when the complementary block is boundedly invertible.
+In finite dimensions, the Schur complement is only the bounded-inverse
+shadow of Anderson--Trapp shorting.  The Hilbert space argument therefore
+starts from shorting and recovers the Schur expression only when the
+complementary block is boundedly invertible.
 
 \begin{lemma}[Schur complement as the bounded-inverse shadow of shorting]
 \label{lem:schur_shadow_shorting}
@@ -213,10 +213,12 @@ $\Pi_n\to I$ strongly.  For fixed $\lambda>0$, set
 \]
 Assume that $e^{t\mathcal{A}_n^{(\lambda)}}x\to
 e^{t\mathcal{A}^{(\lambda)}}x$ for every $x$, uniformly for $t$ in compact
-intervals, that the semigroups are uniformly exponentially stable
-$\|e^{t\mathcal{A}_n^{(\lambda)}}\|,
-\|e^{t\mathcal{A}^{(\lambda)}}\|\le Me^{-\beta t}$, and that
-$\mathcal{D}_n^{(\lambda)}\to\mathcal{D}^{(\lambda)}$ in
+intervals, that the semigroups are uniformly exponentially stable, satisfying
+\[
+  \|e^{t\mathcal{A}_n^{(\lambda)}}\|, \
+  \|e^{t\mathcal{A}^{(\lambda)}}\|\le Me^{-\beta t},
+\]
+and that $\mathcal{D}_n^{(\lambda)}\to\mathcal{D}^{(\lambda)}$ in
 $\mathcal{S}_1(\mathcal{H})$.  Then
 \[
   \Sigma_{n,\lambda}
@@ -361,7 +363,9 @@ $X_k=t$, where
     m_{\lambda,I}
     +\Sigma_{\lambda,Ik}\Sigma_{\lambda,kk}^{-1}(t-m_{\lambda,k})
   \end{pmatrix},
-  \quad
+\]
+and
+\[
   \Sigma_\lambda^t=
   \begin{pmatrix}
     0&0\\
@@ -594,9 +598,9 @@ $S_{k,\lambda}=\Sigma_{\lambda,kk}(1-\rho_\lambda)$,
   +
   \frac{\Delta_\lambda^2}{2\Sigma_{\lambda,kk}}(1-\rho_\lambda).
 \]
-The calibrated identities give
-$\Delta_\lambda^2/(2\Sigma_{\lambda,kk})=b_k^2/\varepsilon_0$ and
-$\rho_\lambda=O(\lambda^{-4})$.  Adding
+The calibrated identities yield the relation
+$\Delta_\lambda^2 / (2\Sigma_{\lambda,kk}) = b_k^2 / \varepsilon_0$
+as well as $\rho_\lambda = O(\lambda^{-4})$.  Adding
 \Cref{lem:feldman_hajek} yields
 \[
   \mathfrak{J}_\lambda(\mu_{\mathrm{obs}};\mu_\lambda)
