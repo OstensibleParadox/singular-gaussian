@@ -73,7 +73,7 @@
 \crefname{section}{Sec.}{Secs.}
 \Crefname{section}{Section}{Sections}
 
-\title[Block Operator Decoupling in Hilbert Space]{Block Operator Decoupling in Hilbert Space: Inverse-Free Schur Complementation and Gaussian Finite Parts}
+\title[Schur Complementation as Shorting]{Schur Complementation as Shorting: Singular Gaussian Conditioning and Fredholm Finite Parts}
 
 \author{Anonymous Author(s)}
 
@@ -83,26 +83,31 @@
     %  ABSTRACT
     % ============================================================
     \begin{abstract}
-        We study the block-operator obstruction behind Schur complementation
-        when the free covariance block is compact and trace class.  In this
-        regime the finite-dimensional expression
-        $A-BD^{-1}B^*$ is not an operator formula, because $D$ has no bounded
-        ambient inverse.  We replace the inverse by the Anderson--Trapp
-        variational shorting formula on the Cameron--Martin range, derive the
-        canonical $\lambda^{-2}$ target-block scale from block Lyapunov
-        normalization, prove an $O(\lambda^{-6})$ shorted-residual estimate,
-        and extend the construction to finite-rank targets by Rayleigh--Ritz
-        restriction of the same variational supremum.  Gaussian conditioning is
-        then an application of this operator algebra: Galerkin monotonicity
-        follows from subspace nesting, and the renormalized finite part is
-        reduced by Fredholm determinant and trace identities to the invariant
-        quadratic form
-        \[
-        \frac12\delta_E^\top\widetilde\Sigma_{EE}^{-1}\delta_E .
-        \]
+        We show that the finite-dimensional Schur formula
+        $A-BD^{-1}B^*$ is not the primitive algebra behind singular Gaussian
+        conditioning.  It is the invertible-block coordinate expression of
+        Anderson--Trapp shorting.  In Hilbert space, compact trace-class
+        covariance blocks lack bounded ambient inverses, so singular
+        conditioning removes the finite-dimensional disguise and forces the
+        conditional covariance to be defined as the short of the ambient
+        covariance operator.  Direct inversion fails at three cumulative
+        levels---algebraic (no bounded inverse), numerical (spectral
+        ill-conditioning of order $\kappa\sim N^2$), and asymptotic
+        (transient spectral imbalance).  The shorting formulation replaces
+        inversion by a variational supremum on the Cameron--Martin range,
+        derives the canonical $\lambda^{-2}$ target-block scale from block
+        Lyapunov normalization, and gives an $O(\lambda^{-6})$ shorted-residual
+        estimate.  The same variational object extends to finite-rank targets
+        by Rayleigh--Ritz restriction, with Galerkin monotonicity following from
+        nested subspaces.  For Gaussian Radon laws, this operator-level shorting
+        is what makes the Fredholm finite part canonical: disintegration
+        supplies the exact-evidence law, while Weinstein--Aronszajn and
+        Fredholm determinant identities cancel the trace terms and reduce the
+        finite part to
+        $\frac12\delta_E^\top\widetilde\Sigma_{EE}^{-1}\delta_E$.
     \end{abstract}
 
-    \keywords{Block operators; Schur complementation; shorted operators; Cameron--Martin range; trace-class covariance; Fredholm determinants; trace anomalies; Gaussian disintegration; Galerkin approximation}
+    \keywords{Block operators; Anderson--Trapp shorting; Schur complementation; Cameron--Martin range; trace-class covariance; Fredholm finite parts; Gaussian disintegration; Galerkin approximation}
 
     \maketitle
 
@@ -112,50 +117,52 @@
     \section{Introduction}
     \label{sec:intro}
 
-    The starting point is a functional-analytic obstruction, not a
-    probabilistic one.  In finite dimensions, the Schur complement of a
-    positive block matrix is written as $A-BD^{-1}B^*$.  For covariance
-    operators on a separable Hilbert space, the free block $D$ is typically
-    compact and trace class; it therefore has no bounded inverse on the
-    ambient space \cite{bogachev1998gaussian,simon2005trace,daprato2014stochastic}.
-    The finite-dimensional Schur formula is then no longer an operator
-    identity.  This is the algebraic obstruction addressed here.  A
-    systematic impossibility result (Theorem~\ref{thm:triple_impossibility})
-    shows that the obstruction is not merely algebraic: even
-    finite-dimensional truncations suffer condition-number catastrophe
-    $\kappa\sim N^{2}$, and even with exact arithmetic the asymptotic regime
-    may require $\lambda\gg N^{2}$, placing the true limit beyond the reach of
-    any fixed truncation.  The variational shorting operator is therefore not
-    an elegant alternative---it is the only consistent survival path.
+    The starting point is a functional-analytic identification, not a
+    probabilistic regularization.  In finite dimensions, the Schur complement
+    of a positive block matrix is written as $A-BD^{-1}B^*$.  This formula is
+    not the primitive operation: it is the invertible-block coordinate
+    expression of Anderson--Trapp shorting.  For covariance operators on a
+    separable Hilbert space, the free block $D$ is typically compact and trace
+    class; it therefore has no bounded inverse on the ambient space
+    \cite{bogachev1998gaussian,simon2005trace,daprato2014stochastic}.  Singular
+    conditioning therefore does not repair the Schur formula.  It exposes that
+    Schur complementation was the finite-dimensional shadow of shorting all
+    along.
 
-    The replacement is Anderson--Trapp shorting.  Classical Schur-complement
-    and shorted-operator theory, originating in Krein's theory of non-negative
-    extensions and developed systematically by Anderson and Trapp, gives a
-    variational formula for positive block operators
+    A systematic impossibility result
+    (Theorem~\ref{thm:triple_impossibility}) shows that direct inversion fails
+    at three independent levels: algebraically there is no bounded inverse,
+    numerically Galerkin truncations suffer spectral ill-conditioning
+    $\kappa\sim N^{2}$, and asymptotically the regime may require
+    $\lambda\gg N^{2}$, placing the true limit beyond the reach of any fixed
+    truncation.  Classical Schur-complement and shorted-operator theory,
+    originating in Krein's theory of non-negative extensions and developed by
+    Anderson and Trapp, gives the underlying variational formula for positive
+    block operators
     \cite{krein1947selfadjoint,anderson1975shorted,douglas1966majorization}.
     In the covariance setting, its admissibility condition is exactly a
     Cameron--Martin range condition: cross-covariance vectors must have finite
     covariance energy rather than lie in the domain of a non-existent bounded
-    inverse.  This paper uses that range condition to define the Schur residual
-    as an energy projection, proves its $\lambda^{-6}$ scale, and shows that
-    Galerkin approximation is only Rayleigh--Ritz restriction of the same
+    inverse.  This paper uses that range condition to define the shorted
+    residual as an energy projection, proves its $\lambda^{-6}$ scale, and
+    shows that Galerkin approximation is Rayleigh--Ritz restriction of the same
     supremum to nested finite-dimensional test spaces.
 
-    Gaussian conditioning enters after this block-operator decoupling is in
+    Gaussian conditioning enters after this operator identification is in
     place.  Singular coordinate conditioning reaches the Feldman--H\'{a}jek
     measure-class boundary: exact evidence is supported on a hyperplane of
     prior measure zero, while positive-noise Gaussian inverse-problem formulas may remain in
     the equivalent-measure regime
     \cite{feldman1958equivalence,hajek1958property,bogachev1998gaussian,stuart2010inverse,carerelie2024optimal,carerelie2025posterior}.
-    The block algebra separates the finite shorted covariance residual from
-    the diverging normalization terms.  Fredholm determinant identities and
-    trace-anomaly cancellation then give a finite Gaussian Fredholm
-    functional.
+    The shorted covariance separates the finite residual from the diverging
+    normalization terms.  Fredholm determinant identities and
+    determinant-and-trace cancellation then extract a canonical finite part.
 
     Thus the paper's logical order is:
-    block operator decoupling first, Gaussian disintegration second.  The
-    stochastic terminology is an application layer.  The structural object is
-    inverse-free Schur complementation for compact covariance blocks.
+    shorting first, Gaussian disintegration second.  The stochastic terminology
+    is an application layer.  The structural object is Anderson--Trapp shorting;
+    the familiar Schur formula is its finite-dimensional invertible-block
+    expression.
 
     In the rank-one case, the residual has the exact asymptotic form
     \[
@@ -178,15 +185,16 @@
         \item \textbf{Block Lyapunov normalization.} We identify the operator
         mechanism that fixes the target block at the unique finite-part scale
         $\Sigma_{\lambda,kk}=\varepsilon_0/(2\lambda^2)$.
-        \item \textbf{Inverse-free Schur complementation.} We replace the
-        failed free-block inverse by the Anderson--Trapp variational shorting
-        formula on the Cameron--Martin range, and prove the $O(\lambda^{-6})$
+        \item \textbf{Schur as shorting.} We identify the formal inverse
+        expression $A-BD^{-1}B^*$ as the invertible-block expression of
+        Anderson--Trapp shorting, define the residual by the variational short
+        on the Cameron--Martin range, and prove the $O(\lambda^{-6})$
         shorted-residual estimate.
         \item \textbf{Galerkin monotonicity.} We prove that
         finite-rank Galerkin truncations converge monotonically by expanding the
         variational supremum. Loewner monotonicity is a consequence of nested
         subspaces, not matrix inversion.
-        \item \textbf{Trace-anomaly cancellation.} For Gaussian
+        \item \textbf{Fredholm finite part.} For Gaussian
         Radon laws, disintegration supplies the exact-evidence measure, while
         Weinstein--Aronszajn and Fredholm determinant identities cancel the trace
         anomalies and reduce the finite part to the invariant quadratic form.
@@ -216,8 +224,8 @@
     \label{sec:organization}
 
     \Cref{sec:setup} defines the block operator model and canonical
-    normalization. \Cref{sec:infdim} establishes inverse-free Hilbert-space
-    Schur complementation. \Cref{sec:gaussian_zero} applies the operator
+    normalization. \Cref{sec:infdim} establishes the Hilbert-space
+    shorted-operator construction. \Cref{sec:gaussian_zero} applies the operator
     result to Radon Gaussian disintegration and Fredholm finite parts.
     \Cref{sec:spde} gives an elliptic Gaussian-field example.
     \Cref{sec:finite_rank} develops finite-rank shorting, operator-valued
@@ -432,7 +440,21 @@
     \subsection{Variational Shorting and Energy Bounds}
     \label{sec:infdim:variational}
 
-    In finite dimensions, the Schur complement of the bulk covariance block $\Sigma_{II}$ is defined as $S_k \coloneqq \Sigma_{kk} - \Sigma_{kI} \Sigma_{II}^{-1} \Sigma_{Ik}$. Under stable and strictly positive diffusion, the bulk covariance $\Sigma_{II}$ is positive-definite and invertible, so the subtraction is well-defined. However, in infinite dimensions, the stationary covariance operator is trace-class and compact, meaning its restriction $\Sigma_{\lambda,II}$ lacks a bounded global inverse. The appropriate operator-theoretic replacement is the shorted operator: for a non-negative block operator, the Schur complement is recovered as the quadratic form of the short to the target subspace, with the inverse term replaced by a variational supremum \cite{krein1947selfadjoint,anderson1975shorted}. To lift the Schur complement to infinite dimensions in the present singular-conditioning problem, we formulate the projection residual directly using covariance-energy forms.
+    In finite dimensions, the Schur complement of the bulk covariance block
+    $\Sigma_{II}$ is written as
+    $S_k \coloneqq \Sigma_{kk} - \Sigma_{kI}\Sigma_{II}^{-1}\Sigma_{Ik}$.
+    Under stable and strictly positive diffusion, the bulk covariance
+    $\Sigma_{II}$ is positive-definite and invertible, so this expression is a
+    valid coordinate formula.  Its operator-theoretic content, however, is
+    shorting: for a non-negative block operator, the Schur complement is the
+    quadratic form of the Anderson--Trapp short to the target subspace, and the
+    inverse expression appears only when the complementary block is invertible
+    \cite{krein1947selfadjoint,anderson1975shorted}.  In infinite dimensions,
+    the stationary covariance operator is trace-class and compact, so
+    $\Sigma_{\lambda,II}$ lacks a bounded global inverse.  The finite-dimensional
+    formula disappears, but the shorted operator remains well-defined through a
+    variational supremum.  We therefore formulate the singular-conditioning
+    residual directly in covariance-energy forms.
 
     Let $Q_0 \coloneqq \Sigma_{II}^{(0)}$ denote the fixed background bulk covariance under full decoupling ($\lambda = \infty$). We define the core Cameron--Martin space $H_{Q_0} \coloneqq \operatorname{Range}(Q_0^{1/2})$ and the core energy norm:
     \begin{equation}
@@ -461,7 +483,7 @@
         \big\langle \phi_k,\mathcal{S}_{\mathbb{C}\phi_k}(\Sigma_\lambda)\phi_k\big\rangle
         =\Sigma_{\lambda,kk}-R_\lambda.
     \end{equation}
-    The restriction to vectors with $\langle u,\Sigma_{\lambda,II}u\rangle>0$ simply removes null directions of the denominator; for a non-negative block operator, such directions do not change the supremum. Thus $R_\lambda$ is not an ambient inverse computation but the energy removed by shorting to the target coordinate \cite{anderson1975shorted,owhadi2015conditioning}.
+    The restriction to vectors with $\langle u,\Sigma_{\lambda,II}u\rangle>0$ simply removes null directions of the denominator; for a non-negative block operator, such directions do not change the supremum. Thus $R_\lambda$ is the energy removed by shorting to the target coordinate \cite{anderson1975shorted,owhadi2015conditioning}.
 
     Since the target noise channel and bulk noise channel are independent, the bulk state decomposes into independent background and target-driven components, meaning the bulk covariance dominates the background covariance ($\Sigma_{\lambda,II} = Q_0 + \operatorname{Cov}(Y_I) \succeq Q_0$). Douglas range inclusion then guarantees that the variational subtraction is bounded:
     \begin{equation}
@@ -471,7 +493,7 @@
     \subsection{Shorted Schur Residual Scaling}
     \label{sec:infdim:scaling}
 
-    We now establish the main scaling theorem for the shorted Schur residual. The $L^2$ projection interpretation is secondary and follows from covariance geometry.
+    The main scaling theorem for the shorted Schur residual follows. The $L^2$ projection interpretation is secondary and follows from covariance geometry.
 
     \begin{theorem}[Hilbert Shorted Schur Invariant]
         \label{thm:inf_cancellation}
@@ -526,11 +548,12 @@
     \subsection{The Triple Impossibility of Direct Inversion}
     \label{sec:triple_impossibility}
 
-    The variational shorting formula of \Cref{sec:infdim:variational} replaces
-    the algebraic inverse $\Sigma_{II}^{-1}$ by an energy projection.  We now
-    prove that this replacement is not merely elegant but structurally
-    unavoidable: direct inversion fails at three independent and cumulative
-    levels---algebraic, numerical, and asymptotic.
+    The variational shorting formula of \Cref{sec:infdim:variational} is the
+    primitive operator object whose finite-dimensional invertible expression is
+    the Schur formula.  We now prove that returning to this primitive object is
+    structurally unavoidable in the singular Hilbert-space setting: direct
+    inversion fails at three independent and cumulative levels---algebraic,
+    numerical, and asymptotic.
 
     \begin{theorem}[Triple Impossibility]
         \label{thm:triple_impossibility}
@@ -553,7 +576,7 @@
             For any finite-dimensional truncation of dimension $N$, the condition
             number of the truncated covariance matrix satisfies
             \begin{equation}
-                \label{eq:condition_number_catastrophe}
+                \label{eq:spectral_ill_conditioning}
                 \kappa\bigl(Q_0^{(N)}\bigr)
                 =
                 \frac{\sigma_{\max}^{(N)}}{\sigma_{\min}^{(N)}}
@@ -595,10 +618,11 @@
             capture the large-$\lambda$ limit.
         \end{enumerate}
 
-        The only consistent resolution in both regimes is the variational shorting
-        operator (\Cref{sec:infdim:variational}), which is well-defined without
-        bounded inverses and numerically realizable through sparse precision-operator
-        solves.
+        The consistent resolution in both regimes is the variational shorting
+        operator (\Cref{sec:infdim:variational}), the operator object whose
+        invertible-block coordinate expression is the Schur formula.  It is
+        well-defined without bounded inverses and numerically realizable through
+        sparse precision-operator solves.
     \end{theorem}
 
     \begin{proof}
@@ -641,7 +665,7 @@
         order $10^{-20}$.  Double-precision arithmetic ($\sim10^{-16}$ relative
         accuracy) cannot resolve this residual against numerical noise.  Combined
         with the condition-number amplification $\kappa\sim10^{6}$ from
-        \eqref{eq:condition_number_catastrophe}, the effective signal-to-noise
+        \eqref{eq:spectral_ill_conditioning}, the effective signal-to-noise
         ratio is below unity.  Extraction of the true $O(\lambda^{-4})$ rate
         therefore required quadruple-precision (256-bit) arithmetic---a
         computational necessity that confirms, rather than refutes, the
@@ -655,10 +679,12 @@
     \section{Fredholm Trace Anomalies and Gaussian Finite Parts}
     \label{sec:gaussian_zero}
 
-    This section applies the inverse-free Schur construction to Gaussian
-    Radon laws.  Disintegration supplies the exact-evidence measure; the new
-    algebraic content is the cancellation between the Fredholm determinant
-    term and the trace anomaly generated by the shorted covariance defect.
+    This section applies the shorted-operator construction to Gaussian Radon
+    laws.  Disintegration supplies the exact-evidence measure; shorting supplies
+    the conditional covariance object to which the Gaussian formulas can be
+    applied.  The Fredholm finite part is then canonical: the determinant term
+    and the trace-class perturbation generated by the shorted covariance defect
+    cancel at the operator-spectral level.
 
     \subsection{Radon Gaussian Application and Disintegration}
     \label{sec:gaussian:setup}
@@ -701,7 +727,8 @@
     \label{sec:gaussian:functional}
 
     Although the joint KL divergence diverges under exact conditioning, the
-    block-operator decomposition isolates a finite Fredholm part.
+    shorted covariance isolates the operator finite part before it is interpreted
+    as a Gaussian density residue.
 
     \begin{definition}[Gaussian Fredholm Finite-Part Functional]
         \label{def:unified_action}
@@ -713,7 +740,7 @@
                 &+ \frac{1}{2} S_{k,\lambda}^{-1} \E_{\mu_{\mathrm{obs}}}\left[ \left( X_k - \mu_{k|I}(X_I) \right)^2 \right].
             \end{aligned}
         \end{equation}
-        This is the finite part of the joint KL divergence after subtracting the Dirac normalization singularity; the remaining covariance contribution is controlled by Fredholm determinant and trace terms.
+        This is the finite part of the joint KL divergence after removing the normalization defect due to the Dirac measure; the remaining covariance contribution is controlled by Fredholm determinant and trace terms.
     \end{definition}
 
     \paragraph{Weak scheme-independence.}
@@ -785,7 +812,7 @@
     \subsection{Gaussian Main Theorem}
     \label{sec:gaussian:theorem}
 
-    We now establish the main Fredholm regularization and cancellation theorems for the finite-part functional.
+    The main Fredholm regularization and cancellation theorems for the finite-part functional follow.
 
     \begin{theorem}[Gaussian Fredholm Finite-Part Regularization]
         \label{thm:finite_part_regularization}
@@ -820,7 +847,7 @@
     \section{Elliptic Gaussian Field Example}
     \label{sec:spde}
 
-    We now record a standard elliptic Gaussian field example to show that the abstract Hilbert-space assumptions are nonempty and natural for covariance operators arising from stochastic evolution equations and elliptic Gaussian priors \cite{daprato2014stochastic,lord2014introduction,stuart2010inverse}.
+    A standard elliptic Gaussian field example shows that the abstract Hilbert-space assumptions are natural for covariance operators arising from stochastic evolution equations and elliptic Gaussian priors \cite{daprato2014stochastic,lord2014introduction,stuart2010inverse}.
 
     \subsection{Elliptic Gaussian field on \texorpdfstring{$[0,1]$}{[0,1]}}
 
@@ -885,7 +912,7 @@ Finite-rank targets require the same idea in operator-valued form, plus an
 exact matrix/Fredholm identity for the Gaussian finite part.  Here Galerkin
 approximation remains purely variational: truncation restricts the
 Anderson--Trapp supremum to nested finite-dimensional test spaces.  The
-limitation is not finite rank, but infinite-rank observation, where Fredholm
+limitation is infinite-rank observation, where Fredholm
 determinants, trace-class perturbation hypotheses, and operator-valued finite
 parts need separate treatment.
 
@@ -1118,7 +1145,7 @@ cross-covariance defect across all target directions.
 \subsection{General observation operators and misalignment}
 \label{sec:discussion:misalignment}
 
-The scalar proof in this paper uses a block decomposition aligned with a single observed coordinate. However, typical finite-rank observation operators $L:\mathcal H\to\mathbb R^m$ select a subspace $E$ that does not commute with the free prior covariance, meaning the target-free split is not an eigenbasis split. This geometric misalignment generates cross-coupling that requires a precise resolvent analysis.
+The scalar proof in this paper uses a block decomposition aligned with a single observed coordinate. However, typical finite-rank observation operators $L:\mathcal H\to\mathbb R^m$ select a subspace $E$ that does not commute with the free prior covariance, meaning the target-free split is not an eigenbasis split. This spectral misalignment generates cross-coupling that requires a precise resolvent analysis.
 
 \begin{theorem}[Misaligned Covariance Coupling]
   \label{thm:misaligned_coupling}
@@ -1140,7 +1167,7 @@ The scalar proof in this paper uses a block decomposition aligned with a single 
     \label{eq:misaligned_resolvent_identity}
     \Sigma_{\lambda,IE} = \int_0^\infty e^{t A_{II}} A_{\lambda,IE} \Sigma_{\lambda,EE} e^{t A_{\lambda,E}^*} dt.
   \end{equation}
-  Furthermore, the misaligned cross-covariance energy scales as $\|\Sigma_{\lambda,IE} v\|_{H_{Q_0}} = O(\lambda^{-3})$ for any $v \in E$.
+  The misaligned cross-covariance energy scales as $\|\Sigma_{\lambda,IE} v\|_{H_{Q_0}} = O(\lambda^{-3})$ for any $v \in E$.
 \end{theorem}
 \begin{proof}
   The off-diagonal block of the global Lyapunov equation $\mathcal{A}^{(\lambda)} \Sigma_\lambda + \Sigma_\lambda (\mathcal{A}^{(\lambda)})^* + \mathcal{D}^{(\lambda)} = 0$ yields the Sylvester equation:
@@ -1164,7 +1191,7 @@ The scalar proof in this paper uses a block decomposition aligned with a single 
   Since $\|\Sigma_{\lambda,EE}\|_{\mathcal{L}(E)} = O(\lambda^{-2})$ and $(\omega + \lambda \gamma)^{-1} = O(\lambda^{-1})$, we conclude that $\|\Sigma_{\lambda,IE} v\|_{H_{Q_0}} = O(\lambda^{-3})$. Combined with \Cref{thm:operator_residual}, this verifies that the shorted-operator residual maintains the $O(\lambda^{-6})$ scaling even in the presence of observation misalignment.
 \end{proof}
 
-\subsection{Multidimensional Fredholm Trace-Anomaly Cancellation}
+\subsection{Multidimensional Fredholm Determinant-and-Trace Cancellation}
 \label{sec:discussion:multidim_functional}
 
 With the finite-rank covariance bounds in
@@ -1172,10 +1199,10 @@ With the finite-rank covariance bounds in
 place, the rank-one finite-part functional from \Cref{sec:gaussian_zero}
 becomes a matrix problem.  The determinant contribution is no longer a scalar
 logarithm expansion; it is a Fredholm determinant reduced to an
-$m\times m$ matrix by the Weinstein--Aronszajn identity.  The trace anomaly
+$m\times m$ matrix by the Weinstein--Aronszajn identity.  The residual trace terms
 then cancels exactly against the matrix-valued shorted residual term.
 
-The scalar renormalized functional can be fully generalized to an $m$-dimensional observation subspace $E$. Let the exact evidence be $X_E = x_E^* \in \mathbb{R}^m$. The true Schur residual matrix is $S_{\lambda,E} \coloneqq \Sigma_{\lambda,EE} - R_{\lambda,E} \in \mathbb{R}^{m \times m}$, where $R_{\lambda,E}$ is the shorted-operator residual from \Cref{thm:operator_residual}. Since $R_{\lambda,E}^{(n)}\nearrow R_{\lambda,E}$ in the Loewner order, the Galerkin residual matrices
+The scalar regularized functional can be fully generalized to an $m$-dimensional observation subspace $E$. Let the exact evidence be $X_E = x_E^* \in \mathbb{R}^m$. The true Schur residual matrix is $S_{\lambda,E} \coloneqq \Sigma_{\lambda,EE} - R_{\lambda,E} \in \mathbb{R}^{m \times m}$, where $R_{\lambda,E}$ is the shorted-operator residual from \Cref{thm:operator_residual}. Since $R_{\lambda,E}^{(n)}\nearrow R_{\lambda,E}$ in the Loewner order, the Galerkin residual matrices
 \[
 S_{\lambda,E}^{(n)}
 =
@@ -1236,7 +1263,7 @@ To establish the multidimensional limit, we define the dimensionless coupling ma
       &- (t - m_{\lambda,E})^T \Sigma_{\lambda,EE}^{-1} R_{\lambda,E} \Sigma_{\lambda,EE}^{-1} (t - m_{\lambda,E}) + \tr(\rho_{\lambda,E}) \bigg].
     \end{aligned}
   \end{equation*}
-  Summing the KL divergence and the quadratic residual form exactly cancels both the $\pm \frac{1}{2}\tr(\rho_{\lambda,E})$ trace anomalies and the cross-covariance residual matrices, isolating \eqref{eq:multidim_exact_cancellation}.
+  Summing the KL divergence and the quadratic residual form exactly cancels both the $\pm \frac{1}{2}\tr(\rho_{\lambda,E})$ residual trace terms and the cross-covariance residual matrices, isolating \eqref{eq:multidim_exact_cancellation}.
 \end{proof}
 
 \begin{theorem}[Multidimensional Fredholm Finite-Part Regularization]
@@ -1297,7 +1324,7 @@ To establish the multidimensional limit, we define the dimensionless coupling ma
 
 \begin{remark}[Algebraic Mechanism of Uniform Positivity]
   \label{rem:asymptotic_coupling_precision}
-  The $O(\lambda^{-4})$ decay of the normalized coupling matrix $\|\rho_{\lambda,E}\|$ is not merely an asymptotic bound; it provides the essential algebraic mechanism ensuring the uniform positivity of the Fredholm finite part. By extracting the leading-order expansion of the cross-covariance resolvent under the canonical scaling $D_{\lambda,E} = \Delta_E / \lambda$, the trace of the coupling matrix converges exactly as:
+  The $O(\lambda^{-4})$ decay of the normalized coupling matrix $\|\rho_{\lambda,E}\|$ is an asymptotic bound providing the algebraic mechanism that ensures the uniform positivity of the Fredholm finite part. By extracting the leading-order expansion of the cross-covariance resolvent under the canonical scaling $D_{\lambda,E} = \Delta_E / \lambda$, the trace of the coupling matrix converges exactly as:
   \begin{equation}
     \lim_{\lambda\to\infty} \lambda^4 \tr(\rho_{\lambda,E}) = \frac{\omega}{d_{\mathrm{bg}}} \sum_{j=1}^m \frac{c_j^2 \Delta_j}{\Lambda_j^3}.
   \end{equation}
@@ -1306,7 +1333,7 @@ To establish the multidimensional limit, we define the dimensionless coupling ma
   \[
     I \succeq \Sigma_{\lambda,EE}^{-1/2} S_{\lambda,E}^{(n)} \Sigma_{\lambda,EE}^{-1/2} \succeq I - \rho_{\lambda,E}.
   \]
-  Because the limiting normalized coupling strictly vanishes as $\tr(\rho_{\lambda,E}) = O(\lambda^{-4})$, the spectrum of every intermediate operator $S_{\lambda,E}^{(n)}$ is uniformly bounded from below by $1 - O(\lambda^{-4}) > 0$. The sequence of conditional covariance operators is therefore uniformly positive definite. This guarantees that the Gaussian conditioning remains well-posed along the entire approximation path, demonstrating that shorted operators provide the necessary and sufficient algebraic mechanism to define the Fredholm finite part at singular evidence, without requiring strict Loewner monotonicity. The exact $O(\lambda^{-4})$ scaling of the strict coupling trace is verified numerically to arbitrary precision in \Cref{app:experiments}.  The necessity of extended-precision arithmetic is not a computational luxury but a direct consequence of the condition-number catastrophe (Theorem~\ref{thm:triple_impossibility}\ref{item:numerical_impossibility}): at $N=2048$, $\kappa\sim4\times10^{6}$ destroys double-precision accuracy, and the transient spectral imbalance forces $\lambda$ into a regime where $\lambda^{4}\tr(\rho_{\lambda,E})$ is below the machine-epsilon floor.  Only quadruple-precision (256-bit) arithmetic can resolve the true $O(\lambda^{-4})$ decay from numerical noise.
+  Because the limiting normalized coupling strictly vanishes as $\tr(\rho_{\lambda,E}) = O(\lambda^{-4})$, the spectrum of every intermediate operator $S_{\lambda,E}^{(n)}$ is uniformly bounded from below by $1 - O(\lambda^{-4}) > 0$. The sequence of conditional covariance operators is therefore uniformly positive definite. This guarantees that the Gaussian conditioning remains well-posed along the entire approximation path, demonstrating that shorted operators provide the necessary and sufficient algebraic mechanism to define the Fredholm finite part at singular evidence, without requiring strict Loewner monotonicity. The exact $O(\lambda^{-4})$ scaling of the strict coupling trace is verified numerically to arbitrary precision in \Cref{app:experiments}.  The necessity of extended-precision arithmetic is a direct consequence of the spectral ill-conditioning (Theorem~\ref{thm:triple_impossibility}\ref{item:numerical_impossibility}): at $N=2048$, $\kappa\sim4\times10^{6}$ destroys double-precision accuracy, and the pre-asymptotic spectral regime forces $\lambda$ below the threshold where $\lambda^{4}\tr(\rho_{\lambda,E})$ is resolvable in IEEE-754 double precision.  Quadruple-precision (256-bit) arithmetic is therefore required to extract the true $O(\lambda^{-4})$ decay.
 \end{remark}
 
 \subsection{Non-Gaussian and time-dependent extensions}
@@ -1329,15 +1356,18 @@ operator-theoretic removal of the compact-block Schur obstruction.
     \section{Conclusion}
     \label{sec:conclusion}
 
-    The paper resolves the Schur-complement obstruction created by compact
-    trace-class free covariance blocks.  Since such blocks have no bounded
-    ambient inverse, the residual is defined by Anderson--Trapp shorting on the
-    Cameron--Martin range.  Galerkin convergence follows from nested
-    variational suprema, not algebraic inversion.  The Gaussian conditioning
-    statements then follow as consequences: disintegration supplies the
-    exact-evidence law, and Fredholm determinant/trace identities cancel the
-    finite-rank anomalies.  The paper does not treat infinite-rank observation
-    operators or non-Gaussian conditioning theory.
+    The paper shows that singular Gaussian conditioning in Hilbert space is not
+    governed by the formal Schur algebra $A-BD^{-1}B^*$.  That formula is the
+    finite-dimensional invertible-block shadow of Anderson--Trapp shorting.
+    When the free covariance block is compact and trace class, the shadow
+    disappears but the short remains: the residual is defined by variational
+    shorting on the Cameron--Martin range, and Galerkin convergence follows
+    from nested variational suprema rather than algebraic inversion.  The
+    Gaussian conditioning statements then follow as consequences:
+    disintegration supplies the exact-evidence law, and Fredholm
+    determinant/trace identities cancel the finite-rank anomalies, leaving the
+    canonical finite residual.  The paper does not treat infinite-rank
+    observation operators or non-Gaussian conditioning theory.
 
     \section*{Declaration of Generative AI and AI-Assisted Technologies in the Manuscript Preparation Process}
 
