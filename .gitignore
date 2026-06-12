@@ -51,3 +51,11 @@ Thumbs.db
 journal_packages/
 .antigravity/
 .antigravityignore
+
+# Temporary / local planning and scratch files
+experiments/implementation_plan.md
+experiments/task.md
+experiments/test_formulas.jl
+experiments/exp6_stuck_log.txt
+paper/temp_finite_rank_section6.tex
+
