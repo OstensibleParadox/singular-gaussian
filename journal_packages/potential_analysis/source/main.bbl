@@ -1,0 +1,346 @@
+%% BioMed_Central_Bib_Style_v1.01
+
+\begin{thebibliography}{25}
+% BibTex style file: bmc-mathphys.bst (version 2.1), 2014-07-24
+\ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi
+\ifx \binits  \undefined \def \binits#1{#1}\fi
+\ifx \bauthor  \undefined \def \bauthor#1{#1}\fi
+\ifx \batitle  \undefined \def \batitle#1{#1}\fi
+\ifx \bjtitle  \undefined \def \bjtitle#1{#1}\fi
+\ifx \bvolume  \undefined \def \bvolume#1{\textbf{#1}}\fi
+\ifx \byear  \undefined \def \byear#1{#1}\fi
+\ifx \bissue  \undefined \def \bissue#1{#1}\fi
+\ifx \bfpage  \undefined \def \bfpage#1{#1}\fi
+\ifx \blpage  \undefined \def \blpage #1{#1}\fi
+\ifx \burl  \undefined \def \burl#1{\textsf{#1}}\fi
+\ifx \doiurl  \undefined \def \doiurl#1{\url{https://doi.org/#1}}\fi
+\ifx \betal  \undefined \def \betal{\textit{et al.}}\fi
+\ifx \binstitute  \undefined \def \binstitute#1{#1}\fi
+\ifx \binstitutionaled  \undefined \def \binstitutionaled#1{#1}\fi
+\ifx \bctitle  \undefined \def \bctitle#1{#1}\fi
+\ifx \beditor  \undefined \def \beditor#1{#1}\fi
+\ifx \bpublisher  \undefined \def \bpublisher#1{#1}\fi
+\ifx \bbtitle  \undefined \def \bbtitle#1{#1}\fi
+\ifx \bedition  \undefined \def \bedition#1{#1}\fi
+\ifx \bseriesno  \undefined \def \bseriesno#1{#1}\fi
+\ifx \blocation  \undefined \def \blocation#1{#1}\fi
+\ifx \bsertitle  \undefined \def \bsertitle#1{#1}\fi
+\ifx \bsnm \undefined \def \bsnm#1{#1}\fi
+\ifx \bsuffix \undefined \def \bsuffix#1{#1}\fi
+\ifx \bparticle \undefined \def \bparticle#1{#1}\fi
+\ifx \barticle \undefined \def \barticle#1{#1}\fi
+\bibcommenthead
+\ifx \bconfdate \undefined \def \bconfdate #1{#1}\fi
+\ifx \botherref \undefined \def \botherref #1{#1}\fi
+\ifx \url \undefined \def \url#1{\textsf{#1}}\fi
+\ifx \bchapter \undefined \def \bchapter#1{#1}\fi
+\ifx \bbook \undefined \def \bbook#1{#1}\fi
+\ifx \bcomment \undefined \def \bcomment#1{#1}\fi
+\ifx \oauthor \undefined \def \oauthor#1{#1}\fi
+\ifx \citeauthoryear \undefined \def \citeauthoryear#1{#1}\fi
+\ifx \endbibitem  \undefined \def \endbibitem {}\fi
+\ifx \bconflocation  \undefined \def \bconflocation#1{#1}\fi
+\ifx \arxivurl  \undefined \def \arxivurl#1{\textsf{#1}}\fi
+\csname PreBibitemsHook\endcsname
+
+%%% 1
+\bibitem[\protect\citeauthoryear{Bogachev}{1998}]{bogachev1998gaussian}
+\begin{bbook}
+\bauthor{\bsnm{Bogachev}, \binits{V.I.}}:
+\bbtitle{Gaussian Measures}.
+\bpublisher{American Mathematical Society}, \blocation{???}
+(\byear{1998})
+\end{bbook}
+\endbibitem
+
+%%% 2
+\bibitem[\protect\citeauthoryear{Simon}{2005}]{simon2005trace}
+\begin{bbook}
+\bauthor{\bsnm{Simon}, \binits{B.}}:
+\bbtitle{Trace Ideals and Their Applications},
+\bedition{2nd} edn.
+\bpublisher{American Mathematical Society}, \blocation{???}
+(\byear{2005})
+\end{bbook}
+\endbibitem
+
+%%% 3
+\bibitem[\protect\citeauthoryear{Da~Prato and
+  Zabczyk}{2014}]{daprato2014stochastic}
+\begin{bbook}
+\bauthor{\bsnm{Da~Prato}, \binits{G.}},
+\bauthor{\bsnm{Zabczyk}, \binits{J.}}:
+\bbtitle{Stochastic Equations in Infinite Dimensions},
+\bedition{2nd} edn.
+\bpublisher{Cambridge University Press}, \blocation{???}
+(\byear{2014})
+\end{bbook}
+\endbibitem
+
+%%% 4
+\bibitem[\protect\citeauthoryear{Jorgensen and
+  Tian}{2024}]{jorgensentian2024hilbert}
+\begin{botherref}
+\oauthor{\bsnm{Jorgensen}, \binits{P.E.T.}},
+\oauthor{\bsnm{Tian}, \binits{J.}}:
+Hilbert space valued gaussian processes, their kernels, factorizations, and
+  covariance structure.
+arXiv preprint arXiv:2404.14685
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 5
+\bibitem[\protect\citeauthoryear{Krein}{1947}]{krein1947selfadjoint}
+\begin{barticle}
+\bauthor{\bsnm{Krein}, \binits{M.G.}}:
+\batitle{The theory of self-adjoint extensions of semi-bounded hermitian
+  transformations and its applications. i}.
+\bjtitle{Matematicheskii Sbornik}
+\bvolume{20}(\bissue{62}),
+\bfpage{431}--\blpage{495}
+(\byear{1947})
+\end{barticle}
+\endbibitem
+
+%%% 6
+\bibitem[\protect\citeauthoryear{Anderson and
+  Trapp}{1975}]{anderson1975shorted}
+\begin{barticle}
+\bauthor{\bsnm{Anderson}, \binits{W.N.}},
+\bauthor{\bsnm{Trapp}, \binits{G.E.}}:
+\batitle{Shorted operators. ii}.
+\bjtitle{SIAM Journal on Applied Mathematics}
+\bvolume{28}(\bissue{1}),
+\bfpage{60}--\blpage{71}
+(\byear{1975})
+\end{barticle}
+\endbibitem
+
+%%% 7
+\bibitem[\protect\citeauthoryear{Douglas}{1966}]{douglas1966majorization}
+\begin{barticle}
+\bauthor{\bsnm{Douglas}, \binits{R.G.}}:
+\batitle{On majorization, factorization, and range inclusion of operators on
+  hilbert space}.
+\bjtitle{Proceedings of the American Mathematical Society}
+\bvolume{17}(\bissue{2}),
+\bfpage{413}--\blpage{415}
+(\byear{1966})
+\end{barticle}
+\endbibitem
+
+%%% 8
+\bibitem[\protect\citeauthoryear{Contino et~al.}{2021}]{contino2021matrix}
+\begin{botherref}
+\oauthor{\bsnm{Contino}, \binits{M.}},
+\oauthor{\bsnm{Maestripieri}, \binits{A.}},
+\oauthor{\bsnm{Marcantognini}, \binits{S.}}:
+A matrix formula for schur complements of nonnegative selfadjoint linear
+  relations.
+arXiv preprint arXiv:2108.10757
+(2021)
+\end{botherref}
+\endbibitem
+
+%%% 9
+\bibitem[\protect\citeauthoryear{Naik and
+  Johnson}{2024}]{naikjohnson2024complementable}
+\begin{botherref}
+\oauthor{\bsnm{Naik}, \binits{S.M.}},
+\oauthor{\bsnm{Johnson}, \binits{P.S.}}:
+Complementable operators and their schur complements.
+arXiv preprint arXiv:2406.11457
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 10
+\bibitem[\protect\citeauthoryear{Feldman}{1958}]{feldman1958equivalence}
+\begin{barticle}
+\bauthor{\bsnm{Feldman}, \binits{J.}}:
+\batitle{Equivalence and perpendicularity of gaussian processes}.
+\bjtitle{Pacific Journal of Mathematics}
+\bvolume{8}(\bissue{4}),
+\bfpage{699}--\blpage{708}
+(\byear{1958})
+\end{barticle}
+\endbibitem
+
+%%% 11
+\bibitem[\protect\citeauthoryear{H{\'a}jek}{1958}]{hajek1958property}
+\begin{barticle}
+\bauthor{\bsnm{H{\'a}jek}, \binits{J.}}:
+\batitle{On a property of normal distributions of any stochastic process}.
+\bjtitle{Czechoslovak Mathematical Journal}
+\bvolume{8}(\bissue{4}),
+\bfpage{610}--\blpage{618}
+(\byear{1958})
+\end{barticle}
+\endbibitem
+
+%%% 12
+\bibitem[\protect\citeauthoryear{Stuart}{2010}]{stuart2010inverse}
+\begin{barticle}
+\bauthor{\bsnm{Stuart}, \binits{A.M.}}:
+\batitle{Inverse problems: a bayesian perspective}.
+\bjtitle{Acta Numerica}
+\bvolume{19},
+\bfpage{451}--\blpage{559}
+(\byear{2010})
+\end{barticle}
+\endbibitem
+
+%%% 13
+\bibitem[\protect\citeauthoryear{Carere and
+  Lie}{2024}]{carerelie2024covariance}
+\begin{botherref}
+\oauthor{\bsnm{Carere}, \binits{G.}},
+\oauthor{\bsnm{Lie}, \binits{H.C.}}:
+Optimal low-rank approximations of posteriors for linear gaussian inverse
+  problems on hilbert spaces.
+arXiv preprint arXiv:2411.01112
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 14
+\bibitem[\protect\citeauthoryear{Carere and Lie}{2025}]{carerelie2025mean}
+\begin{botherref}
+\oauthor{\bsnm{Carere}, \binits{G.}},
+\oauthor{\bsnm{Lie}, \binits{H.C.}}:
+Optimal low-rank approximations for linear gaussian inverse problems on hilbert
+  spaces, part ii: posterior mean approximation.
+arXiv preprint arXiv:2503.24209
+(2025)
+\end{botherref}
+\endbibitem
+
+%%% 15
+\bibitem[\protect\citeauthoryear{Tretter}{2008}]{tretter2008spectral}
+\begin{bbook}
+\bauthor{\bsnm{Tretter}, \binits{C.}}:
+\bbtitle{Spectral Theory of Block Operator Matrices and Applications}.
+\bpublisher{Imperial College Press}, \blocation{???}
+(\byear{2008})
+\end{bbook}
+\endbibitem
+
+%%% 16
+\bibitem[\protect\citeauthoryear{Contino et~al.}{2018}]{contino2018schur}
+\begin{botherref}
+\oauthor{\bsnm{Contino}, \binits{M.}},
+\oauthor{\bsnm{Maestripieri}, \binits{A.}},
+\oauthor{\bsnm{Marcantognini}, \binits{S.}}:
+Schur complements of selfadjoint krein space operators.
+arXiv preprint arXiv:1809.01695
+(2018)
+\end{botherref}
+\endbibitem
+
+%%% 17
+\bibitem[\protect\citeauthoryear{Friedrich
+  et~al.}{2017}]{friedrich2017generalized}
+\begin{botherref}
+\oauthor{\bsnm{Friedrich}, \binits{J.}},
+\oauthor{\bsnm{G{\"u}nther}, \binits{M.}},
+\oauthor{\bsnm{Klotz}, \binits{L.}}:
+A generalized schur complement for non-negative operators on linear space.
+arXiv preprint arXiv:1708.01545
+(2017)
+\end{botherref}
+\endbibitem
+
+%%% 18
+\bibitem[\protect\citeauthoryear{Owhadi and
+  Scovel}{2015}]{owhadi2015conditioning}
+\begin{botherref}
+\oauthor{\bsnm{Owhadi}, \binits{H.}},
+\oauthor{\bsnm{Scovel}, \binits{C.}}:
+Conditioning gaussian measure on hilbert space.
+arXiv preprint arXiv:1506.04208
+(2015)
+\end{botherref}
+\endbibitem
+
+%%% 19
+\bibitem[\protect\citeauthoryear{Steinwart}{2024}]{steinwart2024conditioning}
+\begin{botherref}
+\oauthor{\bsnm{Steinwart}, \binits{I.}}:
+Conditioning of banach space valued gaussian random variables: an approximation
+  approach based on martingales.
+arXiv preprint arXiv:2404.03453
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 20
+\bibitem[\protect\citeauthoryear{Chen et~al.}{2024}]{chen2024gaussian}
+\begin{botherref}
+\oauthor{\bsnm{Chen}, \binits{Y.}},
+\oauthor{\bsnm{Hosseini}, \binits{B.}},
+\oauthor{\bsnm{Owhadi}, \binits{H.}},
+\oauthor{\bsnm{Stuart}, \binits{A.M.}}:
+Gaussian measures conditioned on nonlinear observations: consistency, map
+  estimators, and simulation.
+arXiv preprint arXiv:2405.13149
+(2024)
+\end{botherref}
+\endbibitem
+
+%%% 21
+\bibitem[\protect\citeauthoryear{Quang}{2022}]{quang2022kl}
+\begin{botherref}
+\oauthor{\bsnm{Quang}, \binits{M.H.}}:
+Kullback-leibler and renyi divergences in reproducing kernel hilbert space and
+  gaussian process settings.
+arXiv preprint arXiv:2207.08406
+(2022)
+\end{botherref}
+\endbibitem
+
+%%% 22
+\bibitem[\protect\citeauthoryear{Lord et~al.}{2014}]{lord2014introduction}
+\begin{bbook}
+\bauthor{\bsnm{Lord}, \binits{G.J.}},
+\bauthor{\bsnm{Powell}, \binits{C.E.}},
+\bauthor{\bsnm{Shardlow}, \binits{T.}}:
+\bbtitle{An Introduction to Computational Stochastic PDEs}.
+\bpublisher{Cambridge University Press}, \blocation{???}
+(\byear{2014})
+\end{bbook}
+\endbibitem
+
+%%% 23
+\bibitem[\protect\citeauthoryear{Henderson}{2022}]{henderson2022sobolev}
+\begin{botherref}
+\oauthor{\bsnm{Henderson}, \binits{I.}}:
+Sobolev regularity of gaussian random fields.
+arXiv preprint arXiv:2209.02703
+(2022)
+\end{botherref}
+\endbibitem
+
+%%% 24
+\bibitem[\protect\citeauthoryear{Sheffield}{2007}]{sheffield2007gaussian}
+\begin{barticle}
+\bauthor{\bsnm{Sheffield}, \binits{S.}}:
+\batitle{Gaussian free fields for mathematicians}.
+\bjtitle{Probability Theory and Related Fields}
+\bvolume{139},
+\bfpage{521}--\blpage{541}
+(\byear{2007})
+\end{barticle}
+\endbibitem
+
+%%% 25
+\bibitem[\protect\citeauthoryear{LaGatta}{2010}]{lagatta2013continuous}
+\begin{botherref}
+\oauthor{\bsnm{LaGatta}, \binits{T.}}:
+Continuous disintegrations of gaussian processes.
+arXiv preprint arXiv:1003.0975
+(2010)
+\end{botherref}
+\endbibitem
+
+\end{thebibliography}

@@ -1,0 +1,265 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\title{Numerical Verification Supplement}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Numerical Diagnostics and Galerkin Verification}
+\label{supp:numerical}
+
+This supplement records finite-dimensional numerical diagnostics for the
+calibrated shorting mechanism. It includes only the verification material tied
+to the paper's Galerkin consistency result, the exact calibration result, the
+finite-part regime separation, and the admissibility boundary. The proof
+appendix does not depend on these computations.
+
+\subsection*{Verification Map}
+\label{supp:verification_map}
+
+\begin{itemize}[leftmargin=*]
+    \item Section~\ref{supp:galerkin_verification}: Galerkin truncation and
+    variational shorting consistency.
+    \item Section~\ref{supp:canonical_scaling}: canonical variance scaling.
+    \item Section~\ref{supp:three_node}: finite-part regime separation in a
+    three-node Gaussian chain.
+    \item Section~\ref{supp:cameron_martin_failure}: admissibility boundary
+    stress test.
+    \item Section~\ref{supp:sparse_precision}: sparse OU/GFF precision-operator
+    implementation and comparison.
+    \item Section~\ref{supp:precision_audit}: BigFloat/Float64 agreement audit
+    for residual magnitudes.
+\end{itemize}
+
+\subsection{Galerkin Verification and Ill-Conditioning}
+\label{supp:galerkin_verification}
+
+We illustrate the Galerkin convergence asserted by the paper's Galerkin
+consistency result against a finite reference on an admissible model. The
+Hilbert space is $\ell^2(\mathbb{N})$ with coordinate basis $\{\phi_j\}$. The
+drift is $\mathcal{A}=\mathcal{A}_0+\mathcal{K}$, where
+$\mathcal{A}_0\phi_j=-(1+0.01j^2)\phi_j$ and
+$\mathcal{K}\phi_1=\sum_{j\ge2}12j^{-3}\phi_j$ is a bounded rank-one nilpotent
+perturbation. The noise is $\mathcal{D}\phi_j=j^{-3/2}\phi_j$, which is
+trace-class. The regularized conditioning acts at $k=1$ with
+$\varepsilon_0=1$. Truncated covariances are compared against a finite
+reference $N_{\mathrm{ref}}=1500$.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Truncation convergence diagnostics.}
+  \label{tab:supp_truncation}
+  \begin{tabular}{lrr}
+    \toprule
+    Diagnostic & Value & Expected \\
+    \midrule
+    $\|\mathcal{D}-\Pi_n\mathcal{D}\Pi_n\|_{\mathcal{S}_1}$ slope & $-0.499$ & $\to0$ \\
+    $\|\Sigma_n-\Sigma_{\mathrm{ref}}\|_{\mathcal{S}_1}$ slope & $-2.683$ & $\to0$ \\
+    $\|\Sigma_{n,\lambda}-\Sigma_{\mathrm{ref},\lambda}\|_{\mathcal{S}_1}$ slope & $-2.683$ & $\to0$ \\
+    $|S_{1,n,\lambda}-S_{1,\mathrm{ref},\lambda}|$ slope & $-5.504$ & $\to0$ \\
+    $m_2^{\mathrm{Schur},(1000)}$ extrapolated & $0.5000000$ & $0.5$ \\
+    $|m_2^{\mathrm{Schur},(1000)}-\varepsilon_0/2|$ & $6.87\times10^{-14}$ & $0$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/truncation_convergence_validation.png}
+  \caption{Trace-norm and residual errors decay in $n$; the extrapolated
+  $m_2^{\mathrm{Schur},(1000)}$ differs from $\varepsilon_0/2$ by
+  $6.87\times10^{-14}$.}
+  \label{fig:supp_truncation}
+\end{figure}
+
+The variational operator sequence converges, but computing the truncated Schur
+complement by naive inversion,
+\[
+S^{(n)}=\Sigma_{EE}-\Sigma_{EI}^{(n)}(\Sigma_{II}^{(n)})^{-1}
+\Sigma_{IE}^{(n)},
+\]
+fails in generic Galerkin bases. The internal block is a trace-class
+covariance, so its truncated matrix representation becomes severely
+ill-conditioned as $n$ grows. The diagnostics show that for $n\ge400$ the
+condition number $\kappa(\Sigma_{II}^{(n)})$ grows as $n^6$ and formally
+exceeds the $10^{16}$ IEEE 754 \texttt{Float64} precision limit.
+
+\subsection{Canonical Scaling Diagnostic}
+\label{supp:canonical_scaling}
+
+We validate the canonical normalization in the paper's exact calibration
+result through its decoupled reference channel. With incoming target-coordinate
+blocks and off-diagonal drift coupling set to zero, the target covariance is
+exactly
+\[
+\Sigma_{\lambda,22}=d_\lambda/(2\lambda).
+\]
+Four candidate target-diffusion families are tested:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Canonical:} $d_\lambda=\varepsilon_0/\lambda$.
+  \item \textbf{Slow:} $d_\lambda=\varepsilon_0$.
+  \item \textbf{Fast:} $d_\lambda=\varepsilon_0/\lambda^2$.
+  \item \textbf{Perturbed:} $d_\lambda=(\varepsilon_0/\lambda)(1+\lambda^{-2})$.
+\end{enumerate}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Exact-calibration ablation. Only the canonical family satisfies the
+  exact finite-$\lambda$ covariance condition.}
+  \label{tab:supp_ablation}
+  \begin{tabular}{lll}
+    \toprule
+    Family & $\lambda d_\lambda/\varepsilon_0$ &
+    defect $|2\lambda^2\Sigma_{\lambda,kk}/\varepsilon_0-1|$ \\
+    \midrule
+    Canonical & $1$ & $0$ \\
+    Slow & $\lambda$ & $\lambda-1\to\infty$ \\
+    Fast & $\lambda^{-1}$ & $|1-\lambda^{-1}|\to1$ \\
+    Perturbed & $1+\lambda^{-2}$ & $\lambda^{-2}$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/ablation_combined.png}
+  \caption{The perturbed family has the correct limiting ratio but fails the
+  exact finite-$\lambda$ covariance condition. Exact zero defects are displayed
+  at $10^{-20}$.}
+  \label{fig:supp_ablation}
+\end{figure}
+
+\subsection{Three-Node Gaussian Chain}
+\label{supp:three_node}
+
+We evaluate the Gaussian Fredholm finite-part functional
+$\mathfrak{J}_\lambda$ on a three-node linear Ornstein--Uhlenbeck SDE,
+\[
+  X_1\to X_2\to X_3,
+\]
+where $X_2$ is the target coordinate subject to regularized conditioning of
+strength $\lambda\in\{2^1,\dots,2^{12}\}$, with $x_2^*=0$ and
+$\varepsilon_0=1$. The drift and diffusion are
+\[
+  A_\lambda=
+  \begin{pmatrix}-1&0&0\\0&-\lambda&0\\0&a_{32}&-1\end{pmatrix},
+  \qquad
+  D_\lambda=\operatorname{diag}(1,\varepsilon_0/\lambda,1).
+\]
+The target mean forcing $b_2$ controls the target mean shift
+$m_{\lambda,2}=b_2/\lambda$.
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Case A, decoupled-centered:} $a_{32}=0$, $b_2=0$, and
+  $\mathfrak{J}_\lambda=0$ exactly.
+  \item \textbf{Case B, coupled-centered:} $a_{32}=1$, $b_2=0$, and
+  $\mathfrak{J}_\lambda=O(\lambda^{-4})\to0$.
+  \item \textbf{Case C, coupled-off-centered:} $a_{32}=1$, $b_2=1$, and
+  $\mathfrak{J}_\lambda\to b_2^2/\varepsilon_0=1$.
+\end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/three_node_gaussian_chain.png}
+  \caption{The panels show $\lambda^2S_{2,\lambda}\to0.5$ and the three
+  finite-part regimes: exact zero, $O(\lambda^{-4})$ decay, and convergence to
+  $1$.}
+  \label{fig:supp_three_node}
+\end{figure}
+
+\subsection{Cameron--Martin Admissibility Stress Test}
+\label{supp:cameron_martin_failure}
+
+For a 1D elliptic Gaussian field, smooth compactly supported sensors have finite
+Cameron--Martin energy. Approximating a point sensor by a concentrated
+mollifier $g_\varepsilon$ drives the energy norm to infinity as
+$\varepsilon\downarrow0$. This stress test illustrates the admissibility
+boundary in the paper's theorem: smoothed observations are admissible, while
+the unsmoothed Dirac point-evaluation limit is not a finite-energy channel for
+the shorting theorem.
+
+\subsection{Sparse Precision-Operator Implementation}
+\label{supp:sparse_precision}
+
+The diagnostics also include the OU framework with drift
+$\mathcal{A}_0=-L^{-1}$ and formal covariance $Q_0=L$ on the dual space
+$H^{-1}(0,1)$. The resolvent admits the sparse conjugate realization
+\[
+  (\lambda I+L^{-1})^{-1}
+  =L(\lambda L+I)^{-1}
+  =
+  \frac{1}{\lambda}L(L+\tilde{\lambda}I)^{-1},
+  \qquad
+  \tilde{\lambda}=\lambda^{-1}.
+\]
+Thus the resolvent is obtained by a single sparse tridiagonal solve with the
+precision operator $L$ at the conjugate parameter $\tilde{\lambda}$, avoiding
+dense covariance construction.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Sparse precision-operator validation in the OU regime, $N=10000$,
+  $\kappa=1$, $\Delta_E=1$.}
+  \label{tab:supp_sparse_precision}
+  \begin{tabular}{ccc}
+    \toprule
+    $\lambda$ & $\tilde{\lambda}=\lambda^{-1}$ &
+    $\lambda^4\operatorname{tr}(\rho_{\lambda,E})$ \\
+    \midrule
+    $10^1$ & $10^{-1}$ & $1.0263\times10^{-7}$ \\
+    $10^2$ & $10^{-2}$ & $1.0283\times10^{-7}$ \\
+    $10^3$ & $10^{-3}$ & $1.0285\times10^{-7}$ \\
+    $10^4$ & $10^{-4}$ & $1.0285\times10^{-7}$ \\
+    $10^5$ & $10^{-5}$ & $1.0285\times10^{-7}$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/gff_vs_ou_condition.png}
+  \caption{Trace anomaly conditioning comparison between the GFF and OU
+  regimes.}
+  \label{fig:supp_gff_vs_ou}
+\end{figure}
+
+\subsection{Precision Audit}
+\label{supp:precision_audit}
+
+At $n=256$, representative Schur residuals were recomputed using IEEE 754
+\texttt{Float64} and 256-bit Julia \texttt{BigFloat} arithmetic with the same
+covariance equation and Schur assembly.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Precision audit at $n=256$; $S_{256}$ uses 256-bit
+  \texttt{BigFloat}.}
+  \label{tab:supp_precision_audit}
+  \begin{tabular}{rrrr}
+    \toprule
+    $\lambda$ & $\kappa_2(\Sigma_{II})$ &
+    $|\lambda^2S-\tfrac12|$ &
+    $|S_{64}-S_{256}|/|S_{256}|$ \\
+    \midrule
+    $4$ & $2.97\times10^6$ & $3.45\times10^{-1}$ & $6.50\times10^{-16}$ \\
+    $64$ & $9.14\times10^5$ & $1.13\times10^{-3}$ & $3.48\times10^{-17}$ \\
+    $4096$ & $9.14\times10^5$ & $9.20\times10^{-10}$ & $5.54\times10^{-17}$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+For the five-point extrapolation of $m_2^{\mathrm{Schur},(256)}$,
+\texttt{Float64} and \texttt{BigFloat} differ by $9.98\times10^{-17}$; the
+finite-$\lambda$ remainder, not rounding, governs the observed distance to the
+limiting constant.
+
+\end{document}

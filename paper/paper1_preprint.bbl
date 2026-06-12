@@ -1,0 +1,117 @@
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \def\href#1#2{#2} \def\path#1{#1}\fi
+
+\bibitem{bogachev1998gaussian}
+V.~I. Bogachev, Gaussian Measures, American Mathematical Society, 1998.
+
+\bibitem{simon2005trace}
+B.~Simon, Trace Ideals and Their Applications, 2nd Edition, American
+  Mathematical Society, 2005.
+
+\bibitem{daprato2014stochastic}
+G.~Da~Prato, J.~Zabczyk, Stochastic Equations in Infinite Dimensions, 2nd
+  Edition, Cambridge University Press, 2014.
+
+\bibitem{jorgensentian2024hilbert}
+P.~E.~T. Jorgensen, J.~Tian, Hilbert space valued gaussian processes, their
+  kernels, factorizations, and covariance structure, arXiv preprint
+  arXiv:2404.14685 (2024).
+
+\bibitem{krein1947selfadjoint}
+M.~G. Krein, The theory of self-adjoint extensions of semi-bounded hermitian
+  transformations and its applications. i, Matematicheskii Sbornik 20~(62)
+  (1947) 431--495.
+
+\bibitem{anderson1975shorted}
+W.~N. Anderson, G.~E. Trapp, Shorted operators. ii, SIAM Journal on Applied
+  Mathematics 28~(1) (1975) 60--71.
+
+\bibitem{douglas1966majorization}
+R.~G. Douglas, On majorization, factorization, and range inclusion of operators
+  on hilbert space, Proceedings of the American Mathematical Society 17~(2)
+  (1966) 413--415.
+
+\bibitem{contino2021matrix}
+M.~Contino, A.~Maestripieri, S.~Marcantognini, A matrix formula for schur
+  complements of nonnegative selfadjoint linear relations, arXiv preprint
+  arXiv:2108.10757 (2021).
+
+\bibitem{naikjohnson2024complementable}
+S.~M. Naik, P.~S. Johnson, Complementable operators and their schur
+  complements, arXiv preprint arXiv:2406.11457 (2024).
+
+\bibitem{feldman1958equivalence}
+J.~Feldman, Equivalence and perpendicularity of gaussian processes, Pacific
+  Journal of Mathematics 8~(4) (1958) 699--708.
+
+\bibitem{hajek1958property}
+J.~H{\'a}jek, On a property of normal distributions of any stochastic process,
+  Czechoslovak Mathematical Journal 8~(4) (1958) 610--618.
+
+\bibitem{stuart2010inverse}
+A.~M. Stuart, Inverse problems: a bayesian perspective, Acta Numerica 19 (2010)
+  451--559.
+
+\bibitem{carerelie2024covariance}
+G.~Carere, H.~C. Lie, Optimal low-rank approximations of posteriors for linear
+  gaussian inverse problems on hilbert spaces, arXiv preprint arXiv:2411.01112
+  (2024).
+
+\bibitem{carerelie2025mean}
+G.~Carere, H.~C. Lie, Optimal low-rank approximations for linear gaussian
+  inverse problems on hilbert spaces, part ii: posterior mean approximation,
+  arXiv preprint arXiv:2503.24209 (2025).
+
+\bibitem{tretter2008spectral}
+C.~Tretter, Spectral Theory of Block Operator Matrices and Applications,
+  Imperial College Press, 2008.
+
+\bibitem{contino2018schur}
+M.~Contino, A.~Maestripieri, S.~Marcantognini, Schur complements of selfadjoint
+  krein space operators, arXiv preprint arXiv:1809.01695 (2018).
+
+\bibitem{friedrich2017generalized}
+J.~Friedrich, M.~G{\"u}nther, L.~Klotz, A generalized schur complement for
+  non-negative operators on linear space, arXiv preprint arXiv:1708.01545
+  (2017).
+
+\bibitem{owhadi2015conditioning}
+H.~Owhadi, C.~Scovel, Conditioning gaussian measure on hilbert space, arXiv
+  preprint arXiv:1506.04208 (2015).
+
+\bibitem{steinwart2024conditioning}
+I.~Steinwart, Conditioning of banach space valued gaussian random variables: an
+  approximation approach based on martingales, arXiv preprint arXiv:2404.03453
+  (2024).
+
+\bibitem{chen2024gaussian}
+Y.~Chen, B.~Hosseini, H.~Owhadi, A.~M. Stuart, Gaussian measures conditioned on
+  nonlinear observations: consistency, map estimators, and simulation, arXiv
+  preprint arXiv:2405.13149 (2024).
+
+\bibitem{quang2022kl}
+M.~H. Quang, Kullback-leibler and renyi divergences in reproducing kernel
+  hilbert space and gaussian process settings, arXiv preprint arXiv:2207.08406
+  (2022).
+
+\bibitem{lord2014introduction}
+G.~J. Lord, C.~E. Powell, T.~Shardlow, An Introduction to Computational
+  Stochastic PDEs, Cambridge University Press, 2014.
+
+\bibitem{henderson2022sobolev}
+I.~Henderson, Sobolev regularity of gaussian random fields, arXiv preprint
+  arXiv:2209.02703 (2022).
+
+\bibitem{sheffield2007gaussian}
+S.~Sheffield, Gaussian free fields for mathematicians, Probability Theory and
+  Related Fields 139 (2007) 521--541.
+
+\bibitem{lagatta2013continuous}
+T.~LaGatta, Continuous disintegrations of gaussian processes, arXiv preprint
+  arXiv:1003.0975 (2010).
+
+\end{thebibliography}

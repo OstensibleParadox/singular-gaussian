@@ -1,0 +1,53 @@
+\documentclass[11pt]{letter}
+\usepackage[top=0.6in,bottom=0.6in,left=0.85in,right=0.85in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\begin{document}
+
+\begin{letter}{Editors-in-Chief, \\ Journal of Functional Analysis\\
+Prof. Alexandru D. Ionescu, Prof. Natasa Sesum, and Prof. Stefaan Vaes}
+\date{2026-06-11}
+\opening{Dear Editors-in-Chief of the Journal of Functional Analysis,}
+
+I am writing to submit the manuscript ``Shorted Schur Complements for Trace-Class Covariance Blocks and Singular Gaussian Conditioning'' as an original research article for JFA.
+
+The manuscript is about positive block operators and inverse-free Schur complementation.  In finite dimensions, the Schur complement is written as
+\[
+A - B D^{-1} B^*.
+\]
+For compact trace-class Hilbert covariance blocks, this expression is not a valid ambient operator formula: the complementary block has no bounded inverse on the full state space.  This paper shows that the correct surviving Schur object is the Anderson--Trapp shorted operator, understood as an inverse-free Schur construction on the Cameron--Martin range.
+
+Our results provide:
+\begin{enumerate}
+  \item a rigorous shorting reformulation of the block-triangular OU regularization and rank-one block-operator setup;
+  \item the affine finite-part scaling law $\Sigma_{\lambda,kk}=\varepsilon_0/(2\lambda^2)$ and residual estimate
+  \[
+  S_{k,\lambda}=\frac{\varepsilon_0}{2\lambda^2}-R_\lambda,\qquad R_\lambda=O(\lambda^{-6}),
+  \]
+  which separates the singular and finite parts;
+  \item a Galerkin consistency theory via nested Rayleigh--Ritz truncations, avoiding direct matrix inversion;
+  \item downstream Gaussian finite-part asymptotics for rank-one disintegration,
+  \[
+  \mathfrak{J}_\lambda(\mu_{\mathrm{obs}};\mu_\lambda)=\frac{b_k^2}{\varepsilon_0}+O(\lambda^{-4}),
+  \]
+  obtained from disintegration and Fredholm determinant/trace cancellations.
+\end{enumerate}
+
+Gaussian conditioning enters as the main Radon-law consequence of this operator theorem.  Disintegration supplies the exact-evidence measure, while Fredholm determinant/trace cancellations identify the finite part.  We also include a concrete 1D elliptic Gaussian field example to demonstrate the framework in a standard trace-class/SPDE setting.
+
+The manuscript is closely aligned with JFA’s scope through its focus on positive block operators, shorted operators, Cameron--Martin geometry, trace-class covariance, and Hilbert-space variational methods; the probabilistic application is a major consequence of the operator-theoretic core.
+
+Thank you for your consideration.
+
+\closing{Sincerely,\\
+Lucia Yizi Zhang \\
+Independent Researcher\\
+lucia.zhang.research@outlook.com\\
+% [Phone Number, if required] \\
+{\small\mbox{\href{https://orcid.org/0009-0005-3528-7747}{https://orcid.org/0009-0005-3528-7747}}}}
+
+\end{letter}
+
+\end{document}

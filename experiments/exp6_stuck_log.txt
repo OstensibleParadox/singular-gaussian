@@ -1,0 +1,92 @@
+   Resolving package versions...
+   Installed GenericLinearAlgebra ─ v0.4.0
+    Updating `~/.julia/environments/v1.12/Project.toml`
+  [14197337] + GenericLinearAlgebra v0.4.0
+    Updating `~/.julia/environments/v1.12/Manifest.toml`
+  [14197337] + GenericLinearAlgebra v0.4.0
+Precompiling packages...
+    371.7 ms  ✓ SimpleBufferStream
+    381.4 ms  ✓ Measures
+    377.9 ms  ✓ DelimitedFiles
+    493.9 ms  ✓ EpollShim_jll
+    499.6 ms  ✓ URIs
+    427.7 ms  ✓ BitFlags
+    438.3 ms  ✓ ExceptionUnwrapping
+    527.3 ms  ✓ ConcurrentUtilities
+    442.6 ms  ✓ LoggingExtras
+    440.6 ms  ✓ InverseFunctions → InverseFunctionsTestExt
+    525.0 ms  ✓ GenericLinearAlgebra
+    777.5 ms  ✓ Unzip
+    298.0 ms  ✓ mtdev_jll
+    300.1 ms  ✓ Xorg_libICE_jll
+    315.7 ms  ✓ libevdev_jll
+    312.5 ms  ✓ eudev_jll
+    307.3 ms  ✓ Dbus_jll
+    315.4 ms  ✓ Xorg_xcb_util_jll
+    347.2 ms  ✓ fzf_jll
+    778.8 ms  ✓ AbstractFFTs → AbstractFFTsTestExt
+    383.9 ms  ✓ MbedTLS_jll
+    294.6 ms  ✓ Xorg_libxkbfile_jll
+    317.7 ms  ✓ Xorg_libXi_jll
+    308.2 ms  ✓ Xorg_libXinerama_jll
+    302.4 ms  ✓ Xorg_libXrandr_jll
+    307.3 ms  ✓ Xorg_libXcursor_jll
+    632.0 ms  ✓ Ghostscript_jll
+    307.3 ms  ✓ Wayland_jll
+    695.3 ms  ✓ RecipesBase
+    703.4 ms  ✓ FilePathsBase → FilePathsBaseTestExt
+    503.6 ms  ✓ FFMPEG
+    290.6 ms  ✓ Xorg_libSM_jll
+    293.3 ms  ✓ libinput_jll
+    290.0 ms  ✓ Xorg_xcb_util_image_jll
+    290.0 ms  ✓ Xorg_xcb_util_keysyms_jll
+    282.3 ms  ✓ Xorg_xcb_util_renderutil_jll
+    283.4 ms  ✓ Xorg_xcb_util_wm_jll
+    272.5 ms  ✓ Xorg_xkbcomp_jll
+    267.9 ms  ✓ Xorg_xcb_util_cursor_jll
+    925.0 ms  ✓ Distributions → DistributionsTestExt
+   1175.7 ms  ✓ FilePaths → FilePathsURIsExt
+   1384.8 ms  ✓ PlotThemes
+   1579.2 ms  ✓ JLFzf
+   1880.5 ms  ✓ OpenSSL
+   2144.0 ms  ✓ MbedTLS
+   2017.5 ms  ✓ IntervalSets → IntervalSetsRecipesBaseExt
+   2017.0 ms  ✓ IntervalArithmetic → IntervalArithmeticRecipesBaseExt
+   2477.2 ms  ✓ Xorg_xkeyboard_config_jll
+    247.6 ms  ✓ xkbcommon_jll
+    258.3 ms  ✓ libdecor_jll
+   3219.6 ms  ✓ RecipesPipeline
+    300.6 ms  ✓ Vulkan_Loader_jll
+    288.4 ms  ✓ GLFW_jll
+   3917.6 ms  ✓ Latexify
+   1107.1 ms  ✓ Latexify → SparseArraysExt
+   1147.9 ms  ✓ Unitful → LatexifyExt
+   1597.9 ms  ✓ Latexify → DataFramesExt
+   7049.9 ms  ✓ Qt6Base_jll
+   1111.2 ms  ✓ Qt6ShaderTools_jll
+   1124.1 ms  ✓ Qt6Svg_jll
+   1244.2 ms  ✓ GR_jll
+   9999.7 ms  ✓ HTTP
+   1030.7 ms  ✓ FileIO → HTTPExt
+   1810.5 ms  ✓ Qt6Declarative_jll
+    220.4 ms  ✓ Qt6Wayland_jll
+   2541.3 ms  ✓ GR
+  20813.1 ms  ✓ Plots
+   2218.3 ms  ✓ Plots → FileIOExt
+   2268.0 ms  ✓ Plots → UnitfulExt
+   2270.4 ms  ✓ Plots → GeometryBasicsExt
+  70 dependencies successfully precompiled in 41 seconds. 292 already precompiled.
+======================================================
+🧪 实验设计：无穷维谱解析下的迹反常级数验证
+======================================================
+截断维度 N = 2048 (BigFloat 256-bit)
+理论极限 lim λ^4 tr(ρ_E): 7.7755629213e-04
+
+>>> 正在对 A_II 进行特征值分解 (这在 N=2048 时可能需要数分钟)...
+>>> 特征值分解完成。耗时: 3665.04 秒。开始迭代 λ...
+
+ λ            | λ^4 tr(ρ_E) 观测值 | 相对误差 
+------------------------------------------------------
+ 1.0e+01      | 9.6980452707e+00    | 1.25e+04
+ 1.0e+02      | 3.3873415603e+02    | 4.36e+05
+ 1.0e+03      | 2.6082697008e+03    | 3.35e+06
