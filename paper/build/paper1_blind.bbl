@@ -109,4 +109,50 @@ C.~Tretter.
 \newblock {\em Spectral Theory of Block Operator Matrices and Applications}.
 \newblock Imperial College Press, 2008.
 
+\bibitem{carerelie2024covariance}
+G.~Carere and H.~C. Lie.
+\newblock Optimal low-rank approximations of posteriors for linear gaussian
+  inverse problems on hilbert spaces.
+\newblock {\em arXiv preprint arXiv:2411.01112}, 2024.
+
+\bibitem{carerelie2025mean}
+G.~Carere and H.~C. Lie.
+\newblock Optimal low-rank approximations for linear gaussian inverse problems
+  on hilbert spaces, part ii: posterior mean approximation.
+\newblock {\em arXiv preprint arXiv:2503.24209}, 2025.
+
+\bibitem{contino2021matrix}
+M.~Contino, A.~Maestripieri, and S.~Marcantognini.
+\newblock A matrix formula for schur complements of nonnegative selfadjoint
+  linear relations.
+\newblock {\em arXiv preprint arXiv:2108.10757}, 2021.
+
+\bibitem{henderson2022sobolev}
+I.~Henderson.
+\newblock Sobolev regularity of gaussian random fields.
+\newblock {\em arXiv preprint arXiv:2209.02703}, 2022.
+
+\bibitem{jorgensentian2024hilbert}
+P.~E.~T. Jorgensen and J.~Tian.
+\newblock Hilbert space valued gaussian processes, their kernels,
+  factorizations, and covariance structure.
+\newblock {\em arXiv preprint arXiv:2404.14685}, 2024.
+
+\bibitem{naikjohnson2024complementable}
+S.~M. Naik and P.~S. Johnson.
+\newblock Complementable operators and their schur complements.
+\newblock {\em arXiv preprint arXiv:2406.11457}, 2024.
+
+\bibitem{quang2022kl}
+M.~H. Quang.
+\newblock Kullback-leibler and renyi divergences in reproducing kernel hilbert
+  space and gaussian process settings.
+\newblock {\em arXiv preprint arXiv:2207.08406}, 2022.
+
+\bibitem{sheffield2007gaussian}
+S.~Sheffield.
+\newblock Gaussian free fields for mathematicians.
+\newblock {\em Probability Theory and Related Fields}, 139:521--541, 2007.
+
+
 \end{thebibliography}

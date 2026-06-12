@@ -1,0 +1,869 @@
+
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+%\usepackage{thmtools}
+\usepackage{hyperref}
+\hypersetup{hypertexnames=false,hidelinks}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+
+% ---- Theorem environments ----
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{claim}[theorem]{Claim}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% ---- Macros ----
+\newcommand{\cond}{\operatorname{cond}}
+\newcommand{\KL}{D_{\operatorname{KL}}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\tr}{\operatorname{Tr}}
+\newcommand{\diag}{\operatorname{diag}}
+
+\newcommand{\Range}{\operatorname{Range}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\id}{\mathrm{id}}
+% \newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}} % removed for submission
+
+% ---- Cleveref names ----
+\crefname{theorem}{theorem}{theorems}
+\Crefname{theorem}{Theorem}{Theorems}
+\crefname{proposition}{proposition}{propositions}
+\Crefname{proposition}{Proposition}{Propositions}
+\crefname{lemma}{lemma}{lemmas}
+\Crefname{lemma}{Lemma}{Lemmas}
+\crefname{corollary}{corollary}{corollaries}
+\Crefname{corollary}{Corollary}{Corollaries}
+\crefname{claim}{claim}{claims}
+\Crefname{claim}{Claim}{Claims}
+\crefname{definition}{definition}{definitions}
+\Crefname{definition}{Definition}{Definitions}
+\crefname{assumption}{assumption}{assumptions}
+\Crefname{assumption}{Assumption}{Assumptions}
+\crefname{example}{example}{examples}
+\Crefname{example}{Example}{Examples}
+\crefname{remark}{remark}{remarks}
+\Crefname{remark}{Remark}{Remarks}
+\crefname{equation}{Eq.}{Eqs.}
+\Crefname{equation}{Equation}{Equations}
+\crefname{figure}{fig.}{figs.}
+\Crefname{figure}{Fig.}{Figs.}
+\crefname{table}{table}{tables}
+\Crefname{table}{Table}{Tables}
+\crefname{section}{Sec.}{Secs.}
+\Crefname{section}{Section}{Sections}
+
+\journal{Journal of Functional Analysis}
+\biboptions{numbers,sort&compress}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Singular Gaussian Conditioning via the Inverse-Free Schur Complement}
+
+\author{Anonymous Author(s)}
+
+    % ============================================================
+    %  ABSTRACT
+    % ============================================================
+\begin{abstract}
+        Singular Gaussian conditioning in Hilbert space is governed by
+        Anderson--Trapp shorting, while the finite-dimensional Schur formula
+        $A-BD^{-1}B^*$ is only its invertible-block shadow.  In trace-class
+        Hilbert problems, compact covariance blocks lack bounded ambient inverses,
+        so shorting replaces direct inversion through a variational principle on
+        the Cameron--Martin range.  The rank-one canonical scaling is
+        $\Sigma_{\lambda,kk}=\varepsilon_0/(2\lambda^2)$ and the shorting
+        subtraction gives $S_{k,\lambda}=\frac{\varepsilon_0}{2\lambda^2}-R_\lambda$
+        with $R_\lambda=O(\lambda^{-6})$.
+        For Gaussian Radon laws, this yields the finite-part functional expansion
+        \[
+        \mathfrak{J}_\lambda(\mu_{\mathrm{obs}};\mu_\lambda)
+        =
+        \frac{b_k^2}{\varepsilon_0}+O(\lambda^{-4}),
+        \]
+        with a kernel-independent limit at rank one.
+    \end{abstract}
+
+    \begin{keyword}
+Block operators; Anderson--Trapp shorting; Schur complementation; Cameron--Martin range; trace-class covariance; Fredholm finite parts; Gaussian disintegration; Galerkin approximation
+\end{keyword}
+
+\end{frontmatter}
+
+    % ============================================================
+    %  \S1  INTRODUCTION
+    % ============================================================
+    \section{Introduction}
+    \label{sec:intro}
+
+    The starting point is a functional-analytic identification, not a
+    probabilistic regularization.  In finite dimensions, the Schur complement
+    of a positive block matrix is written as $A-BD^{-1}B^*$.  This formula is
+    not the primitive operation: it is the invertible-block coordinate
+    expression of Anderson--Trapp shorting.  For covariance operators on a
+    separable Hilbert space, the free block $D$ is typically compact and trace
+    class; it therefore has no bounded inverse on the ambient space
+    \cite{bogachev1998gaussian,simon2005trace,daprato2014stochastic,jorgensentian2024hilbert}.  Singular
+    conditioning therefore does not repair the Schur formula.  It exposes that
+    Schur complementation was the finite-dimensional shadow of shorting all
+    along.
+
+    A systematic impossibility result
+    (Theorem~\ref{thm:triple_impossibility}) shows that direct inversion fails
+    at three independent levels: algebraically there is no bounded inverse,
+    numerically Galerkin truncations suffer spectral ill-conditioning
+    $\kappa\sim N^{2}$, and asymptotically the regime may require
+    $\lambda\gg N^{2}$, placing the true limit beyond the reach of any fixed
+    truncation.  Classical Schur-complement and shorted-operator theory,
+    originating in Krein's theory of non-negative extensions and developed by
+    Anderson and Trapp, gives the underlying variational formula for positive
+    block operators
+    \cite{krein1947selfadjoint,anderson1975shorted,douglas1966majorization}.
+    Recent Schur-complement work on non-negative operators and complementable
+    block operators gives a current operator-theoretic context for the same
+    mechanism \cite{contino2021matrix,naikjohnson2024complementable}.
+    In the covariance setting, its admissibility condition is exactly a
+    Cameron--Martin range condition: cross-covariance vectors must have finite
+    covariance energy rather than lie in the domain of a non-existent bounded
+    inverse.  This paper uses that range condition to define the shorted
+    residual as an energy projection, proves its $\lambda^{-6}$ scale, and
+    shows that Galerkin approximation is Rayleigh--Ritz restriction of the same
+    supremum to nested finite-dimensional test spaces.
+
+    Gaussian conditioning enters after this operator identification is in
+    place.  Singular coordinate conditioning reaches the Feldman--H\'{a}jek
+    measure-class boundary: exact evidence is supported on a hyperplane of
+    prior measure zero, while positive-noise Gaussian inverse-problem formulas may remain in
+    the equivalent-measure regime
+    \cite{feldman1958equivalence,hajek1958property,bogachev1998gaussian,stuart2010inverse,carerelie2024covariance,carerelie2025mean}.
+    The shorted covariance separates the finite residual from the diverging
+    normalization terms.  Fredholm determinant identities and
+    determinant-and-trace cancellation then extract a canonical finite part.
+
+    Thus the paper's logical order is:
+    shorting first, Gaussian disintegration second.  The stochastic terminology
+    is an application layer.  The structural object is Anderson--Trapp shorting;
+    the familiar Schur formula is its finite-dimensional invertible-block
+    expression.
+
+    In the rank-one case, the residual has the exact asymptotic form
+    \[
+    S_{k,\lambda}=\frac{\varepsilon_0}{2\lambda^2}-R_\lambda,
+    \qquad
+    R_\lambda=O(\lambda^{-6}),
+    \]
+    hence
+    \[
+    S_{k,\lambda}^{-1}=\frac{2}{\varepsilon_0}\lambda^2+O(\lambda^{-2}).
+    \]
+    These are the powers used in the finite-part cancellation: the target
+    block contributes the $\lambda^2$ pole, while the shorted residual is too
+    small to alter the finite part.
+
+    The paper has four main contributions:
+    \begin{enumerate}
+        \item \textbf{Block Lyapunov normalization.} We identify the operator
+        mechanism that fixes the target block at the unique finite-part scale
+        $\Sigma_{\lambda,kk}=\varepsilon_0/(2\lambda^2)$.
+        \item \textbf{Schur as shorting.} We identify the formal inverse
+        expression $A-BD^{-1}B^*$ as the invertible-block expression of
+        Anderson--Trapp shorting, define the residual by the variational short
+        on the Cameron--Martin range, and prove the $O(\lambda^{-6})$
+        shorted-residual estimate.
+        \item \textbf{Galerkin monotonicity.} We prove that
+        finite-rank Galerkin truncations converge monotonically by expanding the
+        variational supremum. Loewner monotonicity is a consequence of nested
+        subspaces, not matrix inversion.
+        \item \textbf{Fredholm finite part.} For Gaussian
+        Radon laws, disintegration supplies the exact-evidence measure, while
+        Weinstein--Aronszajn and Fredholm determinant identities cancel the trace
+        anomalies and reduce the finite part to the invariant quadratic form.
+    \end{enumerate}
+
+    \subsection{Positioning in the literature}
+    \label{sec:related}
+
+    The paper is closest to four bodies of work.  First, it uses Schur
+    complements, shorted operators, Douglas range inclusion, and modern
+    complementability theory for block operators
+    \cite{krein1947selfadjoint,anderson1975shorted,douglas1966majorization,tretter2008spectral,contino2018schur,friedrich2017generalized,contino2021matrix,naikjohnson2024complementable}.
+    Second, it uses the measure-class structure of Gaussian measures,
+    especially the Cameron--Martin theorem and Feldman--H\'{a}jek dichotomy
+    \cite{feldman1958equivalence,hajek1958property,bogachev1998gaussian}.
+    Third, it is adjacent to Bayesian inverse problems and Hilbert-space
+    Gaussian conditioning, including shorted covariance descriptions, positive
+    noise inverse-problem formulas, low-rank covariance approximations, and nonlinear
+    observation maps
+    \cite{owhadi2015conditioning,stuart2010inverse,steinwart2024conditioning,chen2024gaussian,carerelie2024covariance,carerelie2025mean,quang2022kl}.
+    Fourth, the examples come from stochastic evolution equations and elliptic
+    Gaussian fields, where dissipative sectorial generators produce compact
+    trace-class stationary covariances naturally approximated by Galerkin
+    truncation \cite{daprato2014stochastic,lord2014introduction,simon2005trace,henderson2022sobolev,jorgensentian2024hilbert}.
+
+    \subsection{Organization of the paper}
+    \label{sec:organization}
+
+    \Cref{sec:setup} sets the operator model and canonical normalization.
+    \Cref{sec:triple_impossibility} explains why direct inversion cannot
+    govern the limit. \Cref{sec:infdim} gives the
+    Anderson--Trapp shorting construction and its finite-dimensional shadow.
+    \Cref{sec:gaussian_zero} uses this shorted residual in Gaussian
+    disintegration and the finite-part functional. \Cref{sec:spde} closes with an
+    elliptic benchmark. \Cref{sec:conclusion} concludes. Appendix proofs are
+    organized as: calibrated block identities and exact-resolvent formulas
+    (\Cref{app:block_identities}), bounded-inverse Schur shadows
+    (\Cref{app:shorting_residual}), Galerkin shorting consistency
+    (\Cref{app:galerkin_shorting}), Gaussian Fredholm analysis
+    (\Cref{app:gaussian_fredholm}), and admissibility geometry
+    (\Cref{app:admissibility_boundary}). Numerical diagnostics are collected
+    in the supplementary material and are not proof dependencies.
+
+    % ============================================================
+    %  \S2 Operator Model and Canonical Normalization
+    % ============================================================
+
+    \section{Operator Model and Canonical Normalization}
+    \label{sec:setup}
+
+    \subsection{Operator Evolution and Regularized Conditioning}
+    \label{sec:setup:evolution}
+
+    We model the continuous-time process as stochastic evolution on a separable Hilbert space $\mathcal{H}$ \cite{daprato2014stochastic}:
+    \begin{equation}
+        \label{eq:stochastic_evolution}
+        dX_t = \mathcal{A} X_t \, dt + \mathcal{D}^{1/2} dW_t
+    \end{equation}
+    where $\mathcal{A}$ is the drift operator and $\mathcal{D}$ is the trace-class diffusion operator. We decompose the Hilbert space as $\mathcal{H} = \mathcal{H}_k \oplus \mathcal{H}_I$, where $\mathcal{H}_k \coloneqq \mathbb{R}\phi_k$ is the one-dimensional target coordinate subspace, and $\mathcal{H}_I \coloneqq \mathcal{H}_k^\perp$ is the free bulk subspace. Let $\Pi_k \coloneqq \phi_k \otimes \phi_k$ and $\Pi_I \coloneqq I - \Pi_k$ be the corresponding orthogonal projections.
+
+    To approximate the exact point conditioning $X_k = x_k^*$, we set the incoming target-coordinate blocks to zero and apply a regularization parameter $\lambda > 0$.
+
+    \begin{definition}[Calibrated Approximating Operator Family]
+        \label{def:soft_do}
+        The regularized conditioning operator of strength $\lambda > 0$ at coordinate $X_k$ acts on the operator evolution \eqref{eq:stochastic_evolution} by modifying both the drift and the diffusion:
+        \begin{equation}
+            \label{eq:soft_do_sde}
+            \mathcal{A}^{(\lambda)} \coloneqq \mathcal{A}_{\cond} - \lambda \Pi_k, \qquad
+            \mathcal{D}^{(\lambda)} \coloneqq \mathcal{D}_{\cond} + d_\lambda \Pi_k
+        \end{equation}
+        where $\mathcal{A}_{\cond}$ is the block drift operator with incoming target-coordinate blocks set to zero ($\Pi_k \mathcal{A}_{\cond} = 0$), $\mathcal{D}_{\cond}$ has target-coordinate cross-noise set to zero, and $d_\lambda > 0$ is the local diffusion variance of the target coordinate at regularization strength $\lambda$. In the SDE, this corresponds to:
+        \begin{equation}
+            \label{eq:soft_do_sde_general}
+            dX_{k,t} = -\lambda (X_{k,t} - x_k^*) dt + \sqrt{d_\lambda}\, dW_{k,t}.
+        \end{equation}
+    \end{definition}
+
+    \subsection{Canonical Normalization}
+    \label{sec:setup:calibration}
+
+    The block-decoupled structure under the regularized operator family yields:
+    \begin{equation}
+        \label{eq:block_decoupled_drift_diffusion}
+        \mathcal{A}^{(\lambda)}=
+    \begin{pmatrix}-\lambda&0\\a_{Ik}&\mathcal{A}_{II}\end{pmatrix},\qquad
+        \mathcal{D}^{(\lambda)}=
+    \begin{pmatrix}d_\lambda&0\\0&D_{II}\end{pmatrix},
+    \end{equation}
+    where $a_{Ik} \coloneqq \mathcal{A}_{Ik} \phi_k \in \mathcal{H}_I$ represents the off-diagonal drift coupling.
+    Let $\Sigma_\lambda$ denote the stationary covariance operator under regularization strength $\lambda$, solving the Lyapunov equation:
+    \begin{equation}
+        \label{eq:stationary_lyapunov_regularized}
+        \mathcal{A}^{(\lambda)}\Sigma_\lambda + \Sigma_\lambda(\mathcal{A}^{(\lambda)})^* + \mathcal{D}^{(\lambda)} = 0.
+    \end{equation}
+    The target block $kk$ decouples completely from the free coordinates, yielding the exact scalar equation:
+    \begin{equation}
+        \label{eq:target_scalar_lyapunov}
+        -2\lambda\Sigma_{\lambda,kk} + d_\lambda = 0,
+        \qquad
+        \Sigma_{\lambda,kk} = \frac{d_\lambda}{2\lambda}.
+    \end{equation}
+
+    The normalization is fixed by canonical scaling, not by a free modeling convention.  In the Gaussian finite-part extension below, a constant forcing $b_k$ produces the deterministic target offset
+    \begin{equation}
+        \label{eq:target_offset_balancing}
+        \Delta_\lambda \coloneqq m_{\lambda,k}-x_k^* = \frac{b_k}{\lambda}=O(\lambda^{-1}),
+    \end{equation}
+    so the squared deterministic displacement has the rigid scale $\Delta_\lambda^2=b_k^2/\lambda^2=O(\lambda^{-2})$.  The leading target contribution to the conditional finite-part functional is the signal-to-noise ratio
+    \begin{equation}
+        \label{eq:snr_balancing}
+        \frac{\Delta_\lambda^2}{2\Sigma_{\lambda,kk}}
+        =
+        \frac{b_k^2/\lambda^2}{2\Sigma_{\lambda,kk}}.
+    \end{equation}
+    Consequently the target covariance must decay at the same order as the squared deterministic displacement.  If $\Sigma_{\lambda,kk}=O(\lambda^{-1})$, as for the slow family $d_\lambda=\varepsilon_0$, then \eqref{eq:snr_balancing} is $O(\lambda^{-1})$ and the finite target contribution collapses to zero.  If $\Sigma_{\lambda,kk}=O(\lambda^{-3})$, as for the fast family $d_\lambda=\varepsilon_0/\lambda^2$, then \eqref{eq:snr_balancing} is $O(\lambda)$ and the target contribution diverges.  The numerical supplement reports these slow and fast scaling diagnostics, but the conclusion already follows from the exact scalar identity.  A nonzero finite limit therefore forces the critical covariance scale
+    \begin{equation}
+        \label{eq:critical_covariance_scale}
+        \Sigma_{\lambda,kk}\asymp\lambda^{-2}.
+    \end{equation}
+
+    \begin{proposition}[Canonical Scaling]
+        \label{prop:exact_calibration}
+        The unique target-diffusion scaling that makes the deterministic offset and target variance balance at a finite nonzero scale is
+        \begin{equation}
+            \label{eq:exact_variance_normalization}
+            \Sigma_{\lambda,kk}\equiv \frac{\varepsilon_0}{2\lambda^2},
+            \qquad \varepsilon_0>0.
+        \end{equation}
+        By the scalar Lyapunov identity \eqref{eq:target_scalar_lyapunov}, this is equivalent to
+        \begin{equation}
+            \label{eq:canonical_diffusion_scaling}
+            d_\lambda = 2\lambda\Sigma_{\lambda,kk}
+            = \frac{\varepsilon_0}{\lambda}
+            \quad \text{for every } \lambda>0.
+        \end{equation}
+        With this canonical family,
+        \begin{equation}
+            \label{eq:canonical_balanced_ratio}
+            \frac{\Delta_\lambda^2}{2\Sigma_{\lambda,kk}}
+            = \frac{b_k^2}{\varepsilon_0},
+        \end{equation}
+        and the calibrated approximating operators become
+        \begin{equation}
+            \label{eq:canonical_approximating_operators}
+            dX_{k,t} = -\lambda (X_{k,t} - x_k^*) dt + \sqrt{\varepsilon_0 / \lambda}\, dW_{k,t}.
+        \end{equation}
+    \end{proposition}
+
+    All subsequent results are stated for this canonical scaling family.
+
+    \begin{definition}[Shorted Schur Energy Invariant]
+        \label{def:schur_invariant}
+        Let $S_{k,\lambda} \coloneqq \|X_k - P_{\mathcal{M}_I} X_k\|_{L^2}^2$ represent the shorted Schur projection residual of the target coordinate $X_k$ against the closed linear span $\mathcal{M}_I$ of the free coordinates $X_I$. In probabilistic language this is the linear minimum mean squared error residual, but the operator object is the Schur energy projection. The \emph{shorted Schur invariant} $m_2^{\mathrm{Schur}}$ is defined as:
+        \begin{equation}
+            \label{eq:m2_schur_definition}
+            m_2^{\mathrm{Schur}} \coloneqq \lim_{\lambda\to\infty} \lambda^2 S_{k,\lambda}.
+        \end{equation}
+    \end{definition}
+
+    \subsection{Operator Setup and Assumptions}
+    \label{sec:setup:assumptions}
+
+    We use one core assumption package for the shorting limit:
+
+    \begin{assumption}[Core Analytical Assumptions for Singular Hyperplane Conditioning]
+        \label{assum:core_analytical}
+        \begin{enumerate}[label=(\roman*)]
+            \item[(i)] \textbf{Trace-Class Lyapunov framework:} \label{assum:linear_second_moment}
+            For each $\lambda>0$, the stationary covariance $\Sigma_\lambda$ is the unique strictly positive solution to the trace-class Lyapunov equation
+            \begin{equation}
+                \label{eq:op_lyapunov}
+                \mathcal{A}^{(\lambda)}\Sigma_\lambda + \Sigma_\lambda\mathcal{A}^{(\lambda)*} + \mathcal{D}^{(\lambda)} = 0.
+            \end{equation}
+            The free-block covariance under full decoupling is
+            $Q_0\coloneqq\Sigma_{II}^{(0)}$, assumed compact, injective, trace-class,
+            and positive.
+
+            \item[(ii)] \textbf{Cameron--Martin admissibility of coupling:} \label{assum:cm_stability}
+            The block-decupled coefficients satisfy $\mathcal{A}_{kI}=\mathcal{D}_{kI}=\mathcal{D}_{Ik}=0$ and $\mathcal{A}_{kk}=-\lambda$.
+            Let
+            $H_{Q_0}=\operatorname{Range}(Q_0^{1/2})$ and
+            $|u|_{Q_0}=\|Q_0^{-1/2}u\|_{\mathcal{H}_I}$. The leakage vector
+            $a_{Ik}=\mathcal{A}_{Ik}\phi_k$ belongs to $H_{Q_0}$, and
+            on $H_{Q_0}$ the restricted drift semigroup is exponentially stable:
+            \begin{equation}
+                \|e^{t\mathcal{A}_{II}}\|_{\mathcal{L}(H_{Q_0})} \le M e^{-\omega t},\qquad t\ge0,
+            \end{equation}
+            for some $M\ge1$ and $\omega>0$ independent of $\lambda$.
+        \end{enumerate}
+    \end{assumption}
+
+    \begin{remark}[Finite-Energy Outgoing Covariance Coupling and Finite-Dimensional Calibration]
+        \label{rem:cm_information_flow}
+        The membership $a_{Ik}\in H_{Q_0}$ is an admissibility condition,
+        not a consequence of the free-block Lyapunov equation alone: an arbitrary
+        outgoing vector need not lie in
+        $\operatorname{Range}((\Sigma_{II}^{(0)})^{1/2})$.  It says that the
+        deterministic channel carrying target fluctuations into the free-block has
+        finite covariance energy relative to the free-noise background.
+  
+        To understand this condition intuitively, consider a finite-dimensional setting where the free-block state space is $\mathcal{H}_I = \mathbb{R}^{d-1}$ and the free stationary covariance $Q_0 \coloneqq \Sigma_{II}^{(0)}$ is strictly positive-definite. Since $Q_0 \succ 0$, its square root $Q_0^{1/2}$ is invertible, and its range is the entire space $\mathbb{R}^{d-1}$. In this case, the Cameron--Martin space is the full space $H_{Q_0} = \operatorname{Range}(Q_0^{1/2}) = \mathbb{R}^{d-1}$, and the Cameron--Martin energy norm $|u|_{Q_0} = \|Q_0^{-1/2} u\|_2$ is equivalent to the standard Euclidean norm. Consequently, the admissibility condition $a_{Ik} \in H_{Q_0}$ is trivially satisfied for any outgoing vector $a_{Ik} \in \mathbb{R}^{d-1}$.
+  
+        However, if some direction in the free coordinates is noise-free under block decoupling (meaning $Q_0$ is positive semidefinite but singular), $H_{Q_0}$ becomes a proper subspace of $\mathbb{R}^{d-1}$. In this case, the condition $a_{Ik} \in H_{Q_0}$ requires that the leakage vector $a_{Ik}$ has no component in the null space of $Q_0$. Equivalently, it prevents the target coordinate from leaking fluctuations into a downstream coordinate that has zero background noise, which would otherwise result in infinite relative covariance energy.
+  
+        In infinite dimensions, $\Sigma_{II}^{(0)}$ is trace-class and compact, so its eigenvalues decay to zero, making $\operatorname{Range}((\Sigma_{II}^{(0)})^{1/2})$ a dense but strictly proper subspace of $\mathcal{H}_I$. The condition $a_{Ik} \in H_{Q_0}$ requires the off-diagonal drift coupling coefficients to decay sufficiently fast relative to the background noise eigenvalues to keep the relative energy finite.
+  
+        Under this assumption, invariance and exponential stability on $H_{Q_0}$ imply:
+        \begin{equation}
+            \begin{aligned}
+                (\lambda I-\mathcal{A}_{II})^{-1}a_{Ik}
+                &\in H_{Q_0},\\
+                |(\lambda I-\mathcal{A}_{II})^{-1}a_{Ik}|_{Q_0}
+                &\le \frac{M}{\lambda+\omega}|a_{Ik}|_{Q_0}.
+            \end{aligned}
+        \end{equation}
+    \end{remark}
+
+    \begin{remark}[Constant Dependency in Schur Energy Expansion]
+        Consequently, the exact leakage cross-covariance
+        $\Sigma_{\lambda,Ik}$ has finite Cameron--Martin energy norm and is
+        $O(\lambda^{-3})$ in that norm.  This is a condition on the deterministic
+        response and covariance energy; it does not assert that infinite-dimensional
+        Gaussian sample paths lie in $H_{Q_0}$ almost surely.
+    \end{remark}
+
+    % ============================================================
+    %  §3  INVERSE-FREE SCHUR COMPLEMENTATION
+    % ============================================================
+    \section{Inverse-Free Schur Complementation in Hilbert Space}
+    \label{sec:infdim}
+
+    \subsection{Variational Shorting and Energy Bounds}
+    \label{sec:infdim:variational}
+
+    In finite dimensions, the Schur complement of the bulk covariance block
+    $\Sigma_{II}$ is written as
+    $S_k \coloneqq \Sigma_{kk} - \Sigma_{kI}\Sigma_{II}^{-1}\Sigma_{Ik}$.
+    Under stable and strictly positive diffusion, the bulk covariance
+    $\Sigma_{II}$ is positive-definite and invertible, so this expression is a
+    valid coordinate formula.  Its operator-theoretic content, however, is
+    shorting: for a non-negative block operator, the Schur complement is the
+    quadratic form of the Anderson--Trapp short to the target subspace, and the
+    inverse expression appears only when the complementary block is invertible
+    \cite{krein1947selfadjoint,anderson1975shorted}.  In infinite dimensions,
+    the stationary covariance operator is trace-class and compact, so
+    $\Sigma_{\lambda,II}$ lacks a bounded global inverse.  The finite-dimensional
+    formula disappears, but the shorted operator remains well-defined through a
+    variational supremum.  We therefore formulate the singular-conditioning
+    residual directly in covariance-energy forms.
+
+    Let
+    \[
+    Q_0
+    =
+    \int_0^\infty e^{r\mathcal A_{II}}D_{II}e^{r\mathcal A_{II}^*}\,dr
+    \]
+    denote the ambient stable-bulk background covariance from Assumption~\ref{assum:core_analytical}. We define the core Cameron--Martin space $H_{Q_0} \coloneqq \operatorname{Range}(Q_0^{1/2})$ and the core energy norm:
+    \begin{equation}
+        |u|_{Q_0} \coloneqq \|Q_0^{-1/2} u\| \quad \text{for all } u \in H_{Q_0}.
+    \end{equation}
+    By Assumption~\ref{assum:cm_stability}, the off-diagonal drift coupling vector satisfies $a_{Ik} \in H_{Q_0}$, and the restricted drift generator $\mathcal{A}_{II}$ generates an exponentially stable semigroup on $H_{Q_0}$.
+
+    Under this assumption, the exact cross-covariance resolvent formula (derived in \Cref{app:block_identities}) satisfies:
+    \begin{equation}
+        \Sigma_{\lambda,Ik} = \frac{\varepsilon_0}{2\lambda^2} (\lambda I - \mathcal{A}_{II})^{-1} a_{Ik}.
+    \end{equation}
+    This resolvent response yields the Cameron--Martin energy bound on the cross-covariance block:
+    \begin{equation}
+        \label{eq:cross_norm_bound}
+        |\Sigma_{\lambda,Ik}|_{Q_0} = O(\lambda^{-3}) \quad \text{as } \lambda \to \infty.
+    \end{equation}
+
+    To define the infinite-dimensional shorted residual, we introduce the variational Schur subtraction $R_\lambda$:
+    \begin{equation}
+        \label{eq:variational_schur_subtraction}
+        R_\lambda \coloneqq \sup_{\langle u, \Sigma_{\lambda,II} u \rangle > 0} \frac{|\langle u, \Sigma_{\lambda,Ik} \rangle|^2}{\langle u, \Sigma_{\lambda,II} u \rangle}.
+    \end{equation}
+    Equivalently, if $\Sigma_\lambda$ is viewed as a non-negative block operator on $\mathbb{C}\phi_k\oplus\mathcal{H}_I$, then \eqref{eq:variational_schur_subtraction} is the one-dimensional Anderson--Trapp shorted-operator subtraction, namely
+    \begin{equation}
+        \label{eq:shorted_operator_scalar}
+        \big\langle \phi_k,\mathcal{S}_{\mathbb{C}\phi_k}(\Sigma_\lambda)\phi_k\big\rangle
+        =\Sigma_{\lambda,kk}-R_\lambda.
+    \end{equation}
+    The restriction to vectors with $\langle u,\Sigma_{\lambda,II}u\rangle>0$ simply removes null directions of the denominator; for a non-negative block operator, such directions do not change the supremum. Thus $R_\lambda$ is the energy removed by shorting to the target coordinate \cite{anderson1975shorted,owhadi2015conditioning,contino2021matrix,naikjohnson2024complementable}.
+
+    Since the target noise channel and bulk noise channel are independent, the bulk state decomposes into independent background and target-driven components, meaning the bulk covariance dominates the background covariance ($\Sigma_{\lambda,II} = Q_0 + \operatorname{Cov}(Y_I) \succeq Q_0$). Douglas range inclusion then guarantees that the variational subtraction is bounded:
+    \begin{equation}
+        0 \le R_\lambda \le |\Sigma_{\lambda,Ik}|_{Q_0}^2 = O(\lambda^{-6}).
+    \end{equation}
+
+    \subsection{Shorted Schur Residual Scaling}
+    \label{sec:infdim:scaling}
+
+    The main scaling theorem for the shorted Schur residual follows. The $L^2$ projection interpretation is secondary and follows from covariance geometry.
+
+    \begin{theorem}[Hilbert Shorted Schur Invariant]
+        \label{thm:inf_cancellation}
+        Under Assumption~\ref{assum:core_analytical}, the $L^2$-projection residual satisfies:
+        \begin{equation}
+            \label{eq:main_schur_sharp}
+            S_{k,\lambda} \coloneqq \|X_k - P_{\mathcal{M}_I} X_k\|_{L^2}^2 = \frac{\varepsilon_0}{2\lambda^2} - R_\lambda,
+        \end{equation}
+        where the remainder satisfies $0 \le R_\lambda = O(\lambda^{-6})$. In particular, the shorted Schur invariant is:
+        \begin{equation}
+            \label{eq:m2_schur_value}
+            m_2^{\mathrm{Schur}} = \lim_{\lambda\to\infty} \lambda^2 S_{k,\lambda} = \frac{\varepsilon_0}{2},
+        \end{equation}
+        and the reciprocal projection-residual scaling satisfies:
+        \begin{equation}
+            \label{eq:schur_scaling_inverse}
+            S_{k,\lambda}^{-1} = \frac{2}{\varepsilon_0}\lambda^2 + O(\lambda^{-2}).
+        \end{equation}
+        This result depends only on covariance and orthogonal projection; it holds for any linear stationary model satisfying these assumptions, without Gaussianity.
+    \end{theorem}
+    \begin{proof}
+        See \Cref{app:shorting_residual} for the full derivation.
+    \end{proof}
+
+    \subsection{Convergence of Finite-Dimensional Truncations}
+    \label{sec:proofs:convergence}
+
+    Let $\Pi_n: \mathcal{H} \to \mathcal{H}_n$ be finite-rank Galerkin projections preserving the target-bulk decomposition.  The convergence theorem below is stated for the admissible spectral truncations used in the covariance-energy argument: on the bulk space, $\Pi_n^I$ truncates in an eigenbasis of $Q_0$, $Q_0^{(n)}=\Pi_n^I Q_0\Pi_n^I|_{\Pi_n^I\mathcal{H}_I}$, and $a_{Ik}^{(n)}=\Pi_n^I a_{Ik}$.  This choice is not cosmetic; it is what preserves the Cameron--Martin energy uniformly:
+    \begin{equation}
+        \sup_n |a_{Ik}^{(n)}|_{Q_0^{(n)}}\le |a_{Ik}|_{Q_0}<\infty.
+    \end{equation}
+
+    Write $\mathcal{A}_n^{(\lambda)} \coloneqq \Pi_n \mathcal{A}^{(\lambda)}|_{\mathcal{H}_n}$, $\mathcal{D}_n^{(\lambda)} \coloneqq \Pi_n \mathcal{D}^{(\lambda)} \Pi_n$, and let $\Sigma_{n,\lambda}$ solve the truncated Lyapunov equation $\mathcal{A}_n^{(\lambda)} \Sigma_{n,\lambda} + \Sigma_{n,\lambda} (\mathcal{A}_n^{(\lambda)})^* + \mathcal{D}_n^{(\lambda)} = 0$.
+
+    \begin{proposition}[Galerkin Consistency of the Shorted Schur Invariant]
+        \label{prop:galerkin_consistency}
+        Under Assumption~\ref{assum:core_analytical}, let $\Pi_n:\mathcal{H}\to\mathcal{H}_n$ be finite-rank orthogonal Galerkin projections preserving the target-bulk block decomposition:
+        \begin{equation}
+            \Pi_n\phi_k=\phi_k,\qquad \Pi_n\mathcal{H}_I\subset\mathcal{H}_I,\qquad \Pi_n\to I\ \text{strongly on }\mathcal{H}.
+        \end{equation}
+        Assume the truncated regularized operator family satisfies the uniform exponential stability and trace-class conditions stated in Lemma~\ref{lem:galerkin_trace_norm}, and assume either the uniform finite-energy condition
+        \begin{equation}
+            \sup_n |a_{Ik}^{(n)}|_{Q_0^{(n)}}<\infty,
+        \end{equation}
+        or, more concretely, the spectral truncation choice $a_{Ik}^{(n)}=\Pi_n^I a_{Ik}$ and $Q_0^{(n)}=\Pi_n^I Q_0\Pi_n^I$ in a common $Q_0$ eigenbasis.  Then the truncated covariance operators converge in trace norm:
+        \begin{equation}
+            \|\Sigma_{n,\lambda}-\Sigma_\lambda\|_{\mathcal{S}_1}\to0\quad\text{as }n\to\infty,
+        \end{equation}
+        and the truncated Schur invariant is exact at every admissible level:
+        \begin{equation}
+            m_2^{\mathrm{Schur},(n)} \coloneqq \lim_{\lambda\to\infty} \lambda^2 S_{k,\lambda}^{(n)} = \frac{\varepsilon_0}{2} \quad \text{for all admissible } n.
+        \end{equation}
+    \end{proposition}
+    \begin{proof}
+        See Lemmas~\ref{lem:galerkin_trace_norm}, \ref{lem:galerkin_finite_energy_monotonicity}, and \ref{lem:galerkin_variational_shorting} for the trace-norm convergence, the spectral finite-energy monotonicity, and the variational shorting support.
+    \end{proof}
+
+    % ============================================================
+    %  §3.4  THE TRIPLE IMPOSSIBILITY OF DIRECT INVERSION
+    % ============================================================
+    \subsection{The Triple Impossibility of Direct Inversion}
+    \label{sec:triple_impossibility}
+
+    The variational shorting formula of \Cref{sec:infdim:variational} is the
+    primitive operator object whose finite-dimensional invertible expression is
+    the Schur formula.  The following result is deliberately stated in the GFF
+    spectral regime used by the elliptic example \cite{sheffield2007gaussian,henderson2022sobolev}, rather than as a general
+    compact-operator theorem.
+
+\begin{theorem}[Triple Impossibility in the GFF Spectral Regime]
+        \label{thm:triple_impossibility}
+        Let $Q_0\coloneqq\Sigma_{II}^{(0)}$ be the free-block covariance operator
+        under full decoupling.  Assume the GFF spectral regime: in an orthonormal
+        bulk eigenbasis,
+        \begin{equation}
+            Q_0 e_j=\sigma_j e_j,
+            \qquad
+            \sigma_j\asymp j^{-2},
+        \end{equation}
+        and the corresponding precision or drift eigenvalues satisfy
+        \begin{equation}
+            \mu_j\asymp j^2.
+        \end{equation}
+        Let $Q_0^{(N)}$ be the $N$-mode Galerkin truncation in this basis.  Then:
+        \begin{enumerate}[label=(\roman*)]
+            \item \label{item:algebraic_impossibility}
+            \textbf{Algebraic impossibility.}
+            In infinite dimensions, $Q_0$ is compact and injective with
+            $0$ in its spectrum.  Hence $Q_0^{-1}$ is unbounded on the ambient
+            Hilbert space, and the classical Schur expression
+            $\Sigma_{KK}-\Sigma_{KI}\Sigma_{II}^{-1}\Sigma_{IK}$ is not an
+            ambient bounded-operator formula.
+
+            \item \label{item:numerical_impossibility}
+            \textbf{Numerical impossibility.}
+            The Galerkin covariance matrices have condition numbers
+            \begin{equation}
+                \label{eq:spectral_ill_conditioning}
+                \kappa\bigl(Q_0^{(N)}\bigr)
+                =
+                \frac{\max_{1\le j\le N}\sigma_j}{\min_{1\le j\le N}\sigma_j}
+                \asymp N^{2}.
+            \end{equation}
+            Direct inversion therefore amplifies errors at the same spectral rate
+            as the inverse GFF precision scale.
+
+            \item \label{item:asymptotic_impossibility}
+            \textbf{Asymptotic impossibility.}
+            The diagonal resolvent factor $(\lambda+\mu_j)^{-1}$ has a critical
+            mode
+            \begin{equation}
+                \label{eq:gff_critical_mode}
+                j^*(\lambda)\asymp \sqrt{\lambda}.
+            \end{equation}
+            Modes $j\ll j^*(\lambda)$ are in the clamp-dominated regime
+            $(\lambda+\mu_j)^{-1}\asymp\lambda^{-1}$, while modes
+            $j\gg j^*(\lambda)$ remain in the precision-dominated regime
+            $(\lambda+\mu_j)^{-1}\asymp\mu_j^{-1}\asymp j^{-2}$.  Hence a fixed
+            truncation dimension $N$ cannot uniformly represent the large-$\lambda$
+            transition unless it resolves the moving scale $j^*(\lambda)$.
+        \end{enumerate}
+
+        The consistent resolution is the variational shorting operator
+        (\Cref{sec:infdim:variational}), the operator object whose invertible-block
+        coordinate expression is the Schur formula.  It is well-defined without
+        bounded ambient inverses and its Galerkin approximation is a nested
+        Rayleigh--Ritz restriction of the same variational quantity.
+    \end{theorem}
+
+    \begin{proof}
+        For \ref{item:algebraic_impossibility}, compactness of $Q_0$ follows from
+        $\sigma_j\to0$.  Since the Hilbert space is infinite-dimensional and
+        $Q_0$ is injective with eigenvalues tending to zero, $0$ belongs to the
+        spectrum but is not an eigenvalue.  Thus the inverse exists only as an
+        unbounded operator on its range or as a Cameron--Martin form, not as a
+        bounded operator on the ambient Hilbert space.
+
+        For \ref{item:numerical_impossibility}, the assumptions
+        $\sigma_j\asymp j^{-2}$ give constants $c,C>0$ such that
+        $cj^{-2}\le\sigma_j\le Cj^{-2}$.  Hence
+        $\max_{1\le j\le N}\sigma_j\asymp \sigma_1\asymp1$ and
+        $\min_{1\le j\le N}\sigma_j\asymp\sigma_N\asymp N^{-2}$, proving
+        \eqref{eq:spectral_ill_conditioning}.
+
+        For \ref{item:asymptotic_impossibility}, the transition occurs where
+        $\lambda$ and $\mu_j$ have comparable size.  Since $\mu_j\asymp j^2$,
+        the relation $\mu_j\asymp\lambda$ is equivalent to
+        $j\asymp\sqrt{\lambda}$, which proves \eqref{eq:gff_critical_mode}.  The
+        two displayed resolvent regimes follow by comparing $\lambda$ and
+        $\mu_j$ on either side of this scale.
+    \end{proof}
+
+    % ============================================================
+    %  §4  FREDHOLM TRACE ANOMALIES AND GAUSSIAN FINITE PARTS
+    % ============================================================
+    \section{Fredholm Trace Anomalies and Gaussian Finite Parts}
+    \label{sec:gaussian_zero}
+
+    This section applies the shorted-operator construction to Gaussian Radon
+    laws.  Disintegration supplies the exact-evidence measure; shorting supplies
+    the conditional covariance object to which the Gaussian formulas can be
+    applied.  The Fredholm finite part is then canonical: the determinant term
+    and the trace-class perturbation generated by the shorted covariance defect
+    cancel at the operator-spectral level.
+
+    \subsection{Radon Gaussian Application and Disintegration}
+    \label{sec:gaussian:setup}
+
+    \begin{assumption}[Gaussian Application and Affine Mean Channel]
+        \label{assum:gaussian_clamp}
+        In addition to Assumption~\ref{assum:core_analytical}, let $\mu_\lambda = \mathcal{N}(m_\lambda, \Sigma_\lambda)$ be a Gaussian Radon law on $\mathcal{H}$ with injective trace-class covariance. Let $\mu_{\mathrm{obs}}$ be the canonical Gaussian disintegration member on the evidence hyperplane $X_k = x_k^*$. Suppose that a fixed deterministic forcing $b \in \mathcal{H}$ gives the stationary mean equation:
+        \begin{equation}
+            \mathcal{A}_{\cond} m_\lambda + b - \lambda \Pi_k (m_\lambda - x_k^* \phi_k) = 0, \quad \Pi_k \mathcal{A}_{\cond} = 0.
+        \end{equation}
+        We define the target deterministic offset constant:
+        \begin{equation}
+            c_\lambda \coloneqq \lambda(m_{\lambda,k} - x_k^*) = b_k,
+        \end{equation}
+        where $m_{\lambda,k} \coloneqq \langle m_\lambda, \phi_k \rangle$ and $b_k \coloneqq \langle b, \phi_k \rangle$.
+    \end{assumption}
+
+    Under the Gaussian Radon law, the coordinate projection $\pi_k: \mathcal{H} \to \mathbb{R}$ is continuous, so the target variable $X_k$ is a well-defined Borel random variable. The Polish structure of the Hilbert space guarantees the existence of a regular conditional probability distribution. 
+    By selecting the weakly continuous version of the conditional law at the single point $t = x_k^*$ (as detailed in \Cref{app:gaussian_fredholm}), we obtain the unique pointwise disintegration member $\mu_{\mathrm{obs}}$. Under this measure, the target coordinate satisfies the exact target zeros:
+    \begin{equation}
+        \label{eq:exact_target_zeros}
+        m_{\text{obs},k} - x_k^* = 0, \quad \Var_{\text{obs}}(X_k) = 0 \quad (\text{exact}).
+    \end{equation}
+
+    \subsection{Measurable Cameron--Martin Energy Projection}
+    \label{sec:gaussian:predictor}
+
+    Let $C_\lambda \coloneqq \Sigma_{\lambda,II}$ denote the Gaussian bulk covariance operator on $\mathcal{H}_I$. Because $C_\lambda$ is trace-class and compact, it lacks a bounded global inverse. We define the bulk Cameron--Martin space $H_{C_\lambda} \coloneqq \operatorname{Range}(C_\lambda^{1/2})$ and the corresponding energy norm.
+
+    The leakage cross-covariance vector satisfies $\Sigma_{\lambda,Ik} \in H_{C_\lambda}$ with energy norm $\|\Sigma_{\lambda,Ik}\|_{H_{C_\lambda}} = O(\lambda^{-3})$. This range inclusion allows us to define the energy projection $\mu_{k|I}(X_I) \coloneqq \E[X_k \mid X_I]$ as a measurable Wiener functional:
+    \begin{equation}
+        \mu_{k|I}(X_I) = m_{\lambda,k} + W_{\Sigma_{\lambda,Ik}}(X_I - m_{\lambda,I}),
+    \end{equation}
+    which is the unique linear $L^2$ predictor. The estimates in \Cref{app:gaussian_fredholm} imply that, for all sufficiently large $\lambda$, the bulk marginals $\mu_{\text{obs},I}$ and $\mu_{\lambda,I}$ are equivalent and have finite bulk relative entropy:
+    \begin{equation}
+        \KL(\mu_{\text{obs},I} \parallel \mu_{\lambda,I}) = O(\lambda^{-4}) \to 0 \quad \text{as } \lambda \to \infty.
+    \end{equation}
+
+    \subsection{Gaussian Fredholm Finite-Part Functional}
+    \label{sec:gaussian:functional}
+
+    Although the joint KL divergence diverges under exact conditioning, the
+    shorted covariance isolates the operator finite part before it is interpreted
+    as a Gaussian density residue.
+
+    \begin{definition}[Gaussian Fredholm Finite-Part Functional]
+        \label{def:unified_action}
+        Whenever $S_{k,\lambda}>0$ and $\mu_{\text{obs},I}$ is equivalent to $\mu_{\lambda,I}$, we define the Gaussian Fredholm finite-part functional of the conditioned law:
+        \begin{equation}
+            \label{eq:unified_action}
+            \begin{aligned}
+                \mathfrak{J}_\lambda(\mu_{\mathrm{obs}}; \mu_\lambda) \coloneqq &\KL(\mu_{\mathrm{obs},I} \parallel \mu_{\lambda,I}) \\
+                &+ \frac{1}{2} S_{k,\lambda}^{-1} \E_{\mu_{\mathrm{obs}}}\left[ \left( X_k - \mu_{k|I}(X_I) \right)^2 \right].
+            \end{aligned}
+        \end{equation}
+        This is the finite part of the joint KL divergence after removing the normalization defect due to the Dirac measure; the remaining covariance contribution is controlled by Fredholm determinant and trace terms.
+    \end{definition}
+
+    \paragraph{Weak scheme-independence.}
+    For an evidence level $t\in\mathbb{R}$, write $\mu_\lambda^t$ for the weakly continuous conditional law from \Cref{app:gaussian_fredholm} and set
+    \[
+    \mathfrak{J}_\lambda(t)\coloneqq
+    \mathfrak{J}_\lambda(\mu_\lambda^t;\mu_\lambda).
+    \]
+    For any two evidence levels $t_1,t_2$ for which the finite part is defined,
+    \begin{equation}
+        \label{eq:weak_scheme_independence}
+        \mathfrak{J}_\lambda(t_2)-\mathfrak{J}_\lambda(t_1)
+        =
+        \frac{(t_2-m_{\lambda,k})^2-(t_1-m_{\lambda,k})^2}
+        {2\Sigma_{\lambda,kk}}.
+    \end{equation}
+    In the calibrated scaling $\Sigma_{\lambda,kk}=\varepsilon_0/(2\lambda^2)$, if
+    $b_i=\lambda(m_{\lambda,k}-t_i)$, this becomes
+    \[
+    \mathfrak{J}_\lambda(t_2)-\mathfrak{J}_\lambda(t_1)
+    =
+    \frac{b_2^2-b_1^2}{\varepsilon_0}.
+    \]
+    The full proof is in Appendix~\Cref{app:gaussian_fredholm}, and it also shows
+    weak-independence from the mollifier: replacing the Gaussian mollifier in
+    Proposition~\ref{prop:mollification_limit} by any centered approximate identity with
+    finite second moment changes the finite part only by a kernel-dependent term
+    independent of $t$.
+
+    \subsection{Gaussian Main Theorem}
+    \label{sec:gaussian:theorem}
+
+    The main Fredholm regularization and cancellation theorems for the finite-part functional follow.
+
+    \begin{theorem}[Gaussian Fredholm Finite-Part Regularization]
+        \label{thm:finite_part_regularization}
+        Under Assumption~\ref{assum:gaussian_clamp}, there exists $\lambda_0>0$ such that, for $\lambda\ge\lambda_0$, the Gaussian Fredholm finite-part functional under the conditioned law $\mu_{\mathrm{obs}}$ is well-defined and satisfies:
+        \begin{equation}
+            \label{eq:unified_regularization}
+            \mathfrak{J}_\lambda(\mu_{\mathrm{obs}}; \mu_\lambda) = \frac{b_k^2}{\varepsilon_0} + O(\lambda^{-4}).
+        \end{equation}
+        In particular, the functional remains bounded at $O(1)$ and converges to:
+        \begin{equation}
+            \lim_{\lambda\to\infty} \mathfrak{J}_\lambda(\mu_{\mathrm{obs}}; \mu_\lambda) = \frac{b_k^2}{\varepsilon_0}.
+        \end{equation}
+    \end{theorem}
+    \begin{proof}
+        See \Cref{app:gaussian_fredholm} for the full derivation.
+    \end{proof}
+
+    \begin{corollary}[Exact Decoupled-Centered Cancellation]
+        \label{cor:exact_pole_zero}
+        Under Assumption~\ref{assum:gaussian_clamp}, if the target coordinate is decoupled from the bulk ($a_{Ik} = 0$) and the evidence is centered at the stationary mean ($x_k^* = m_{\lambda,k}$), then:
+        \begin{equation}
+            \mathfrak{J}_\lambda(\mu_{\mathrm{obs}}; \mu_\lambda) = 0 \quad \text{for every } \lambda > 0.
+        \end{equation}
+    \end{corollary}
+    \begin{proof}
+        The decoupling implies $\Sigma_{\lambda,Ik} = 0$, so $\KL(\mu_{\text{obs},I} \parallel \mu_{\lambda,I}) = 0$. The centering makes the conditional residual zero under the conditioning, so both terms in \eqref{eq:unified_action} vanish.
+    \end{proof}
+
+    % ============================================================
+    %  §5  ELLIPTIC GAUSSIAN FIELD EXAMPLE
+    % ============================================================
+    \section{Elliptic Gaussian Field Example}
+    \label{sec:spde}
+
+    A standard elliptic Gaussian field example shows that the abstract Hilbert-space assumptions are natural for covariance operators arising from stochastic evolution equations and elliptic Gaussian priors \cite{daprato2014stochastic,lord2014introduction,stuart2010inverse,henderson2022sobolev}.
+
+    \subsection{Elliptic Gaussian field on \texorpdfstring{$[0,1]$}{[0,1]}}
+
+    Let
+    \[
+    L=-\frac{d^2}{dx^2}+\kappa^2
+    \]
+    on $L^2(0,1)$ with Dirichlet boundary conditions and $\kappa>0$. Then $\mathcal{A}_0=-L$ with domain $H^2(0,1)\cap H_0^1(0,1)$ is dissipative, $L$ is positive self-adjoint and sectorial, and $e^{-tL}$ is an exponentially stable analytic contraction semigroup. The inverse covariance
+    \[
+    Q_0=L^{-1}
+    \]
+    is compact, positive, self-adjoint, and trace class. With eigenfunctions $e_j(x)=\sqrt{2}\sin(\pi jx)$, its eigenvalues are
+    \[
+    q_j=(\pi^2j^2+\kappa^2)^{-1}.
+    \]
+    Thus $Q_0$ is a typical infinite-dimensional covariance operator: it is compact and trace class, has no bounded inverse on the ambient space, and carries its inverse only as a Cameron--Martin energy form \cite{bogachev1998gaussian,simon2005trace,henderson2022sobolev}.
+
+    \subsection{Cameron--Martin range and covariance energy}
+
+    The Cameron--Martin space associated with $Q_0$ is
+    \[
+    H_{Q_0}=\operatorname{Range}(Q_0^{1/2})=H_0^1(0,1),
+    \]
+    with equivalent energy norm
+    \[
+    \|h\|_{Q_0}^2
+    =\langle h,Lh\rangle_{L^2}
+    =\int_0^1 \bigl(|h'(x)|^2+\kappa^2|h(x)|^2\bigr)\,dx.
+    \]
+    This identifies the variational Schur projection in a Sobolev-energy form, as in the standard covariance-energy representation of Gaussian Hilbert priors \cite{bogachev1998gaussian,stuart2010inverse,henderson2022sobolev}. The covariance inverse does not act as a bounded operator on $L^2(0,1)$; it acts only through the energy form on its Cameron--Martin domain.
+
+    \subsection{Spectral sensor conditioning}
+
+    Fix a target eigenmode $e_k$ and define the observed coordinate
+    \[
+    X_k=\langle X,e_k\rangle_{L^2}.
+    \]
+    The unperturbed target variance is
+    \[
+    \Sigma_{0,kk}=q_k=(\pi^2k^2+\kappa^2)^{-1}.
+    \]
+    A regularized restoring drift on this coordinate produces the exact normalization
+    \[
+    \Sigma_{\lambda,kk}=\frac{\varepsilon_0}{2\lambda^2},
+    \qquad
+    S_{k,\lambda}=\frac{\varepsilon_0}{2\lambda^2}-R_\lambda,
+    \qquad R_\lambda=O(\lambda^{-6}),
+    \]
+    under the block assumptions of \Cref{sec:infdim}. Off-diagonal bounded perturbations of the drift operator generate the cross-covariance vector entering the variational Schur residual. The resulting subtraction is evaluated by the Cameron--Martin energy form above, not by a global inverse on $L^2(0,1)$.
+
+    This example shows that the abstract theorem applies to a genuine Gaussian field. The residual is controlled by a Sobolev energy on $H_0^1(0,1)$ while the ambient covariance remains compact.
+
+    % ============================================================
+    %  \S7  CONCLUSION
+    % ============================================================
+    \section{Conclusion}
+    \label{sec:conclusion}
+
+    The paper shows that singular Gaussian conditioning in Hilbert space is not
+    governed by the formal Schur algebra $A-BD^{-1}B^*$.  That formula is the
+    finite-dimensional invertible-block shadow of Anderson--Trapp shorting.
+    When the free covariance block is compact and trace class, the shadow
+    disappears but the short remains: the residual is defined by variational
+    shorting on the Cameron--Martin range, and Galerkin convergence follows
+    from nested variational suprema rather than algebraic inversion.  The
+    Gaussian conditioning statements then follow as consequences:
+    disintegration supplies the exact-evidence law, and Fredholm
+    determinant/trace identities cancel the finite-rank anomalies, leaving the
+    canonical finite residual.  The paper does not treat infinite-rank
+    observation operators or non-Gaussian conditioning theory.
+
+    \section*{Declaration of Generative AI and AI-Assisted Technologies in the Manuscript Preparation Process}
+
+    During the preparation of this work, the author(s) used Google DeepMind's Antigravity assistant in order to merge the LaTeX manuscripts, clean up cross-referencing tags, format mathematical notation, and edit the draft for style consistency. After using this tool/service, the author(s) reviewed and edited the content as needed and take(s) full responsibility for the content of the published article.
+
+    % ============================================================
+    %  REFERENCES
+    % ============================================================
+    \bibliographystyle{elsarticle-num}
+    \bibliography{paper1_ref}
+
+    % ============================================================
+    %  APPENDIX
+    % ============================================================
+    \appendix
+
+    \input{paper1_appendix}
+\end{document}
