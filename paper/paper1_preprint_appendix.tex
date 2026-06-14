@@ -763,11 +763,184 @@ calculation gives
 This proves the displayed conditional mean and covariance.  The operator
 $C_\lambda^t$ is positive because it is a covariance.  It is trace-class because
 $C_\lambda$ is trace-class and $z_\lambda\sigma_\lambda^{-1}z_\lambda^*$ is
-rank one.  The affine formulas are continuous in $t$, so this gives the unique
-weakly continuous disintegration member along the scalar observation map
-\cite{bogachev1998gaussian,lagatta2013continuous,steinwart2024conditioning,chen2024gaussian}.  Evaluating at $x_k^*$ fixes
-the target coordinate almost surely.
+rank one.  The affine formulas are continuous in $t$, so the centered residual
+$\widetilde X_I$ is independent of $X_k$ and the displayed Gaussian kernel is a
+regular conditional probability that depends continuously on $t$; this gives the
+unique weakly continuous disintegration member along the scalar observation map
+directly from the joint Gaussian structure, with
+\cite{bogachev1998gaussian,lagatta2013continuous,steinwart2024conditioning,chen2024gaussian}
+as background references rather than inputs to the argument.  Evaluating at
+$x_k^*$ fixes the target coordinate almost surely.  The reverse,
+infinite-codimension conditioning of $X_k$ on the entire bulk $X_I$ is
+constructed self-contained in Lemma~\ref{lem:exhaustion_disintegration} below.
 \end{proof}
+
+\subsection{Closed-subspace disintegration by exhaustion}
+
+The scalar disintegration of Lemma~\ref{lem:disintegration} conditions on the
+one-dimensional map $\pi_k$.  The predictor and entropy computations below need
+the reverse direction: the law of the target coordinate $X_k$ given the entire
+infinite-dimensional bulk $X_I$.  Here the conditioning event $\{X_I=w\}$ has
+infinite codimension, so the conditional mean is a measurable \emph{linear}
+functional of $X_I$ that is represented by no ambient vector.  We construct it,
+and the associated regular conditional probability, as the $L^2$ exhaustion
+limit of finite-dimensional Gaussian regressions, without invoking an external
+continuous-disintegration or martingale-approximation theorem.
+
+Work in the centered Gaussian Hilbert space (first Wiener chaos)
+\[
+  \mathcal{X}_\lambda
+  =
+  \overline{\operatorname{span}}^{\,L^2(\mu_\lambda)}
+  \bigl\{\langle h,X-m_\lambda\rangle:h\in\mathcal{H}\bigr\},
+  \qquad
+  \langle\xi,\eta\rangle_{L^2(\mu_\lambda)}
+  =\mathbb{E}_{\mu_\lambda}[\xi\eta].
+\]
+Every element of $\mathcal{X}_\lambda$ is a centered Gaussian variable and
+$\mathcal{X}_\lambda$ is closed in $L^2(\mu_\lambda)$, hence a Hilbert space.
+Let $(e_j)_{j\ge1}$ be the eigenbasis of $C_\lambda=\Sigma_{\lambda,II}$ from
+Lemma~\ref{lem:galerkin_variational_shorting}, $C_\lambda e_j=\sigma_je_j$, and
+set
+\[
+  \xi_j=\langle e_j,X_I-m_{\lambda,I}\rangle,
+  \qquad
+  \eta=X_k-m_{\lambda,k}.
+\]
+Then $\mathbb{E}[\xi_i\xi_j]=\sigma_j\delta_{ij}$,
+$\mathbb{E}[\eta^2]=\sigma_\lambda$, and
+$\mathbb{E}[\eta\,\xi_j]=\langle z_\lambda,e_j\rangle$.  Define the nested closed
+bulk subspaces
+\[
+  \mathcal{G}_n=\operatorname{span}\{\xi_1,\ldots,\xi_n\}\subseteq
+  \mathcal{G}
+  =\overline{\operatorname{span}}^{\,L^2(\mu_\lambda)}\{\xi_j:j\ge1\}
+  =\overline{\operatorname{span}}^{\,L^2(\mu_\lambda)}
+   \bigl\{\langle h,X_I-m_{\lambda,I}\rangle:h\in\mathcal{H}_I\bigr\},
+\]
+so that $\mathcal{G}_n\uparrow\mathcal{G}$ and $\sigma(\mathcal{G})=\sigma(X_I)$.
+
+\begin{lemma}[Closed-subspace disintegration by exhaustion]
+\label{lem:exhaustion_disintegration}
+Let $P_n,P$ denote the $L^2(\mu_\lambda)$-orthogonal projections onto
+$\mathcal{G}_n,\mathcal{G}$.
+\begin{enumerate}[label=(\roman*)]
+\item The finite regressions
+\[
+  P_n\eta=\sum_{j=1}^n\frac{\langle z_\lambda,e_j\rangle}{\sigma_j}\,\xi_j,
+  \qquad
+  \|P_n\eta\|_{L^2(\mu_\lambda)}^2
+  =\sum_{j=1}^n\frac{|\langle z_\lambda,e_j\rangle|^2}{\sigma_j}
+  =R_\lambda^{[n]},
+\]
+form an $L^2(\mu_\lambda)$-Cauchy sequence converging to $P\eta\in\mathcal{G}$,
+with $R_\lambda^{[n]}\uparrow R_\lambda=\|P\eta\|_{L^2(\mu_\lambda)}^2
+=\|z_\lambda\|_{H_{C_\lambda}}^2<\infty$.  This $L^2$ limit \emph{defines} the
+measurable linear functional
+\[
+  W_{z_\lambda}(X_I-m_{\lambda,I})\coloneqq P\eta,
+\]
+and the range condition $z_\lambda\in H_{C_\lambda}$ is obtained internally as
+the finiteness of this monotone limit, not postulated.
+\item The residual $r=\eta-P\eta$ is centered Gaussian, orthogonal to
+$\mathcal{G}$, hence independent of $\sigma(X_I)$, with
+\[
+  \mathbb{E}[r^2]=\sigma_\lambda-R_\lambda=S_{k,\lambda}.
+\]
+\item Consequently, for $\mu_{\lambda,I}$-a.e.\ $w$,
+\[
+  \mathbb{E}[X_k\mid X_I]
+  =m_{\lambda,k}+W_{z_\lambda}(X_I-m_{\lambda,I})\quad\text{a.s.},
+  \qquad
+  \mu_\lambda(\,\cdot\mid X_I=w)
+  =\mathcal{N}\!\bigl(m_{\lambda,k}+W_{z_\lambda}(w-m_{\lambda,I}),\,
+  S_{k,\lambda}\bigr),
+\]
+the unique Gaussian disintegration of $\mu_\lambda$ along the bulk projection
+$\pi_I$, and it is the exhaustion limit of the finite-codimension
+disintegrations obtained by applying Lemma~\ref{lem:disintegration} to the
+truncated maps $X\mapsto(\xi_1,\ldots,\xi_n)$:  their conditional means $P_n\eta$
+converge in $L^2(\mu_\lambda)$ and their conditional variances
+$S_{k,\lambda}^{[n]}=\sigma_\lambda-R_\lambda^{[n]}$ decrease monotonically to
+$S_{k,\lambda}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1 (finite regressions).}  The family
+$\{\xi_j/\sqrt{\sigma_j}\}_{j=1}^n$ is an orthonormal basis of
+$\mathcal{G}_n$, so
+$P_n\eta=\sum_{j=1}^n\langle\eta,\xi_j/\sqrt{\sigma_j}\rangle_{L^2}\,
+\xi_j/\sqrt{\sigma_j}$.  Using
+$\langle\eta,\xi_j\rangle_{L^2}=\langle z_\lambda,e_j\rangle$ gives the displayed
+sum, and Pythagoras gives
+$\|P_n\eta\|^2=\sum_{j\le n}|\langle z_\lambda,e_j\rangle|^2/\sigma_j$.  This is
+exactly the Rayleigh--Ritz eigenbasis quantity $R_\lambda^{[n]}$ of
+Lemma~\ref{lem:galerkin_variational_shorting}; in particular it is
+nondecreasing and bounded above by $\|\eta\|^2=\sigma_\lambda$.
+
+\emph{Step 2 (convergence without martingales).}  For $m>n$, orthogonality of
+the increments gives
+\[
+  \|P_m\eta-P_n\eta\|_{L^2}^2
+  =\sum_{n<j\le m}\frac{|\langle z_\lambda,e_j\rangle|^2}{\sigma_j}
+  =R_\lambda^{[m]}-R_\lambda^{[n]}.
+\]
+The scalars $R_\lambda^{[n]}$ are monotone and bounded, hence convergent, so
+$(P_n\eta)$ is Cauchy in the complete space $L^2(\mu_\lambda)$ and converges to
+some $\zeta\in\mathcal{G}$.  The limit is the orthogonal projection $P\eta$:
+$\eta-\zeta=\lim_n(\eta-P_n\eta)$ is orthogonal to every $\mathcal{G}_n$, hence
+to $\mathcal{G}=\overline{\bigcup_n\mathcal{G}_n}$, while $\zeta\in\mathcal{G}$,
+which characterizes $P\eta$.  Therefore
+$\|P\eta\|^2=\sup_nR_\lambda^{[n]}=R_\lambda=\|z_\lambda\|_{H_{C_\lambda}}^2$ by
+Lemma~\ref{lem:galerkin_variational_shorting}, and the finiteness of this
+supremum \emph{is} the range condition $z_\lambda\in H_{C_\lambda}$.  No
+continuous-disintegration or martingale-convergence input is used; only
+monotone convergence of projection energies onto an increasing family of closed
+subspaces and completeness of $L^2(\mu_\lambda)$.
+
+\emph{Step 3 (independence of the residual).}  The residual $r=\eta-P\eta$ lies
+in $\mathcal{X}_\lambda$, so it is centered Gaussian, and $r\perp\mathcal{G}$ in
+$L^2(\mu_\lambda)$ by Step 2.  For a jointly Gaussian family, $L^2$-orthogonality
+is equivalent to independence: any finite vector
+$(r,\xi_{j_1},\ldots,\xi_{j_p})$ is Gaussian with
+$\operatorname{Cov}(r,\xi_{j_i})=0$, hence has block-diagonal covariance and
+factorizes; letting the indices exhaust the generators of $\mathcal{G}$ shows
+$r$ is independent of $\sigma(\mathcal{G})=\sigma(X_I)$.  The variance is
+$\mathbb{E}[r^2]=\|\eta\|^2-\|P\eta\|^2=\sigma_\lambda-R_\lambda=S_{k,\lambda}$,
+positive for $\lambda\ge\lambda_0$.
+
+\emph{Step 4 (conditional law and disintegration).}  Decompose
+$X_k=m_{\lambda,k}+P\eta+r$, where $P\eta$ is $\sigma(X_I)$-measurable and $r$ is
+independent of $\sigma(X_I)$ with $r\sim\mathcal{N}(0,S_{k,\lambda})$.  Then for
+every bounded Borel $g$,
+\[
+  \mathbb{E}[g(X_k)\mid X_I]
+  =\int_{\mathbb{R}}g\bigl(m_{\lambda,k}+P\eta+s\bigr)\,
+   \mathcal{N}(0,S_{k,\lambda})(ds)\quad\text{a.s.},
+\]
+which is the stated Gaussian kernel evaluated at $w=X_I$.  This Borel-measurable
+family of probability measures reproduces all conditional expectations, so it is
+a regular conditional probability; uniqueness up to $\mu_{\lambda,I}$-null sets
+is the standard uniqueness of regular conditional probabilities on the Polish
+space $\mathcal{H}$ along the continuous map $\pi_I$.  Specializing $g=\mathrm{id}$
+gives the conditional mean.  Finally, the scalar construction of
+Lemma~\ref{lem:disintegration} applied to the finite map
+$X\mapsto(\xi_1,\ldots,\xi_n)$ produces the finite-codimension disintegration
+with conditional mean $P_n\eta$ and conditional variance
+$S_{k,\lambda}^{[n]}=\sigma_\lambda-R_\lambda^{[n]}$.  By Steps~1--2 the means
+converge in $L^2(\mu_\lambda)$ and, since $R_\lambda^{[n]}\uparrow R_\lambda$, the
+variances satisfy $S_{k,\lambda}^{[n]}\downarrow S_{k,\lambda}$.  Hence the
+infinite-codimension member is the exhaustion limit of the finite-codimension
+disintegrations.
+\end{proof}
+
+The continuous-disintegration and martingale-approximation results
+\cite{lagatta2013continuous,steinwart2024conditioning} are recovered as special
+cases of Lemma~\ref{lem:exhaustion_disintegration}, but are not used in its
+proof: the construction rests only on the projection theorem in
+$L^2(\mu_\lambda)$, monotone convergence of Rayleigh--Ritz energies, and the
+Gaussian orthogonality-implies-independence identity.
 
 \subsection{Gaussian energy projection and entropy}
 
@@ -803,9 +976,12 @@ The domination $C_\lambda=\Sigma_{\lambda,II}\succeq Q_0$ and
 Lemma~\ref{lem:form_domain_energy_domination} give
 $H_{Q_0}\subseteq H_{C_\lambda}$ with contraction of energy norms.  Combining
 this inclusion with \eqref{eq:cross_energy} gives the norm bound.  The range
-condition $z_\lambda\in H_{C_\lambda}$ is exactly the condition for the
-measurable Wiener functional associated with $z_\lambda$ to exist under the bulk
-Gaussian law \cite{bogachev1998gaussian,steinwart2024conditioning}.  The variance identity is the
+condition $z_\lambda\in H_{C_\lambda}$ and the existence of the measurable Wiener
+functional $W_{z_\lambda}$ as an element of $L^2(\mu_{\lambda,I})$ are supplied
+self-contained by Lemma~\ref{lem:exhaustion_disintegration}, which constructs
+$W_{z_\lambda}(X_I-m_{\lambda,I})$ as the $L^2$ exhaustion limit of finite
+Gaussian regressions and identifies its energy with
+$R_\lambda=\|z_\lambda\|_{H_{C_\lambda}}^2$.  The variance identity is the
 one-dimensional shorting identity from Proposition~\ref{prop:rank_one_shorted_residual};
 positivity holds for large $\lambda$ because
 $S_{k,\lambda}=\varepsilon_0/(2\lambda^2)-O(\lambda^{-6})$.
