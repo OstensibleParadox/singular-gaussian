@@ -245,6 +245,7 @@ Block operators; Anderson--Trapp shorting; Schur complementation; Cameron--Marti
     bounded-inverse Schur shadows in \ref{app:shorting_residual},
     Galerkin shorting consistency in \ref{app:galerkin_shorting},
     Gaussian Fredholm analysis in \ref{app:gaussian_fredholm},
+    the finite-rank matrix skeleton in \ref{app:finite_rank_matrix},
     admissibility geometry in \ref{app:admissibility_boundary},
     and numerical diagnostics in \ref{supp:numerical}.
 
@@ -458,6 +459,80 @@ Block operators; Anderson--Trapp shorting; Schur complementation; Cameron--Marti
         response and covariance energy; it does not assert that infinite-dimensional
         Gaussian sample paths lie in $H_{Q_0}$ almost surely.
     \end{remark}
+
+    \subsection{Calibrated Finite-Rank Target Block}
+    \label{sec:setup:finite_rank}
+
+    The rank-one target block above is the $m=1$ case of a calibrated
+    finite-rank construction.  We record the finite-rank block setup here
+    because its matrix Lyapunov identities, shorting algebra, and KL
+    cancellation are the finite-dimensional spectral skeleton for the
+    determinant-class exhaustion used in the closed-subspace theorem.  The
+    finite-rank formulas are not themselves the novelty; they are the proof
+    skeleton on which the closed-subspace argument is built.
+
+    Split the ambient space as
+    \begin{equation}
+        \label{eq:finite_rank_split}
+        \mathcal{H}=\mathcal{H}_K\oplus\mathcal{H}_I,
+        \qquad
+        m\coloneqq\dim\mathcal{H}_K<\infty,
+    \end{equation}
+    with $\mathcal{H}_K$ the finite-rank target subspace and
+    $\mathcal{H}_I=\mathcal{H}_K^\perp$ the bulk.  The calibrated finite-rank
+    triangular family of strength $\lambda>0$ is
+    \begin{equation}
+        \label{eq:finite_rank_blocks}
+        A^{(\lambda)}=
+        \begin{pmatrix}-\lambda I_K&0\\ A_{IK}&A_{II}\end{pmatrix},
+        \qquad
+        D^{(\lambda)}=
+        \begin{pmatrix}\dfrac{\varepsilon_0}{\lambda}E&0\\[2pt]0&D_{II}\end{pmatrix},
+    \end{equation}
+    where $I_K$ is the identity on $\mathcal{H}_K$,
+    $A_{IK}:\mathcal{H}_K\to\mathcal{H}_I$ is the outgoing drift coupling, and
+    $E\succ0$ is a positive-definite matrix on $\mathcal{H}_K$ that calibrates
+    the target diffusion.  The scalar calibration $d_\lambda=\varepsilon_0/\lambda$
+    of Proposition~\ref{prop:exact_calibration} becomes the matrix calibration
+    $\tfrac{\varepsilon_0}{\lambda}E$, and the rank-one family
+    \eqref{eq:block_decoupled_drift_diffusion} is the case $m=1$, $E=1$.  The
+    finite-energy admissibility condition of
+    Assumption~\ref{assum:core_analytical} becomes the columnwise condition
+    $A_{IK}\mathcal{H}_K\subset H_{Q_0}$.
+
+    \begin{lemma}[Block Lyapunov identities for the calibrated finite-rank clamp]
+        \label{lem:finite_rank_block_identities}
+        The stationary covariance of \eqref{eq:finite_rank_blocks} has target and
+        cross blocks
+        \begin{equation}
+            \label{eq:finite_rank_SigmaKK}
+            \Sigma_{\lambda,KK}=\frac{\varepsilon_0}{2\lambda^2}E,
+        \end{equation}
+        \begin{equation}
+            \label{eq:finite_rank_Z}
+            Z_\lambda\coloneqq\Sigma_{\lambda,IK}
+            =\frac{\varepsilon_0}{2\lambda^2}
+            (\lambda I-A_{II})^{-1}A_{IK}E.
+        \end{equation}
+    \end{lemma}
+    \begin{proof}
+        The $KK$ block of the Lyapunov equation \eqref{eq:op_lyapunov} decouples
+        as $-2\lambda\Sigma_{\lambda,KK}+\tfrac{\varepsilon_0}{\lambda}E=0$,
+        which gives \eqref{eq:finite_rank_SigmaKK}.  The $IK$ block reads
+        $(A_{II}-\lambda I)Z_\lambda+A_{IK}\Sigma_{\lambda,KK}=0$, and solving for
+        $Z_\lambda$ with \eqref{eq:finite_rank_SigmaKK} yields
+        \eqref{eq:finite_rank_Z}.  These are the columnwise matrix forms of
+        Lemma~\ref{lem:block_lyapunov_identities}: the bulk resolvent
+        $(\lambda I-A_{II})^{-1}$ acts on each column of $A_{IK}E$ exactly as in
+        the rank-one identity \eqref{eq:SigmaIk_exact_vector}.
+    \end{proof}
+
+    The matrix shorting algebra, the finite-rank KL cancellation, and the sharp
+    matrix asymptotics built on
+    \eqref{eq:finite_rank_SigmaKK}--\eqref{eq:finite_rank_Z} are developed in
+    \ref{app:finite_rank_matrix}, with the rank-one results of
+    \Cref{sec:gaussian_zero} recovered as the scalar specialization
+    $P_\lambda=\rho_\lambda$.
 
     % ============================================================
     %  §3  INVERSE-FREE SCHUR COMPLEMENTATION

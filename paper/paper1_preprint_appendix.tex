@@ -1069,6 +1069,405 @@ in Definition~\ref{def:unified_action} is zero.  Hence
 $\mathfrak{J}_\lambda(\mu_{\mathrm{obs}};\mu_\lambda)=0$ exactly for every
 $\lambda>0$.
 
+\section{Finite-Rank Matrix Shorting and KL Cancellation}
+\label{app:finite_rank_matrix}
+
+This appendix mechanizes the rank-one scalar algebra of
+\ref{app:shorting_residual} and \ref{app:gaussian_fredholm} into the
+calibrated finite-rank block of \Cref{sec:setup:finite_rank}.  The rank-one
+identities are recovered throughout as the scalar specialization $m=1$,
+$E=1$, $P_\lambda=\rho_\lambda$.  The finite-rank formulas are the
+finite-dimensional spectral skeleton for the determinant-class exhaustion used
+in the closed-subspace theorem; they are not a separate mechanism and not a
+self-contained novelty.
+
+Throughout, $\Sigma_{\lambda,KK}=\tfrac{\varepsilon_0}{2\lambda^2}E$ and
+$Z_\lambda=\Sigma_{\lambda,IK}$ are the calibrated finite-rank blocks of
+Lemma~\ref{lem:finite_rank_block_identities}, and
+$C_\lambda\coloneqq\Sigma_{\lambda,II}$ is the bulk covariance.
+
+\subsection{Matrix shorting notation}
+\label{app:finite_rank:shorting}
+
+Each column of $Z_\lambda$ lies in
+$H_{C_\lambda}=\Range(C_\lambda^{1/2})$ by the columnwise matrix form of
+Lemma~\ref{lem:finite_energy_leakage}.  The \emph{energy-form shorted
+subtraction} is the positive semidefinite $m\times m$ matrix on
+$\mathcal{H}_K$
+\begin{equation}
+  \label{eq:matrix_R}
+  R_\lambda\coloneqq Z_\lambda^\ast C_\lambda^{[-1]}Z_\lambda,
+  \qquad
+  (R_\lambda)_{ij}
+  =\langle Z_\lambda e_i,Z_\lambda e_j\rangle_{H_{C_\lambda}},
+\end{equation}
+where $(e_i)_{i=1}^m$ is any basis of $\mathcal{H}_K$ and the bracketed inverse
+$C_\lambda^{[-1]}$ denotes the Cameron--Martin energy (form) inverse on
+$H_{C_\lambda}$.  Equation \eqref{eq:matrix_R} is the matrix Gram form of the
+scalar variational subtraction \eqref{eq:schur_variational}, and it is finite
+because each column of $Z_\lambda$ lies in $H_{C_\lambda}$.  Define the
+\emph{normalized leakage operator} and its Gram
+\begin{equation}
+  \label{eq:matrix_U_P}
+  U_\lambda\coloneqq C_\lambda^{-1/2}Z_\lambda\Sigma_{\lambda,KK}^{-1/2},
+  \qquad
+  P_\lambda\coloneqq U_\lambda^\ast U_\lambda
+  =\Sigma_{\lambda,KK}^{-1/2}R_\lambda\Sigma_{\lambda,KK}^{-1/2}.
+\end{equation}
+Then $R_\lambda=\Sigma_{\lambda,KK}^{1/2}P_\lambda\Sigma_{\lambda,KK}^{1/2}$,
+and the finite-rank Anderson--Trapp short of $\Sigma_\lambda$ to
+$\mathcal{H}_K$ is
+\begin{equation}
+  \label{eq:matrix_short}
+  \boxed{\;
+  S_\lambda=\Sigma_{\lambda,KK}-R_\lambda
+  =\Sigma_{\lambda,KK}^{1/2}(I_K-P_\lambda)\Sigma_{\lambda,KK}^{1/2}.
+  \;}
+\end{equation}
+At fixed $\lambda$, positivity of the short is the non-collapse gate
+\begin{equation}
+  \label{eq:matrix_gate}
+  \boxed{\;\|P_\lambda\|<1,\;}
+  \qquad\text{equivalently}\qquad S_\lambda\succ0.
+\end{equation}
+In finite rank $U_\lambda$ is automatically Hilbert--Schmidt, so $P_\lambda$ is
+trace class; this membership is \emph{not} the gate and does not by itself
+imply \eqref{eq:matrix_gate}.  The genuine requirement at fixed $\lambda$ is
+the positivity/non-collapse condition \eqref{eq:matrix_gate} on the leakage
+Gram.  For large $\lambda$ it holds automatically by the asymptotic bound
+$\|P_\lambda\|=O(\lambda^{-4})$ established in
+Proposition~\ref{prop:matrix_sharp_asymptotics}.
+
+\subsection{Matrix residual and KL algebra}
+\label{app:finite_rank:kl}
+
+Fix an evidence level $t\in\mathcal{H}_K$ and set
+\begin{equation}
+  \label{eq:matrix_delta_w}
+  \Delta_t\coloneqq t-m_{\lambda,K},
+  \qquad
+  w_\lambda\coloneqq\Sigma_{\lambda,KK}^{-1/2}\Delta_t .
+\end{equation}
+
+\begin{lemma}[Finite-rank KL finite-part cancellation]
+\label{lem:matrix_kl_cancellation}
+Let $\|P_\lambda\|<1$.  The Gaussian disintegration on $X_K=t$ has bulk
+conditional covariance
+$C_\lambda^t=C_\lambda-Z_\lambda\Sigma_{\lambda,KK}^{-1}Z_\lambda^\ast$, whose
+relative form is
+\begin{equation}
+  \label{eq:matrix_relative_cov}
+  C_\lambda^{-1/2}C_\lambda^tC_\lambda^{-1/2}=I-U_\lambda U_\lambda^\ast .
+\end{equation}
+The bulk relative entropy and the conditional residual term are
+\begin{align}
+  \label{eq:matrix_bulk_KL}
+  2\KL(\mu_{\lambda,I}^{t}\Vert\mu_{\lambda,I})
+  &=\langle w_\lambda,P_\lambda w_\lambda\rangle
+   -\tr P_\lambda
+   -\log\det(I_K-P_\lambda),\\
+  \label{eq:matrix_residual}
+  \frac12\E_{\mu_\lambda^t}\langle r_\lambda,S_\lambda^{-1}r_\lambda\rangle
+  &=\frac12\tr P_\lambda
+   +\frac12\langle w_\lambda,(I_K-P_\lambda)w_\lambda\rangle,
+\end{align}
+with $r_\lambda\coloneqq X_K-\mu_{K|I}(X_I)$.  Adding the halved
+\eqref{eq:matrix_bulk_KL} to \eqref{eq:matrix_residual} cancels the
+$\tfrac12\tr P_\lambda$ terms exactly:
+\begin{equation}
+  \label{eq:matrix_trace_cancellation}
+  \mathfrak{J}_\lambda(t)
+  =\underbrace{\tfrac12\langle w_\lambda,P_\lambda w_\lambda\rangle
+     +\tfrac12\langle w_\lambda,(I_K-P_\lambda)w_\lambda\rangle}
+     _{=\,\frac12\|w_\lambda\|^2}
+   \;\underbrace{-\tfrac12\tr P_\lambda+\tfrac12\tr P_\lambda}_{=\,0}
+   \;-\tfrac12\log\det(I_K-P_\lambda),
+\end{equation}
+so that
+\begin{equation}
+  \label{eq:matrix_finite_part}
+  \boxed{\;
+  \mathfrak{J}_\lambda(t)
+  =\frac12\|w_\lambda\|^2-\frac12\log\det(I_K-P_\lambda).
+  \;}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Matrix Gaussian conditioning along the finite-rank map $X\mapsto X_K$ gives the
+bulk conditional covariance
+$C_\lambda^t=C_\lambda-Z_\lambda\Sigma_{\lambda,KK}^{-1}Z_\lambda^\ast$ and the
+bulk mean shift $Z_\lambda\Sigma_{\lambda,KK}^{-1}\Delta_t$, exactly as in
+Lemma~\ref{lem:disintegration} with the scalar $\sigma_\lambda$ replaced by the
+matrix $\Sigma_{\lambda,KK}$.  Conjugating by $C_\lambda^{-1/2}$ and using
+$U_\lambda=C_\lambda^{-1/2}Z_\lambda\Sigma_{\lambda,KK}^{-1/2}$ from
+\eqref{eq:matrix_U_P} gives
+\[
+  C_\lambda^{-1/2}C_\lambda^tC_\lambda^{-1/2}
+  =I-C_\lambda^{-1/2}Z_\lambda\Sigma_{\lambda,KK}^{-1}Z_\lambda^\ast
+        C_\lambda^{-1/2}
+  =I-U_\lambda U_\lambda^\ast,
+\]
+which is \eqref{eq:matrix_relative_cov}.  Because $\mathcal{H}_K$ is
+finite-dimensional, $U_\lambda U_\lambda^\ast$ is finite rank and trace class,
+so $\det(I-U_\lambda U_\lambda^\ast)$ is a Fredholm determinant; the Sylvester
+identity gives $\det(I-U_\lambda U_\lambda^\ast)=\det(I_K-P_\lambda)$ since
+$P_\lambda=U_\lambda^\ast U_\lambda$ shares the nonzero spectrum.
+
+For \eqref{eq:matrix_bulk_KL}, the two bulk laws are equivalent Gaussians
+(Feldman--H\'ajek, matrix form) with relative covariance
+$G_\lambda\coloneqq I-U_\lambda U_\lambda^\ast$.  The covariance contribution to
+twice the relative entropy is the finite trace--log part
+\[
+  \tr\bigl(G_\lambda-I\bigr)-\log\det G_\lambda
+  =-\tr\bigl(U_\lambda U_\lambda^\ast\bigr)-\log\det(I_K-P_\lambda)
+  =-\tr P_\lambda-\log\det(I_K-P_\lambda),
+\]
+using $\tr(U_\lambda U_\lambda^\ast)=\tr(U_\lambda^\ast U_\lambda)=\tr P_\lambda$.
+The mean contribution is the $C_\lambda$-energy of the bulk mean shift
+$Z_\lambda\Sigma_{\lambda,KK}^{-1}\Delta_t$, namely
+\[
+  \bigl\|C_\lambda^{-1/2}Z_\lambda\Sigma_{\lambda,KK}^{-1}\Delta_t\bigr\|^2
+  =\bigl\langle\Sigma_{\lambda,KK}^{-1}\Delta_t,
+     Z_\lambda^\ast C_\lambda^{-1}Z_\lambda\Sigma_{\lambda,KK}^{-1}\Delta_t\bigr\rangle
+  =\langle w_\lambda,P_\lambda w_\lambda\rangle,
+\]
+where the last step uses
+$Z_\lambda^\ast C_\lambda^{-1}Z_\lambda=R_\lambda
+=\Sigma_{\lambda,KK}^{1/2}P_\lambda\Sigma_{\lambda,KK}^{1/2}$ and
+$w_\lambda=\Sigma_{\lambda,KK}^{-1/2}\Delta_t$.  Summing the mean and covariance
+contributions gives \eqref{eq:matrix_bulk_KL}.
+
+For \eqref{eq:matrix_residual}, write
+$\mu_{K|I}(X_I)=m_{\lambda,K}+G_\lambda^{\mathrm{pred}}$ with the
+$\mathcal{H}_K$-valued predictor fluctuation
+$G_\lambda^{\mathrm{pred}}=W_{Z_\lambda}(X_I-m_{\lambda,I})$, so that
+$r_\lambda=\Delta_t-G_\lambda^{\mathrm{pred}}$ under $\mu_\lambda^t$.  The bulk
+conditional mean shift gives
+\[
+  \E_{\mu_\lambda^t}G_\lambda^{\mathrm{pred}}
+  =Z_\lambda^\ast C_\lambda^{-1}Z_\lambda\Sigma_{\lambda,KK}^{-1}\Delta_t
+  =R_\lambda\Sigma_{\lambda,KK}^{-1}\Delta_t
+  =\Sigma_{\lambda,KK}^{1/2}P_\lambda w_\lambda,
+\]
+hence
+$\E_{\mu_\lambda^t}r_\lambda=\Sigma_{\lambda,KK}^{1/2}(I_K-P_\lambda)w_\lambda$.
+The bulk conditional covariance $C_\lambda^t$ gives
+\[
+  \Cov_{\mu_\lambda^t}(r_\lambda)
+  =Z_\lambda^\ast C_\lambda^{-1}C_\lambda^tC_\lambda^{-1}Z_\lambda
+  =R_\lambda-R_\lambda\Sigma_{\lambda,KK}^{-1}R_\lambda
+  =\Sigma_{\lambda,KK}^{1/2}P_\lambda(I_K-P_\lambda)\Sigma_{\lambda,KK}^{1/2}.
+\]
+With $S_\lambda^{-1}=\Sigma_{\lambda,KK}^{-1/2}(I_K-P_\lambda)^{-1}
+\Sigma_{\lambda,KK}^{-1/2}$ from \eqref{eq:matrix_short} and the commutation of
+$P_\lambda$ with $I_K-P_\lambda$,
+\[
+  \tr\bigl(S_\lambda^{-1}\Cov_{\mu_\lambda^t}(r_\lambda)\bigr)
+  =\tr\bigl((I_K-P_\lambda)^{-1}P_\lambda(I_K-P_\lambda)\bigr)
+  =\tr P_\lambda,
+\]
+\[
+  \langle\E_{\mu_\lambda^t}r_\lambda,
+    S_\lambda^{-1}\E_{\mu_\lambda^t}r_\lambda\rangle
+  =\langle(I_K-P_\lambda)w_\lambda,(I_K-P_\lambda)^{-1}(I_K-P_\lambda)w_\lambda\rangle
+  =\langle w_\lambda,(I_K-P_\lambda)w_\lambda\rangle.
+\]
+Since
+$\E\langle r_\lambda,S_\lambda^{-1}r_\lambda\rangle
+=\tr(S_\lambda^{-1}\Cov r_\lambda)
++\langle\E r_\lambda,S_\lambda^{-1}\E r_\lambda\rangle$, dividing by two gives
+\eqref{eq:matrix_residual}.  Finally, adding the halved
+\eqref{eq:matrix_bulk_KL} to \eqref{eq:matrix_residual} cancels the two
+$\tfrac12\tr P_\lambda$ terms and combines the signal factors as in
+\eqref{eq:matrix_trace_cancellation}, yielding \eqref{eq:matrix_finite_part}.
+\end{proof}
+
+\begin{corollary}[Rank-one specialization]
+\label{cor:matrix_rank_one}
+For $m=1$, $\mathcal{H}_K=\mathbb{R}\phi_k$, and $E=1$, all objects reduce to
+scalars: $\Sigma_{\lambda,KK}=\sigma_\lambda$, $Z_\lambda=z_\lambda$,
+$R_\lambda=\|z_\lambda\|_{H_{C_\lambda}}^2$,
+\[
+  P_\lambda=\rho_\lambda
+  =\frac{\|z_\lambda\|_{H_{C_\lambda}}^2}{\sigma_\lambda},
+  \qquad
+  \det(I_K-P_\lambda)=1-\rho_\lambda .
+\]
+Then \eqref{eq:matrix_bulk_KL}, \eqref{eq:matrix_residual}, and
+\eqref{eq:matrix_finite_part} reduce respectively to
+\eqref{eq:bulk_KL_t_algebra}, \eqref{eq:residual_t_algebra}, and
+\eqref{eq:finite_part_exact_rank_one} of
+Lemma~\ref{lem:kl_finite_part_algebra}.
+\end{corollary}
+
+\begin{proof}
+Each finite-rank object is the $1\times1$ form of its rank-one counterpart, and
+$\langle w_\lambda,P_\lambda w_\lambda\rangle=\rho_\lambda\Delta_t^2/\sigma_\lambda$,
+$\tr P_\lambda=\rho_\lambda$,
+$\log\det(I_K-P_\lambda)=\log(1-\rho_\lambda)$.
+\end{proof}
+
+\begin{proposition}[Finite-rank affine finite part]
+\label{prop:matrix_affine_finite_part}
+Along the affine evidence path $t_\lambda-m_{\lambda,K}=b_K/\lambda$ with
+$b_K\in\mathcal{H}_K$, the calibration \eqref{eq:finite_rank_SigmaKK} gives
+$w_\lambda=\sqrt{2/\varepsilon_0}\,E^{-1/2}b_K$ and the exact finite part
+\begin{equation}
+  \label{eq:matrix_affine_finite_part}
+  \boxed{\;
+  \mathfrak{J}_\lambda(t_\lambda)
+  =\frac{1}{\varepsilon_0}|b_K|_{H_E}^2
+   -\frac12\log\det(I_K-P_\lambda),
+  \;}
+  \qquad
+  |b_K|_{H_E}^2\coloneqq\|E^{-1/2}b_K\|^2 .
+\end{equation}
+Whenever $\|P_\lambda\|<1$,
+\begin{equation}
+  \label{eq:matrix_lower_bound}
+  \boxed{\;
+  \mathfrak{J}_\lambda(t_\lambda)
+  \ge\frac{1}{\varepsilon_0}|b_K|_{H_E}^2+\frac12\tr P_\lambda
+  \ge\frac{1}{\varepsilon_0}|b_K|_{H_E}^2.
+  \;}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Substituting $\Sigma_{\lambda,KK}=\tfrac{\varepsilon_0}{2\lambda^2}E$ into
+$w_\lambda=\Sigma_{\lambda,KK}^{-1/2}\Delta_{t_\lambda}$ with
+$\Delta_{t_\lambda}=b_K/\lambda$ gives
+\[
+  w_\lambda=\sqrt{2/\varepsilon_0}\,\lambda E^{-1/2}\,(b_K/\lambda)
+  =\sqrt{2/\varepsilon_0}\,E^{-1/2}b_K,
+  \qquad
+  \tfrac12\|w_\lambda\|^2=\tfrac1{\varepsilon_0}\|E^{-1/2}b_K\|^2 .
+\]
+Then \eqref{eq:matrix_finite_part} gives
+\eqref{eq:matrix_affine_finite_part}.  Applying the scalar bound
+$-\log(1-p)\ge p$ for $p\in[0,1)$ to each eigenvalue $p_i$ of $P_\lambda$,
+\[
+  -\log\det(I_K-P_\lambda)=\sum_{i=1}^m-\log(1-p_i)
+  \ge\sum_{i=1}^m p_i=\tr P_\lambda\ge0,
+\]
+which gives \eqref{eq:matrix_lower_bound}.
+\end{proof}
+
+\subsection{Sharp matrix asymptotics}
+\label{app:finite_rank:asymptotics}
+
+Define the bounded operator
+\begin{equation}
+  \label{eq:matrix_T}
+  T\coloneqq Q_0^{-1/2}A_{IK}E^{1/2}:\mathcal{H}_K\to H_{Q_0}.
+\end{equation}
+Since $\mathcal{H}_K$ is finite-dimensional, $T$ is automatically
+Hilbert--Schmidt provided each column $Q_0^{-1/2}A_{IK}E^{1/2}e_i$ has finite
+$Q_0$-energy, i.e. $A_{IK}\mathcal{H}_K\subset H_{Q_0}$.  The matrix form of the
+Phase-1 relative form bound
+(Lemmas~\ref{lem:bulk_domination_convolution} and
+\ref{lem:form_domain_energy_domination}) gives
+\begin{equation}
+  \label{eq:matrix_relative_form_bound}
+  Q_0\preceq C_\lambda\preceq(1+\eta_\lambda)Q_0,
+  \qquad
+  \eta_\lambda=O(\lambda^{-3}).
+\end{equation}
+
+\begin{proposition}[Sharp finite-rank asymptotics]
+\label{prop:matrix_sharp_asymptotics}
+Under \eqref{eq:matrix_relative_form_bound}, in any matrix norm on
+$\mathcal{H}_K$,
+\begin{equation}
+  \label{eq:matrix_P_limit}
+  \boxed{\;\lambda^4P_\lambda\longrightarrow\frac{\varepsilon_0}{2}T^\ast T,\;}
+\end{equation}
+\begin{equation}
+  \label{eq:matrix_R_limit}
+  \boxed{\;
+  \lambda^6R_\lambda\longrightarrow
+  \frac{\varepsilon_0^2}{4}E^{1/2}T^\ast T E^{1/2}
+  =\frac{\varepsilon_0^2}{4}E\,A_{IK}^\ast Q_0^{[-1]}A_{IK}\,E,
+  \;}
+\end{equation}
+and the finite-part correction along the affine path is
+\begin{equation}
+  \label{eq:matrix_finite_correction}
+  \boxed{\;
+  \lambda^4\Bigl(\mathfrak{J}_\lambda(t_\lambda)
+    -\frac{|b_K|_{H_E}^2}{\varepsilon_0}\Bigr)
+  \longrightarrow
+  \frac{\varepsilon_0}{4}\tr(T^\ast T)
+  =\frac{\varepsilon_0}{4}\|T\|_{\mathcal{S}_2}^2.
+  \;}
+\end{equation}
+In particular $\|P_\lambda\|=O(\lambda^{-4})$, so the non-collapse gate
+\eqref{eq:matrix_gate} holds for all large $\lambda$.
+\end{proposition}
+
+\begin{proof}
+From \eqref{eq:finite_rank_Z},
+$\lambda^3Z_\lambda=\tfrac{\varepsilon_0}{2}\,\lambda(\lambda I-A_{II})^{-1}A_{IK}E$,
+and $\lambda(\lambda I-A_{II})^{-1}=(I-A_{II}/\lambda)^{-1}\to I$ on $H_{Q_0}$ by
+the uniform resolvent bound of Assumption~\ref{assum:cm_stability}; hence
+$\lambda^3Z_\lambda\to\tfrac{\varepsilon_0}{2}A_{IK}E$ columnwise in the
+$H_{Q_0}$ energy.  The form bound \eqref{eq:matrix_relative_form_bound} gives
+$Z_\lambda^\ast C_\lambda^{-1}Z_\lambda
+=Z_\lambda^\ast Q_0^{-1}Z_\lambda\,(1+O(\eta_\lambda))$ in the matrix sense,
+with $\eta_\lambda=O(\lambda^{-3})$, so
+\[
+  \lambda^6Z_\lambda^\ast C_\lambda^{-1}Z_\lambda
+  \longrightarrow
+  \frac{\varepsilon_0^2}{4}E\,A_{IK}^\ast Q_0^{-1}A_{IK}\,E
+  =\frac{\varepsilon_0^2}{4}E^{1/2}T^\ast T E^{1/2}.
+\]
+Since
+$P_\lambda=\Sigma_{\lambda,KK}^{-1/2}Z_\lambda^\ast C_\lambda^{-1}Z_\lambda
+\Sigma_{\lambda,KK}^{-1/2}$ with
+$\Sigma_{\lambda,KK}^{-1/2}=\lambda\sqrt{2/\varepsilon_0}\,E^{-1/2}$, the two
+outer factors contribute $\lambda^2\,(2/\varepsilon_0)\,E^{-1/2}(\cdot)E^{-1/2}$,
+so
+\[
+  \lambda^4P_\lambda
+  =\frac{2}{\varepsilon_0}\,E^{-1/2}
+    \bigl(\lambda^6 Z_\lambda^\ast C_\lambda^{-1}Z_\lambda\bigr)
+    E^{-1/2}
+  \longrightarrow
+  \frac{2}{\varepsilon_0}\,E^{-1/2}
+    \frac{\varepsilon_0^2}{4}E^{1/2}T^\ast T E^{1/2}E^{-1/2}
+  =\frac{\varepsilon_0}{2}T^\ast T,
+\]
+which is \eqref{eq:matrix_P_limit}.  Next,
+$R_\lambda=\Sigma_{\lambda,KK}^{1/2}P_\lambda\Sigma_{\lambda,KK}^{1/2}
+=\tfrac{\varepsilon_0}{2}\lambda^{-2}E^{1/2}P_\lambda E^{1/2}$, hence
+\[
+  \lambda^6R_\lambda
+  =\frac{\varepsilon_0}{2}E^{1/2}\bigl(\lambda^4P_\lambda\bigr)E^{1/2}
+  \longrightarrow
+  \frac{\varepsilon_0}{2}E^{1/2}\frac{\varepsilon_0}{2}T^\ast T E^{1/2}
+  =\frac{\varepsilon_0^2}{4}E^{1/2}T^\ast T E^{1/2},
+\]
+and $E^{1/2}T^\ast T E^{1/2}=E\,A_{IK}^\ast Q_0^{-1}A_{IK}\,E$ by the definition
+of $T$, giving \eqref{eq:matrix_R_limit}.  Finally,
+$\|P_\lambda\|=O(\lambda^{-4})$ implies
+$-\tfrac12\log\det(I_K-P_\lambda)=\tfrac12\tr P_\lambda+O(\|P_\lambda\|^2)
+=\tfrac12\tr P_\lambda+O(\lambda^{-8})$, and by
+\eqref{eq:matrix_affine_finite_part},
+\[
+  \lambda^4\Bigl(\mathfrak{J}_\lambda(t_\lambda)
+    -\frac{|b_K|_{H_E}^2}{\varepsilon_0}\Bigr)
+  =\frac12\lambda^4\tr P_\lambda+O(\lambda^{-4})
+  \longrightarrow
+  \frac12\tr\Bigl(\frac{\varepsilon_0}{2}T^\ast T\Bigr)
+  =\frac{\varepsilon_0}{4}\tr(T^\ast T)
+  =\frac{\varepsilon_0}{4}\|T\|_{\mathcal{S}_2}^2,
+\]
+which is \eqref{eq:matrix_finite_correction}.  The bound
+$\|P_\lambda\|=O(\lambda^{-4})$ also gives \eqref{eq:matrix_gate} for all large
+$\lambda$.
+\end{proof}
+
 \section{Admissibility Boundary and Elliptic Benchmark}
 \label{app:admissibility_boundary}
 
